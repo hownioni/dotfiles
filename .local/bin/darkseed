@@ -1,0 +1,3 @@
+#!/bin/sh
+
+dosbox-x /data/Games/DOSGAMES/DARKSEED/DS.BAT -c 'CD DSISO' -c "IMGMOUNT D DARKSEED.CUE -T CDROM" -fastlaunch >/dev/null 2>&1 &

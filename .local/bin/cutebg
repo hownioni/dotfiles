@@ -1,0 +1,26 @@
+#!/bin/sh
+
+imgfile="$1"
+
+if [ -z "$imgfile" ]; then
+    echo "Give me an image :3"
+    exit 1
+fi
+
+if [ ! -f "$imgfile" ]; then
+    echo "File doesn't exist owo"
+    exit 1
+fi
+
+if ! identify "$imgfile" >/dev/null 2>&1; then
+    echo "'$imgfile' is not an image >w<"
+    exit 1
+fi
+
+wal --cols16 -i "$imgfile"
+feh --bg-fill "$imgfile" >/dev/null 2>&1
+command -v apply-theme >/dev/null 2>&1 && apply-theme -s
+command -v oomox-cli >/dev/null 2>&1 && oomox-cli -o pywal "${HOME}/.cache/wal/colors-oomox" >/dev/null 2>&1
+command -v pywal-discord >/dev/null 2>&1 && pywal-discord -p "${HOME}/.config/vesktop/themes/" -t default
+command -v pywal-spicetify >/dev/null 2>&1 && pywal-spicetify text
+qtile cmd-obj -o cmd -f reload_config

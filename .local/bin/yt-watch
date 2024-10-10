@@ -1,0 +1,3 @@
+#!/bin/bash
+notify-send -t 3000 "Playing" "$(xclip -o)"
+mpv --demuxer-max-bytes=1GiB "$(xclip -o)"

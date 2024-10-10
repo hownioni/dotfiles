@@ -1,0 +1,15 @@
+configuration {
+	display-drun: "Apps";
+	display-window: "Windows";
+	drun-display-format: "{icon} {name}";
+	modi: "window,run,drun,emoji,calc,nerdy";
+	font: "FiraCode Nerd Font 12";
+	show-icons: true;
+	icon-theme: "Papirus";
+}
+
+@theme "/dev/null"
+
+/* Dark theme. */
+@import "~/.cache/wal/colors-rofi-dark"
+

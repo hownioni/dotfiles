@@ -1,0 +1,17 @@
+#!/bin/bash
+
+file="$1"
+
+ext=".${file##*.}"
+exiftype=$(exiftool -MIMEType -s3 "$file")
+filetype=$(file -Lb --mime-type "$file")
+
+if [[ "$filetype" == inode/x-empty ]]; then
+    lf -remote "send $id \$$EDITOR \"$file\""
+else
+    case "$exiftype" in
+        text/* | application/json) lf -remote "send $id \$$EDITOR \"$file\"";;
+        audio/* | video/*) mpv "$file";;
+        *) xdg-open "$file" > /dev/null 2> /dev/null;;
+    esac
+fi

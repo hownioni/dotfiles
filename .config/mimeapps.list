@@ -1,0 +1,32 @@
+[Default Applications]
+inode/directory=lf.desktop
+image/gif=nsxiv.desktop
+image/jpeg=nsxiv.desktop
+image/png=nsxiv.desktop
+image/webp=nsxiv.desktop
+text/xml=nsxiv.desktop
+x-scheme-handler/mailto=userapp-Thunderbird-LWQNS2.desktop
+message/rfc822=userapp-Thunderbird-LWQNS2.desktop
+x-scheme-handler/mid=userapp-Thunderbird-LWQNS2.desktop
+x-scheme-handler/news=userapp-Thunderbird-TH8NS2.desktop
+x-scheme-handler/snews=userapp-Thunderbird-TH8NS2.desktop
+x-scheme-handler/nntp=userapp-Thunderbird-TH8NS2.desktop
+x-scheme-handler/feed=userapp-Thunderbird-3AQOS2.desktop
+application/rss+xml=userapp-Thunderbird-3AQOS2.desktop
+application/x-extension-rss=userapp-Thunderbird-3AQOS2.desktop
+x-scheme-handler/webcal=userapp-Thunderbird-8DFPS2.desktop
+text/calendar=userapp-Thunderbird-8DFPS2.desktop
+application/x-extension-ics=userapp-Thunderbird-8DFPS2.desktop
+x-scheme-handler/webcals=userapp-Thunderbird-8DFPS2.desktop
+
+[Added Associations]
+x-scheme-handler/mailto=userapp-Thunderbird-LWQNS2.desktop;
+x-scheme-handler/mid=userapp-Thunderbird-LWQNS2.desktop;
+x-scheme-handler/news=userapp-Thunderbird-TH8NS2.desktop;
+x-scheme-handler/snews=userapp-Thunderbird-TH8NS2.desktop;
+x-scheme-handler/nntp=userapp-Thunderbird-TH8NS2.desktop;
+x-scheme-handler/feed=userapp-Thunderbird-3AQOS2.desktop;
+application/rss+xml=userapp-Thunderbird-3AQOS2.desktop;
+application/x-extension-rss=userapp-Thunderbird-3AQOS2.desktop;
+x-scheme-handler/webcal=userapp-Thunderbird-8DFPS2.desktop;
+x-scheme-handler/webcals=userapp-Thunderbird-8DFPS2.desktop;
