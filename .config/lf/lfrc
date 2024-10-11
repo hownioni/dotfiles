@@ -40,6 +40,14 @@ cmd on-select &{{
     lf -remote "send $id set statfmt \"$(eza -ldg --color=always "$f")\""
 }}
 
+cmd eval &{{
+    cmd="send $id"
+    for arg; do
+        cmd="$cmd $(eval "printf '%s' \"$arg\"" | sed 's/\\/\\\\/g;s/ /\\ /g;s/"/\\"/g')"
+    done
+    lf -remote "$cmd"
+}}
+
 ### SEARCH ###
 cmd fzf_jump ${{
     res="$(fd . -d 1 -H | fzf --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
@@ -426,7 +434,7 @@ map gv cd ~/Videos
 map gm cd ~/Music
 map gM cd /data
 map gS cd ~/.local/share/
-map gu cd /run/media/migu
+map gu eval cd "/run/media/$USER"
 map gG cd ~/Games
 
 # Coding
@@ -434,6 +442,7 @@ map C cd ~/.config/lf/
 map gc cd ~/.config
 map gC cd ~/codino
 map gr cd ~/repos
+map g. cd ~/.dotfiles
 map gl cd ~/.local
 map gs cd ~/.local/bin
 
