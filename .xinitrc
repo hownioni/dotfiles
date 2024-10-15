@@ -25,21 +25,21 @@ if [ -f "$usermodmap" ]; then
 fi
 
 systemctl --user import-enviroment DISPLAY XAUTHORITY
-if command -v dbus-update-activation-environment > /dev/null 2>&1; then
-	dbus-update-activation-environment DISPLAY XAUTHORITY
+if command -v dbus-update-activation-environment >/dev/null 2>&1; then
+    dbus-update-activation-environment DISPLAY XAUTHORITY
 fi
 
 # start some nice programs
 
-if [ -d /etc/X11/xinit/xinitrc.d ] ; then
- for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
-  [ -x "$f" ] && . "$f"
- done
- unset f
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+    for f in /etc/X11/xinit/xinitrc.d/?*.sh; do
+        [ -x "$f" ] && . "$f"
+    done
+    unset f
 fi
 
 dunst &
-$HOME/.fehbg &
+"$HOME"/.fehbg &
 numlockx &
 wal -R &
 xsetroot -cursor-name left-ptr

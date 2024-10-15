@@ -55,4 +55,4 @@ if [[ "$exiftype" =~ ^audio ]]; then
 fi
 
 #"$HOME/.config/lf/ranger/scope.sh" "$file" "$w" "$h" "" "" || true
-pistol -- "$file" --terminal-width="$w"
+pistol -- "$file" "$w"

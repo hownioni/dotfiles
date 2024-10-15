@@ -1,11 +1,19 @@
 configuration {
-	display-drun: "Apps";
-	display-window: "Windows";
-	drun-display-format: "{icon} {name}";
-	modi: "window,run,drun,emoji,calc,nerdy";
-	font: "FiraCode Nerd Font 12";
-	show-icons: true;
-	icon-theme: "Papirus";
+    modi: "window,run,combi,drun,emoji,calc,nerdy";
+    combi-modi: "window,drun";
+    icon-theme: "Papirus";
+    font: "FiraCode Nerd Font 14";
+    show-icons: true;
+    terminal: "kitty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-combi: "🖥️ All";
+    display-drun: "🌅 Graphical";
+    display-run: "🌆 Run";
+    display-window: "🪟 Window";
+    sidebar-mode: true;
 }
 
 @theme "/dev/null"

@@ -10,7 +10,6 @@ mod = "mod4"
 home = os.path.expanduser("~/")
 terminal = "kitty"
 browser = "firefox"
-idenv = "vscodium"
 config = home + "/.config/qtile/"
 platform = subprocess.run(
     ["hostnamectl", "chassis"], stdout=subprocess.PIPE
@@ -63,13 +62,17 @@ keys = [
                 ],
                 name="Browser",
             ),
-            Key([], "c", lazy.spawn(idenv), desc="Launch VSCode"),
         ],
         name="Apps",
     ),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "control"], "c", lazy.spawn(f"kitty nvim {config}"), desc="Edit config"),
+    Key(
+        [mod, "control"],
+        "c",
+        lazy.spawn(f"kitty -d {config} nvim {config}"),
+        desc="Edit config",
+    ),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Switch between windows

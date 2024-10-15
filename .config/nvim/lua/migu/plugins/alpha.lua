@@ -83,13 +83,17 @@ return {
 
 		dashboard.section.buttons.val = {
 			dashboard.button("n", "  New file", ":ene <BAR> startinsert <CR>"),
-			dashboard.button("f", "  Find file", ":silent Telescope find_files hidden=true no_ignore=true <CR>"),
+			dashboard.button(
+				"f",
+				"  Find file",
+				":cd $HOME | silent Telescope find_files hidden=true no_ignore=true <CR>"
+			),
 			dashboard.button("t", "  Find text", ":Telescope live_grep <CR>"),
 			dashboard.button("r", "󰄉  Recent files", ":Telescope oldfiles <CR>"),
 			dashboard.button("u", "󱐥  Update plugins", "<cmd>Lazy update<CR>"),
-			dashboard.button("c", "  Settings", ":Neotree position=current $HOME/.config/nvim/<CR>"),
-			dashboard.button("p", "  Projects", ":Neotree position=current $HOME/codino/hownioni/<CR>"),
-			dashboard.button("d", "󱗼  Dotfiles", ":Neotree position=current $HOME/.config/<CR>"),
+			dashboard.button("c", "  Settings", ":cd $HOME/.config/nvim/ | Neotree position=current<CR>"),
+			dashboard.button("p", "  Projects", ":cd $HOME/codino/hownioni | Neotree position=current<CR>"),
+			dashboard.button("d", "󱗼  Dotfiles", ":cd $HOME/.config | Neotree position=current<CR>"),
 			dashboard.button("q", "󰿅  Quit", "<cmd>qa<CR>"),
 		}
 

@@ -9,8 +9,8 @@ return {
 				markdown = { "prettier" },
 				lua = { "stylua" },
 				python = { "isort", "black" },
-				sh = { "shellcheck", "shfmt" },
-				bash = { "shellcheck", "shfmt" },
+				sh = { "shellharden", "shfmt" },
+				bash = { "shellharden", "shfmt" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
