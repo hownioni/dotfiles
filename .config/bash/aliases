@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ## Modified commands
 alias grep='grep --color=auto'
 alias more='less'

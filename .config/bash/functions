@@ -1,7 +1,10 @@
+#!/bin/bash
+
 help() {
     "$@" --help 2>&1 | bathelp
 }
 
 autocookie() {
-    sleep 1; while true; do xdotool click --delay 5 --repeat 10000 1; done
+    sleep 1
+    while true; do xdotool click --delay 5 --repeat 10000 1; done
 }

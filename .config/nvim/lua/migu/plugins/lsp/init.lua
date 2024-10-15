@@ -8,7 +8,6 @@ return {
 					"github:nvim-java/mason-registry",
 					"github:mason-org/mason-registry",
 				},
-				log_level = vim.log.levels.DEBUG,
 			})
 		end,
 	},
@@ -21,6 +20,7 @@ return {
 					"bashls",
 					"lua_ls",
 					"pyright",
+					"ruff",
 					"yamlls",
 					"marksman",
 					"clangd",
@@ -34,11 +34,10 @@ return {
 		config = function()
 			require("mason-tool-installer").setup({
 				ensure_installed = {
-					"black",
-					"isort",
 					"shfmt",
 					"shellharden",
 					"stylua",
+					"asmfmt",
 				},
 			})
 		end,
@@ -57,7 +56,19 @@ return {
 			lspconfig.pyright.setup({
 				capabilities = capabilities,
 			})
+			lspconfig.ruff.setup({
+				capabilities = capabilities,
+			})
 			lspconfig.bashls.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.asm_lsp.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.marksman.setup({
+				capabilities = capabilities,
+			})
+			lspconfig.yamlls.setup({
 				capabilities = capabilities,
 			})
 			require("migu.plugins.lsp.keymaps").keymaps()

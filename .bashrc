@@ -10,6 +10,7 @@ if [[ -e "$HOME"/.config/bash/aliases ]]; then
 fi
 
 if [[ -e "/usr/share/bash-complete-alias/complete_alias" ]]; then
+    # shellcheck source=/usr/share/bash-complete-alias/complete_alias
     source "/usr/share/bash-complete-alias/complete_alias"
 fi
 
@@ -26,11 +27,11 @@ fi
 (cat ~/.cache/wal/sequences &)
 
 # To add support for TTYs this line can be optionally added.
+# shellcheck source=.cache/wal/colors-tty.sh
 source ~/.cache/wal/colors-tty.sh
 
-LF="$HOME/.config/lf/lf.sh"
-if [ -f "$LF" ]; then
-    source "$LF"
+if [ -f "$HOME"/.config/lf/lf.sh ]; then
+    source "$HOME"/.config/lf/lf.sh
 fi
 
 # Shopt
