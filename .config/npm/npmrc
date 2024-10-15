@@ -1,0 +1,3 @@
+prefix=/home/migu/.local/share/npm
+cache=/home/migu/.cache/npm
+init-module=/home/migu/.config/npm/config/npm-init.js
