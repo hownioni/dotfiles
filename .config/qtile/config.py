@@ -309,7 +309,13 @@ screens = [
                     volume_app="pamixer",
                 ),
                 widget.Backlight(backlight_name=backlight),
-                widget.BatteryIcon() if platform == "laptop" else widget.CPU(),
+                widget.Battery(
+                    background=colors[2],
+                    foreground=colors[16],
+                    format="{percent:2.0%}",
+                )
+                if platform == "laptop"
+                else widget.CPU(),
                 widget.Sep(linewidth=0, padding=5),
             ],
             bar_thickness,
