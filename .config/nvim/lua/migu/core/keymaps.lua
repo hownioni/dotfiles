@@ -1,15 +1,13 @@
 local function map(mode, lhs, rhs, opts)
-    local options = { silent = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.keymap.set(mode, lhs, rhs, options)
+	local options = { silent = true }
+	if opts then
+		options = vim.tbl_extend("force", options, opts)
+	end
+	vim.keymap.set(mode, lhs, rhs, options)
 end
 
 -- Set space as leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-map({"n", "v"}, "<Space>", "<Nop>", { expr = true })
+map({ "n", "v" }, "<Space>", "<Nop>", { expr = true })
 
 -- Better navigation
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
@@ -70,5 +68,5 @@ map("n", "<leader>th", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 map("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" })
 
 map("n", "<leader>wk", function()
-    vim.cmd("WhichKey " .. vim.fn.input "WhichKey: ")
+	vim.cmd("WhichKey " .. vim.fn.input("WhichKey: "))
 end, { desc = "whichkey query lookup" })

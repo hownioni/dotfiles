@@ -8,6 +8,7 @@ opt.pumheight = 10
 opt.pumblend = 10
 opt.showtabline = 1
 opt.list = true
+opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Autocomplete
 opt.wildmode = "longest:full,full"
@@ -24,6 +25,9 @@ opt.startofline = true
 -- Line numbers
 opt.relativenumber = true
 opt.number = true
+
+-- Mouse
+opt.mouse = "a"
 
 -- Scroll & Wrap
 opt.scrolloff = 5
@@ -44,9 +48,9 @@ opt.splitkeep = "screen"
 opt.laststatus = 3
 opt.showmode = false
 opt.fillchars = opt.fillchars + "eob: "
-opt.fillchars:append {
-    stl = " ",
-}
+opt.fillchars:append({
+	stl = " ",
+})
 opt.formatoptions = "jcroqlnt"
 
 -- Tabs & indentation
@@ -59,7 +63,7 @@ opt.shiftround = true
 
 -- Time
 opt.timeoutlen = 300
-opt.updatetime = 200
+opt.updatetime = 250
 
 -- Misc.
 opt.swapfile = false -- turn off swapfile

@@ -1,77 +1,97 @@
 return {
-	{
-		"williamboman/mason.nvim",
-		lazy = false,
-		config = function()
-			require("mason").setup({
-				registries = {
-					"github:nvim-java/mason-registry",
-					"github:mason-org/mason-registry",
-				},
-			})
-		end,
-	},
-	{
+	-- Main LSP Configuration
+	"neovim/nvim-lspconfig",
+	dependencies = {
+		-- Automatically install LSPs and related tools to stdpath for Neovim
+		{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
 		"williamboman/mason-lspconfig.nvim",
-		dependencies = { "williamboman/mason.nvim" },
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"bashls",
-					"lua_ls",
-					"pyright",
-					"ruff",
-					"yamlls",
-					"marksman",
-					"clangd",
-					"asm_lsp",
-				},
-			})
-		end,
-	},
-	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		config = function()
-			require("mason-tool-installer").setup({
-				ensure_installed = {
-					"shfmt",
-					"shellharden",
-					"stylua",
-					"asmfmt",
+
+		-- Useful status updates for LSP.
+		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+		{ "j-hui/fidget.nvim", opts = {} },
+	},
+	config = function()
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
+			callback = function(event)
+				require("migu.plugins.lsp.keymaps").keymaps(event)
+			end,
+		})
+
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+		--  Add any additional override configuration in the following tables. Available keys are:
+		--  - cmd (table): Override the default command used to start the server
+		--  - filetypes (table): Override the default list of associated filetypes for the server
+		--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
+		--  - settings (table): Override the default settings passed when initializing the server.
+		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+
+		local servers = {
+			bashls = {},
+			clangd = {},
+			pyright = {},
+			lua_ls = {
+				-- cmd = {...},
+				-- filetypes = { ...},
+				-- capabilities = {},
+				settings = {
+					Lua = {
+						completion = {
+							callSnippet = "Replace",
+						},
+					},
 				},
-			})
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.clangd.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.pyright.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.ruff.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.bashls.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.asm_lsp.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.marksman.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.yamlls.setup({
-				capabilities = capabilities,
-			})
-			require("migu.plugins.lsp.keymaps").keymaps()
-		end,
-	},
+			},
+			ruff = {},
+			yamlls = {},
+			marksman = {},
+			asm_lsp = {},
+		}
+
+		require("mason").setup({
+			registries = {
+				"github:nvim-java/mason-registry",
+				"github:mason-org/mason-registry",
+			},
+		})
+		local ensure_installed = vim.tbl_keys(servers or {})
+		vim.list_extend(ensure_installed, {
+			"stylua",
+			"shfmt",
+			"shellharden",
+			"asmfmt",
+		})
+		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+		require("mason-lspconfig").setup({
+			handlers = {
+				function(server_name)
+					local server = servers[server_name] or {}
+					-- This handles overriding only values explicitly passed
+					-- by the server configuration above. Useful when disabling
+					-- certain features of an LSP (for example, turning off formatting for tsserver)
+					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+					require("lspconfig")[server_name].setup(server)
+				end,
+			},
+		})
+
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
+			callback = function(args)
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				if client == nil then
+					return
+				end
+				if client.name == "ruff" then
+					-- Disable hover in favor of Pyright
+					client.server_capabilities.hoverProvider = false
+				end
+			end,
+			desc = "LSP: Disable hover capability from Ruff",
+		})
+	end,
 }

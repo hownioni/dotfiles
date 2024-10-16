@@ -19,10 +19,14 @@ vim.opt.rtp:prepend(lazypath)
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = " "
+vim.g.have_nerd_font = true
 
 -- Setup lazy.nvim
-require("lazy").setup("migu.plugins")
+require("lazy").setup({
+	spec = { { import = "migu.plugins" } },
+	ui = { icons = {} },
+})
 
 local tweaks = function(colors)
 	return {
