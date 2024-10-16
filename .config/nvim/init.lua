@@ -1,2 +1,2 @@
-require("migu.core")
 require("migu.lazy")
+require("migu.core")

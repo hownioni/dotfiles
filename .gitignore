@@ -21,6 +21,7 @@
 .pulse-cookie
 .steam*
 .fehbg
+.gitconfig
 
 # Exclude these configs
 .config/autostart/

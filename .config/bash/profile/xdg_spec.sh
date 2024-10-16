@@ -9,4 +9,7 @@ export XCURSOR_PATH=/usr/share/icons:$HOME/.local/share/icons
 export PYTHONSTARTUP="$HOME"/.config/python/pythonrc
 export PYTHON_HISTORY="$HOME"/.local/state/python/history
 export WINEPREFIX=$HOME/.local/share/wine
+
+[ ! -d "$HOME"/.local/share/npm/ ] && mkdir "$HOME"/.local/share/npm/
+[ ! -d "$HOME"/.cache/npm/ ] && mkdir "$HOME"/.cache/npm/
 export NPM_CONFIG_USERCONFIG=$HOME/.config/npm/npmrc

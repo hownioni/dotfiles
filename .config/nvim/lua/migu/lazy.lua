@@ -18,8 +18,10 @@ vim.opt.rtp:prepend(lazypath)
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
+-- Set space as leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { expr = true })
 vim.g.have_nerd_font = true
 
 -- Setup lazy.nvim

@@ -6,9 +6,6 @@ local function map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, options)
 end
 
--- Set space as leader key
-map({ "n", "v" }, "<Space>", "<Nop>", { expr = true })
-
 -- Better navigation
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
