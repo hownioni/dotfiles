@@ -50,6 +50,7 @@
 .config/nheko/
 .config/nicotine/
 .config/nitrogen/bg-saved.cfg
+.config/nvim/lazy-lock.json
 .config/oomox/
 .config/pulse/
 .config/qalculate/
@@ -65,8 +66,8 @@
 .config/VSCodium/
 .config/weechat/
 .config/ZapZap/
+.config/pavucontrol.ini
 .config/QtProject.conf
 .config/syncthingtray.ini
 .config/user-dirs.dirs
 .config/user-dirs.locale
-.config/nvim/lazy-lock.json
