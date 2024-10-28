@@ -1,26 +1,70 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-imgfile="$1"
+exists() { hash "$@" &>/dev/null; }
+require() { exists "$@" || exit 127; }
 
-if [ -z "$imgfile" ]; then
-    echo "Give me an image :3"
+require wal
+require feh
+require dunst
+require qtile
+
+main() {
+    get_args "${@}"
+
+    [[ "$imgfile" = "" ]] && usage && exit 1
+
+    [[ ! -f "$imgfile" && ! -d "$imgfile" ]] && die "File doesn't exist owo"
+
+    [[ -d "$imgfile" ]] || ! identify "$imgfile" &>/dev/null && die "$imgfile is not an image >w<"
+
+    exists pywal-spicetify && pywal-spicetify text &>/dev/null
+    wal --cols16 "${colortheme:-darken}" -i "$imgfile"
+    feh --bg-fill "$imgfile" &>/dev/null
+    [[ ! -d "${HOME}/.config/dunst" ]] && mkdir "${HOME}/.config/dunst"
+    [[ ! -L "${HOME}/.config/dunst/dunstrc" ]] && ln -s "${HOME}/.cache/wal/dunstrc" "${HOME}/.config/dunst/dunstrc"
+    pkill dunst
+    exists kvantummanager && apply-theme -s &>/dev/null
+    exists oomox-cli oomox-cli -o pywal "${HOME}/.cache/wal/colors-oomox" &>/dev/null
+    exists pywal-discord && pywal-discord -p "${HOME}/.config/vesktop/themes/" -t default &>/dev/null
+    qtile cmd-obj -o cmd -f reload_config
+}
+
+usage() {
+    cat <<HELP_MSG
+    Usage: ${0##*/} [options] image
+
+    Options:
+        -h, --help
+            Print this message
+        -l, --lighten
+            Change the method used for generating the 16 colors
+HELP_MSG
+}
+
+die() {
+    printf "%s\n" "$1"
     exit 1
-fi
+}
 
-if [ ! -f "$imgfile" ]; then
-    echo "File doesn't exist owo"
-    exit 1
-fi
+get_args() {
+    for opt in "$@"; do
+        shift
+        case "$opt" in
+        "--help") set -- "$@" "-h" ;;
+        "--lighten") set -- "$@" "-l" ;;
+        *) set -- "$@" "$opt" ;;
+        esac
+    done
 
-if ! identify "$imgfile" >/dev/null 2>&1; then
-    echo "'$imgfile' is not an image >w<"
-    exit 1
-fi
+    OPTIND=1
+    while getopts ":hl" opt; do
+        case $opt in
+        h) usage && exit 0 ;;
+        l) colortheme="lighten" && shift ;;
+        ?) usage && die "Invalid option: -${OPTARG}." ;;
+        esac
+    done
+    imgfile="$1"
+}
 
-wal --cols16 -i "$imgfile"
-feh --bg-fill "$imgfile" >/dev/null 2>&1
-command -v apply-theme >/dev/null 2>&1 && apply-theme -s
-command -v oomox-cli >/dev/null 2>&1 && oomox-cli -o pywal "${HOME}/.cache/wal/colors-oomox" >/dev/null 2>&1
-command -v pywal-discord >/dev/null 2>&1 && pywal-discord -p "${HOME}/.config/vesktop/themes/" -t default
-command -v pywal-spicetify >/dev/null 2>&1 && pywal-spicetify text
-qtile cmd-obj -o cmd -f reload_config
+main "${@}"

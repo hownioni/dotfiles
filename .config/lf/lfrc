@@ -23,7 +23,7 @@ set findlen 0
 # Previews
 set previewer ~/.config/lf/previewer/preview
 set cleaner ~/.config/lf/previewer/clean
-map i $LESSOPEN='| ~/.config/lf/previeuer/scope-wrapper.sh %s' less -R $f
+map i $LESSOPEN='| ~/.config/lf/previewer/preview %s' less -R $f
 
 # Remove some defaults
 map m
@@ -33,6 +33,7 @@ map '"'
 map w
 map d
 map r
+map zh
 #======
 
 ###!! CUSTOM FUNCTIONS !!###
@@ -137,7 +138,7 @@ cmd mkfile %{{
                 lf -remote "send $id \$$EDITOR \"$file\""
                 ;;
             script)
-                echo "#!/bin/sh" >> "$file"
+                echo "#!/usr/bin/env bash" >> "$file"
                 chmod +x "$file"
                 lf -remote "send $id \$$EDITOR \"$file\""
                 ;;
@@ -388,12 +389,14 @@ map ms mkfile script
 map md mkdir
 map mx. chmod files
 map mxr chmod dir-recurs
-map bg $cutebg $f
+map bgd $cutebg $f
+map bgl $cutebg -l $f
 #map O push :open-with-gui<space> ## input application
 #map o push :open-with-cli<space> ## input application
 map o open-with
 map <enter> open
 map <delete> delete
+map zi zi
 
 # Archive mappings
 map au unarchive

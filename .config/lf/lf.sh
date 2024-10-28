@@ -1,12 +1,13 @@
 #!/bin/bash
 
 lf() {
-    export LF_CD_FILE=/var/tmp/.lfcd-$$
-    command lf $@
+    export LF_CD_FILE="/var/tmp/.lfcd-$$"
+    command lf "$@"
     if [ -s "$LF_CD_FILE" ]; then
-        local DIR="$(realpath "$(cat "$LF_CD_FILE")")"
+        local DIR
+        DIR="$(realpath -- "$(cat -- "$LF_CD_FILE")")"
         if [ "$DIR" != "$PWD" ]; then
-            echo "cd to $DIR"
+            printf 'cd to %s\n' "$DIR"
             cd "$DIR" || exit
         fi
         rm "$LF_CD_FILE"

@@ -1,0 +1,26 @@
+[global]
+frame_color = "{color2}"
+separator_color= frame
+scale = 1.2
+icon_corner_radius = 5
+font = "Opensans 12"
+icon_theme = "Papirus-Dark"
+origin = top-center
+offset = 0
+frame_width = 4
+corners = all
+corner_radius = 10
+
+[urgency_low]
+background = "{background}"
+foreground = "{foreground}"
+
+[urgency_normal]
+background = "{background}"
+foreground = "{foreground}"
+
+[urgency_critical]
+background = "{background}"
+foreground = "{foreground}"
+frame_color = "{color10}"
+

@@ -19,5 +19,9 @@ return {
 				lint.try_lint()
 			end,
 		})
+
+		vim.keymap.set("n", "<leader>gl", function()
+			lint.try_lint()
+		end, { desc = "[G]et [L]inting" })
 	end,
 }
