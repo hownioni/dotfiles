@@ -16,7 +16,7 @@ fi
 year=$(date +%Y)
 
 export PATH="$PATH:$HOME/.local/bin"
-export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export EDITOR='nano'
 export VISUAL='nvim'
 export MANPAGER='nvim +Man!'
