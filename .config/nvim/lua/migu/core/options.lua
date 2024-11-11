@@ -60,6 +60,7 @@ opt.tabstop = 4
 opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.shiftround = true
+opt.smartindent = false
 
 -- Time
 opt.timeoutlen = 300

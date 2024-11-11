@@ -7,15 +7,15 @@
 
 # Include config and local/bin
 !/.config/
-!/.local/
+!/.local
 /.local/*
 !/.local/bin/
 
-# Exclude these files
-.*_history*
+
+## Exclude these files
+.*history*
 .bash_logout
 .Xauthority
-.github_access_token
 .gtkrc-2.0
 .lesshst
 .pulse-cookie
@@ -23,51 +23,11 @@
 .fehbg
 .gitconfig
 
-# Exclude these configs
-.config/autostart/
-.config/beets/
-.config/Bitwarden/
-.config/blender/
-.config/cef_user_data/
-.config/chromium/
-.config/copyq/
-.config/dconf/
-.config/flameshot/
-.config/git/
-.config/go/
-.config/gtk-*/
-.config/htop/
-.config/ibus/
-.config/jellyfin.org/
-.config/KADOKAWA/
-.config/Kvantum/
-.config/libreoffice/
-.config/mpv/encoding.rst
-.config/mpv/mplayer-input.conf
-.config/mpv/restore-old-bindings.conf
-.config/mpv/tech-overview.txt
-.config/MusicBrainz/
-.config/nheko/
-.config/nicotine/
-.config/nitrogen/bg-saved.cfg
-.config/nvim/lazy-lock.json
-.config/oomox/
-.config/pulse/
-.config/qalculate/
-.config/qBittorrent/
-.config/qt5ct/
-.config/qt6ct/
-.config/qtile/__pycache__/
-.config/spicetify/Backup
-.config/spicetify/Extracted/
-.config/spotify/
-.config/StardewValley/
-.config/vesktop/
-.config/VSCodium/
-.config/weechat/
-.config/ZapZap/
-.config/pavucontrol.ini
-.config/QtProject.conf
-.config/syncthingtray.ini
-.config/user-dirs.dirs
-.config/user-dirs.locale
+# C
+*.[oa]
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class

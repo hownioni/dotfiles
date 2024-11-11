@@ -7,6 +7,7 @@ set shellopts '-eu'
 #set hidden true
 set icons true
 set drawbox
+set roundbox
 set scrolloff 10
 set truncatechar "…"
 set tabstop 4
@@ -17,6 +18,7 @@ set period 1
 # Search
 set ignorecase true
 set globsearch true
+set globfilter true
 set incsearch true
 set findlen 0
 
@@ -450,10 +452,10 @@ map gl cd ~/.local
 map gs cd ~/.local/bin
 
 # Root directories
-map gR cd /
-map gU. cd /usr
-map gUs cd /usr/share
-map gE cd /etc
+map gR. cd /
+map gRu cd /usr
+map gRs cd /usr/share
+map gRe cd /etc
 
 map gL follow_link
 map gt. cd ~/.local/share/Trash/files

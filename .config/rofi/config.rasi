@@ -1,5 +1,5 @@
 configuration {
-    modi: "window,run,combi,drun,emoji,calc,nerdy";
+    modi: "window,run,combi,drun,emoji,nerdy";
     combi-modi: "window,drun";
     icon-theme: "Papirus";
     font: "FiraCode Nerd Font 14";

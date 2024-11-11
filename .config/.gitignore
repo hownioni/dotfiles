@@ -1,0 +1,32 @@
+/*
+
+!/.*
+
+#  files to ignore
+/systemd/user/default.target.wants/
+/spicetify/Backup
+/spicetify/Extracted/
+/spicetify/**/color.ini
+
+#This below is added by the dotconf-add function
+!/bash/
+!/dosbox-x/
+!/dunst/
+!/glow/
+!/kitty/
+!/lf/
+!/rofi/
+!/mpv/
+!/npm/
+!/nsxiv/
+!/nvim/
+!/picom/
+!/pistol/
+!/python/
+!/pywal-discord/
+!/qtile/
+!/readline/
+!/spicetify/
+!/systemd/
+!/wal/
+!/mimeapps.list
