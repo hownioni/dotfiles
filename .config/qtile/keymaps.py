@@ -8,6 +8,8 @@ mod = "mod4"
 terminal = "kitty"
 browser = "firefox"
 school_browser = "firefox -P Escuela"
+launcher = "rofi -show drun"
+window_switch = "rofi -show window"
 
 
 # Hide/Show all windows in a group
@@ -22,12 +24,7 @@ def minimize_all(qtile):
 keys = [
     # Essentials
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.spawn("rofi -matching fuzzy -show drun"),
-        desc="Spawn rofi",
-    ),
+    Key([mod, "shift"], "Return", lazy.spawn(launcher), desc="Launch launcher"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.hide_show_bar(), desc="Toggle the bar"),
     KeyChord(
@@ -39,12 +36,7 @@ keys = [
                 "w",
                 [
                     Key([], "w", lazy.spawn(browser), desc="Launch browser"),
-                    Key(
-                        [],
-                        "e",
-                        lazy.spawn(school_browser),
-                        desc="Profile for school",
-                    ),
+                    Key([], "e", lazy.spawn(school_browser), desc="Profile for school"),
                 ],
                 name="Browser",
             ),
@@ -67,6 +59,7 @@ keys = [
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key(["mod1"], "Tab", lazy.spawn(window_switch), desc="Change windows"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key(

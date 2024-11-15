@@ -30,7 +30,7 @@ if [[ "$filetype" == "application/pdf" ]]; then
         -scale-to-y -1 \
         -singlefile \
         -jpeg \
-        -- "$f" "$cache_f" && mv -- "$cache_f.jpg" "$cache_f"
+        -- "$file" "$cache_f" && mv -- "$cache_f.jpg" "$cache_f"
 
     draw "$cache_f"
     rm -f "$cache_f"
@@ -47,7 +47,7 @@ fi
 if [[ "$exiftype" =~ ^audio ]]; then
     cache_f="${cache_d}/${ext}_preview"
     [[ "$ext" == .m4a ]] && covertag=coverart || covertag=Picture
-    exiftool -b -${covertag} "$file" >"$cache_f"
+    exiftool -b -"$covertag" "$file" >"$cache_f"
 
     draw "$cache_f"
     rm -f "$cache_f"

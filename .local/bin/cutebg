@@ -46,6 +46,8 @@ usage() {
             Print this message
         -l, --lighten
             Change the method used for generating the 16 colors
+        -t, --spice-theme
+            Choose the spicetify theme name where the colorscheme will be saved
 HELP_MSG
 }
 
@@ -70,7 +72,7 @@ get_args() {
         case $opt in
         h) usage && exit 0 ;;
         l) colortheme="lighten" && shift ;;
-        t) spice_theme=$OPTARG ;;
+        t) spice_theme=$OPTARG && shift ;;
         ?) usage && die "Invalid option: -${OPTARG}." ;;
         esac
     done

@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+exec sed -z 's/\\/\\\\/g;s/"/\\"/g;s/\n/\\n/g;s/^/"/;s/$/"/'

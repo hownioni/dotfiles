@@ -14,6 +14,7 @@ configuration {
     display-run: "🌆 Run";
     display-window: "🪟 Window";
     sidebar-mode: true;
+    matching: "fuzzy";
 }
 
 @theme "/dev/null"

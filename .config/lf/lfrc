@@ -38,30 +38,34 @@ map r
 map zh
 #======
 
+# Warning
+&[ "$LF_LEVEL" -eq 1 ] || lf -remote "send $id echoerr \"Warning: You're in a nested lf instance!\""
+
 ###!! CUSTOM FUNCTIONS !!###
 cmd on-select &{{
-    lf -remote "send $id set statfmt \"$(eza -ldg --color=always "$f")\""
+    lf -remote "send $id set statfmt $(printf '%s' "$(eza -ldg --color=always "$f")" | ~/.config/lf/scripts/lf-escape)"
 }}
 
 cmd eval &{{
     cmd="send $id"
     for arg; do
-        cmd="$cmd $(eval "printf '%s' \"$arg\"" | sed 's/\\/\\\\/g;s/ /\\ /g;s/"/\\"/g')"
+        cmd="$cmd $(eval "printf '%s' \"$arg\"" | ~/.config/lf/scripts/lf-escape)"
     done
     lf -remote "$cmd"
 }}
 
 ### SEARCH ###
 cmd fzf_jump ${{
-    res="$(fd . -d 1 -H | fzf --reverse --header='Jump to location' | sed 's/\\/\\\\/g;s/"/\\"/g')"
-    if [ -d "$res" ] ; then
-        cmd="select"
-    elif [ -f "$res" ] ; then
-        cmd="select"
-    else
-        exit 0
+    res="$(fd . -d 1 -H | fzf --reverse --header="Jump to location")"
+    if [ -n "$res" ] ; then
+        if [ -d "$res" ] ; then
+            cmd="cd"
+        else
+            cmd="select"
+        fi
+        res="$(printf '%s' "$res" | ~/.config/lf/scripts/lf-escape)"
+        lf -remote "send $id $cmd $res"
     fi
-    lf -remote "send $id $cmd \"$res\""
 }}
 map / :fzf_jump
 
@@ -74,6 +78,15 @@ cmd fzf_search ${{
             | cut -d':' -f1 | sed 's/\\/\\\\/g;s/"/\\"/g'
     )"
     [ -n "$res" ] && lf -remote "send $id select \"$res\""
+}}
+
+cmd fzf_search ${{
+    cmd="rg --column --line-number --no-heading --color=always --smart-case"
+    fzf --ansi --disabled --layout=reverse --header="Search in files" --delimiter=: \
+        --bind="start:reload([ -n {q} ] && $cmd -- {q} || true)" \
+        --bind="change:reload([ -n {q} ] && $cmd -- {q} || true)" \
+        --bind='enter:become(lf -remote "send $id select \"$(printf "%s" {1} | sed '\''s/\\/\\\\/g;s/"/\\"/g'\'')\"")' \
+        --preview='~/.config/lf/previewer/clean; ~/.config/lf/previewer/preview {1} "$FZF_PREVIEW_COLUMNS" "$FZF_PREVIEW_LINES" "$FZF_PREVIEW_LEFT" "$FZF_PREVIEW_TOP"'
 }}
 
 map <c-f> :fzf_search
@@ -97,52 +110,44 @@ cmd open-with ${{
 
 ### MAKE STUFF ###
 cmd mkdir %{{
-    printf "Directory Name: "
-    read -r dir
+    dir=""
 
     while [ -z "$dir" ];
     do
+        printf "Directory Name: "
         read -r dir
-
-        if [ -z "$dir" ]; then
-            printf "Directory Name: "
-        fi
     done
 
     if [ -d "$dir" ]; then
-        lf -remote "send $id cd \"$dir\""
+        lf -remote "send $id cd $(printf '%s' "$dir" | ~/.config/lf/scripts/lf-escape)"
     else
-        mkdir -m 775 "$dir"
-        lf -remote "send $id select \"$dir\""
+        mkdir -p -m 775 -- "$dir"
+        lf -remote "send $id select $(printf '%s' "$dir" | ~/.config/lf/scripts/lf-escape)"
     fi
 }}
 
 cmd mkfile %{{
     mode="$1"
-    printf "File Name: "
-    read -r file
+    file=""
 
     while [ -z "$file" ];
     do
+        printf "File Name: "
         read -r file
-
-        if [ -z "$file" ]; then
-            printf "File Name: "
-        fi
     done
 
     if [ -e "$file" ]; then
-        lf -remote "send $id \$$EDITOR \"$file\""
+        lf -remote "send $id \$\$EDITOR \"$file\""
     else
         case $mode in
             normal)
                 touch "$file"
-                lf -remote "send $id \$$EDITOR \"$file\""
+                lf -remote "send $id \$\$EDITOR \"$file\""
                 ;;
             script)
                 echo "#!/usr/bin/env bash" >> "$file"
                 chmod +x "$file"
-                lf -remote "send $id \$$EDITOR \"$file\""
+                lf -remote "send $id \$\$EDITOR \"$file\""
                 ;;
         esac
     fi
@@ -172,14 +177,12 @@ cmd chmod %{{
 #---
 
 ### RENAME ### 
-cmd bulkrename ${{
+cmd bulk-rename ${{
     vimv -- $(basename -a -- $fx)
-
-    lf -remote "send $id load"
-    lf -remote "send $id unselect"
+    lf -remote "send $id :load; unselect"
 }}
 
-map R bulkrename
+map R bulk-rename
 
 # Better Rename
 map ri rename
@@ -190,6 +193,27 @@ map rC :rename; cmd-end; cmd-delete-home
 #---
 
 ### COPY & PASTE COMMANDS ###
+
+cmd paste &{{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    case "$mode" in
+        copy)
+            rsync -av --ignore-existing --progress -- "$@" . |
+            stdbuf -i0 -o0 -e0 tr '\r' '\n' |
+            while IFS= read -r line; do
+                line="$(printf '%s' "$line" | ~/.config/lf/scripts/lf-escape)"
+                lf -remote "send $id echo \"$line\""
+            done
+            ;;
+        move)
+            mv -n -- "$@" .
+            lf -remote "send clear"
+            ;;
+    esac
+}}
+
 cmd paste-override &{{
     set -f
     mode=$(head -1 ~/.local/share/lf/files)
@@ -217,28 +241,30 @@ cmd link %{{
     mode="$1"
     shift
     if [ "$#" -lt 1 ]; then
-        lf -remote "send $id echo no files to link"
-        exit 0
+        lf -remote "send $id echoerr no files to link"
+        exit
     fi
     case "$mode" in
-        # symbolically copy mode is indicating a soft link
+        # 'copy' mode indicates a symlink
         copy) ln -sr -t . -- "$@";;
-        # while a move mode is indicating a hard link
-        move) ln -t . -- "$@";;
+        # while 'move' mode indicates a hard link
+        move)
+            ln -t . -- "$@"
+            lf -remote "send clear"
+            ;;
     esac
-    rm ~/.local/share/lf/files
-    lf -remote "send clear"
 }}
 
-cmd follow_link %{{
-    lf -remote "send ${id} select '$(readlink $f)'"
+cmd follow-link %{{
+  lf -remote "send $id select $(printf '%s' "$(readlink -- "$f")" | ~/.config/lf/scripts/lf-escape)"
 }}
 
 # Copy directory names
-cmd yank-dirname $dirname -- "$f" | head -c-1 | xclip -i -selection clipboard
-cmd yank-path $printf '%s' "$fx" | xclip -i -selection clipboard
-cmd yank-basename $basename -a -- $fx | head -c-1 | xclip -i -selection clipboard
-cmd yank-basename-without-extension &basename -a -- $fx | cut -d. -f1 | head -c-1 | xclip -i -selection clipboard
+cmd yank-file $printf '%s' "$f" | xclip -i -selection clipboard
+cmd yank-paths $printf '%s' "$fx" | xclip -i -selection clipboard
+cmd yank-dirname &printf '%s' "$PWD" | xclip -i -selection clipboard
+cmd yank-basename &basename -a -- $fx | head -c-1 | xclip -i -selection clipboard
+cmd yank-basename-without-extension &basename -a -- $fx | sed -E 's/\.[^.]+$//' | head -c-1 | xclip -i -selection clipboard
 
 # Dragon-drop
 cmd dragon %dragon-drop -a -x $fx
@@ -249,108 +275,35 @@ cmd dlfile %dlfile
 
 ### ARCHIVE BINDINGS ###
 # extract the current file with the right command
-cmd unarchive ${{
+cmd unarchive %{{
     set -f
-    dir="${f%%.*}"
-    if [ ! -d "$dir" ]; then
-        mkdir "$dir"
-    fi
+    ouch decompress $fx
+}}
 
-    case "$f" in
-        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf "$f" -C "$dir";;
-        *.tar.gz|*.tgz) tar xzvf "$f" -C "$dir";;
-        *.tar.xz|*.txz) tar xJvf "$f" -C "$dir";;
-        *.zip) unzip "$f" -d "$dir";;
-        *.rar) unrar x "$f" "$dir";;
-        *.7z) 7z x "$f" -o"$dir";;
-        *) echo "Unsupported format";;
+cmd compress %{{
+    set -f
+    printf "Archive name: "
+    read -r name
+    type="$1"
+
+    case $type in
+        tar) ext="tar";;
+        tbz2) ext="tar.bz2";;
+        tgz) ext="tar.gz";;
+        txz) ext="tar.xz";;
+        zip) ext="zip";;
     esac
-}}
 
-# tar and bzip2
-cmd tarbz2 %{{
-    set -f
-    printf "Archive name: "
-    read -r name
-
-    if [ ! -d "$name" ]; then
-        mkdir "$name"
-    fi
-
-    cp -r $fx "$name"
-    tar -cvjf "$name".tar.bz2 "$name"
-    rm -rf "$name"
-}}
-
-# tar only
-cmd tar %{{
-    set -f
-    printf "Archive name: "
-    read -r name
-
-    if [ ! -d "$name" ]; then
-        mkdir "$name"
-    fi
-
-    cp -r $fx "$name"
-    tar -cvf "$name".tar "$name"
-    rm -rf "$name"
-}}
-
-# tar and gunzip
-cmd targz %{{
-    set -f
-    printf "Archive name: "
-    read -r name
-
-    if [ ! -d "$name" ]; then
-        mkdir "$name"
-    fi
-
-    cp -r $fx "$name"
-    tar -cvzf "$name".tar.gz "$name"
-    rm -rf "$name"
-}}
-
-# zip
-cmd zip %{{
-    set -f
-    printf "Archive name: "
-    read -r name
-
-    if [ ! -d "$name" ]; then
-        mkdir "$name"
-    fi
-
-    cp -r $fx "$name"
-    zip -r "$name".zip "$name"
-    rm -rf "$name"
+    ouch compress $fx "${name}.${ext}"
 }}
 #---
 
 ### TRASH BINDINGS ###
-cmd trash ${{
-    files=$(printf "$fx" | tr '\n' ';')
-    while [ "$files" ]; do
-        # extract the substring from start of string up to delimiter.
-        # this is the first "element" of the string.
-        file=${files%%;*}
 
-        trash-put "$(basename "$file")"
-        # if there's only one element left, set `files` to an empty string.
-        # this causes us to exit this `while` loop.
-        # else, we delete the first "element" of the string from files, and move onto the next.
-        if [ "$files" = "$file" ]; then
-            files=''
-        else
-            files="${files#*;}"
-        fi
-    done
-}}
-
+cmd trash %trash-put -- $fx
 cmd clear_trash !trash-empty
-
 cmd restore_trash !trash-restore
+cmd list_trash !trash-list
 #---
 
 ### CD ###
@@ -376,7 +329,10 @@ cmd zi ${{
 
 cmd on-cd &{{
     zoxide add "$PWD"
+    printf '\033]0;lf - %s\007' "$PWD" > /dev/tty
 }}
+
+on-cd
 #---
 #======
 
@@ -402,23 +358,23 @@ map zi zi
 
 # Archive mappings
 map au unarchive
-map at tar
-map ag targz
-map ab tarbz2
-map az zip
+map at compress tar
+map ag compress tgz
+map ab compress tbz2
+map ax compress txz
+map az compress zip
 
 # Trash Mappings
 map dd trash
 map tr restore_trash
 map tc clear_trash
+map tl list_trash
 
 # Copy and paste
 map Po paste-override
 map Pl :link
-map Yd yank-dirname
-map Yp yank-path
-map Yn yank-basename
-map Yw yank-basename-without-extension
+map Yf yank-file
+map Yp yank-paths
 
 # Dragon mapping
 map dr dragon
@@ -457,7 +413,7 @@ map gRu cd /usr
 map gRs cd /usr/share
 map gRe cd /etc
 
-map gL follow_link
+map gL follow-link
 map gt. cd ~/.local/share/Trash/files
 map gtd cd /data/.Trash-1000/files
 
