@@ -70,17 +70,6 @@ cmd fzf_jump ${{
 map / :fzf_jump
 
 cmd fzf_search ${{
-    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-    res="$(
-        FZF_DEFAULT_COMMAND="$RG_PREFIX ''" \
-            fzf --bind "change:reload:$RG_PREFIX {q} || true" \
-            --ansi --layout=reverse --header 'Search in files' \
-            | cut -d':' -f1 | sed 's/\\/\\\\/g;s/"/\\"/g'
-    )"
-    [ -n "$res" ] && lf -remote "send $id select \"$res\""
-}}
-
-cmd fzf_search ${{
     cmd="rg --column --line-number --no-heading --color=always --smart-case"
     fzf --ansi --disabled --layout=reverse --header="Search in files" --delimiter=: \
         --bind="start:reload([ -n {q} ] && $cmd -- {q} || true)" \
@@ -318,13 +307,13 @@ map Q quit-and-cd
 
 # zoxide
 cmd z %{{
-    result="$(zoxide query --exclude $PWD $@ | sed 's/\\/\\\\/g;s/"/\\"/g')"
-    lf -remote "send $id cd \"$result\""
+    result="$(printf '%s' "$(zoxide query --exclude $PWD $@)" | ~/.config/lf/scripts/lf-escape)"
+    lf -remote "send $id cd $result"
 }}
 
 cmd zi ${{
-    result="$(zoxide query -i | sed 's/\\/\\\\/g;s/"/\\"/g')"
-    lf -remote "send $id cd \"$result\""
+    result="$(printf '%s' "$(zoxide query -i)" | ~/.config/lf/scripts/lf-escape)"
+    lf -remote "send $id cd $result"
 }}
 
 cmd on-cd &{{

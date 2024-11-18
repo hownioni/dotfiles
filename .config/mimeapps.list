@@ -18,6 +18,7 @@ x-scheme-handler/webcal=userapp-Thunderbird-8DFPS2.desktop
 text/calendar=userapp-Thunderbird-8DFPS2.desktop
 application/x-extension-ics=userapp-Thunderbird-8DFPS2.desktop
 x-scheme-handler/webcals=userapp-Thunderbird-8DFPS2.desktop
+x-scheme-handler/terabox=TeraBox.desktop
 
 [Added Associations]
 x-scheme-handler/mailto=userapp-Thunderbird-LWQNS2.desktop;

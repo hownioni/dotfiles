@@ -251,8 +251,11 @@ Vagrantfile             
 *.lz4   
 *.lzh   
 *.lzma  
+*.tlzma 
 *.tlz   
+*.tlz4  
 *.txz   
+*.tsz   
 *.tzo   
 *.t7z   
 *.zip   
@@ -263,6 +266,7 @@ Vagrantfile             
 *.lz    
 *.lzo   
 *.xz    
+*.sz    
 *.zst   
 *.tzst  
 *.bz2   
