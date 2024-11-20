@@ -68,6 +68,7 @@ return {
 			"stylua",
 			"shfmt",
 			"shellcheck",
+			"checkmake",
 			"shellharden",
 			"asmfmt",
 		})

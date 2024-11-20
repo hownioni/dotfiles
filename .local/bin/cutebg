@@ -3,17 +3,14 @@
 exists() { hash "$@" &>/dev/null; }
 require() { exists "$@" || exit 127; }
 
-require wal
-require feh
-require dunst
-require qtile
+require wal rofi feh dunst qtile
 
 main() {
     get_args "${@}"
 
-    clear
+    [[ "$#" == 0 ]] && interactive
 
-    [[ "$imgfile" = "" ]] && usage && exit 1
+    [[ -z "$imgfile" ]] && usage && die "Expected input"
 
     [[ ! -f "$imgfile" && ! -d "$imgfile" ]] && die "File doesn't exist owo"
 
@@ -48,6 +45,8 @@ usage() {
             Change the method used for generating the 16 colors
         -t, --spice-theme
             Choose the spicetify theme name where the colorscheme will be saved
+        -d, --directory
+            Directory where wallpapers reside
 HELP_MSG
 }
 
@@ -63,20 +62,42 @@ get_args() {
         "--help") set -- "$@" "-h" ;;
         "--lighten") set -- "$@" "-l" ;;
         "--spice-theme") set -- "$@" "-t" ;;
+        "--directory") set -- "$@" "-d" ;;
         *) set -- "$@" "$opt" ;;
         esac
     done
 
     OPTIND=1
-    while getopts ":hlt:" opt; do
+    while getopts ":hlt:d:" opt; do
         case $opt in
         h) usage && exit 0 ;;
         l) colortheme="lighten" && shift ;;
         t) spice_theme=$OPTARG && shift ;;
+        d) wal_dir=$OPTARG && shift ;;
         ?) usage && die "Invalid option: -${OPTARG}." ;;
         esac
     done
     imgfile="$1"
+}
+
+interactive() {
+    wal_dir=${wal_dir:-$HOME/Pictures/Wallpapers}
+
+    wals=()
+    for entry in "$wal_dir"/*; do
+        if [[ -d "$entry" ]]; then
+            group="${entry##*/}"
+            for file in "$entry"/*; do
+                wals+=("${group}/${file##*/}")
+            done
+        else
+            wals+=("${entry##*/}")
+        fi
+    done
+
+    printf '%s' "${wal_dir}/${wals[@]}"
+    #for image in "${wal_dir}/${wals[@]}"; do printf '%s\n' "$image"; done
+    #echo -en "$image\0icon\x1f$image\n"; done | rofi -i -dmenu -show-icons
 }
 
 main "${@}"

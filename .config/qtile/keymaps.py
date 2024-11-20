@@ -131,6 +131,7 @@ keys = [
             Key([], "n", lazy.spawn("rofi -show nerdy"), desc="Nerd icon selector"),
             Key([], "i", lazy.spawn("wifimenu"), desc="Launch Rofi Wifi Menu"),
             Key([], "y", lazy.spawn("yt-watch"), desc="Play youtube video in terminal"),
+            Key([], "w", lazy.spawn("cutebg"), desc="Change wallpaper"),
         ],
         name="Run script",
     ),

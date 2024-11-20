@@ -9,6 +9,7 @@ return {
 			sh = { "shellcheck" },
 			javascript = { "eslint_d" },
 			python = { "ruff" },
+			make = { "checkmake" },
 		}
 
 		lint.linters.shellcheck.args = {
