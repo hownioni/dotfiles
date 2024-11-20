@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+shopt -s nullglob
+
 exists() { hash "$@" &>/dev/null; }
 require() { exists "$@" || exit 127; }
 
@@ -8,7 +10,7 @@ require wal rofi feh dunst qtile
 main() {
     get_args "${@}"
 
-    [[ "$#" == 0 ]] && interactive
+    [[ -z "$imgfile" ]] && interactive
 
     [[ -z "$imgfile" ]] && usage && die "Expected input"
 
@@ -55,49 +57,121 @@ die() {
     exit 1
 }
 
+#get_args() {
+#    for opt in "$@"; do
+#        shift
+#        case "$opt" in
+#        "--help") set -- "$@" "-h" ;;
+#        "--lighten") set -- "$@" "-l" ;;
+#        "--spice-theme") set -- "$@" "-t" ;;
+#        "--directory") set -- "$@" "-d" ;;
+#        *) set -- "$@" "$opt" ;;
+#        esac
+#    done
+#
+#    while getopts ":hlt:d:" opt; do
+#        case $opt in
+#        h) usage && exit 0 ;;
+#        l) colortheme="lighten" ;;
+#        t) spice_theme=${OPTARG} ;;
+#        d) wal_dir=${OPTARG} ;;
+#        :) die "Option -${OPTARG} requires an argument." ;;
+#        ?) usage && die "Invalid option: -${OPTARG}." ;;
+#        esac
+#    done
+#    echo $#
+#    echo "$OPTIND"
+#    shift $((OPTIND - 1))
+#    echo $#
+#    imgfile="$1"
+#}
+
 get_args() {
-    for opt in "$@"; do
-        shift
-        case "$opt" in
-        "--help") set -- "$@" "-h" ;;
-        "--lighten") set -- "$@" "-l" ;;
-        "--spice-theme") set -- "$@" "-t" ;;
-        "--directory") set -- "$@" "-d" ;;
-        *) set -- "$@" "$opt" ;;
+    pos_args=()
+
+    while (("$#")); do
+        local arg=$1
+        local val=$2
+
+        case "$arg" in
+        -h | --help)
+            usage && exit 0
+            ;;
+        -l | --lighten)
+            colortheme="lighten"
+            shift
+            ;;
+        -t | --spice-theme)
+            if [[ -n "$val" ]] && [[ "${val:0:1}" != "-" ]]; then
+                spice_theme=$val
+                shift 2
+            else
+                die "Option $arg requires an argument."
+            fi
+            ;;
+        -d | --directory)
+            if [ "$val" != "" ] && [ "${val:0:1}" != "-" ]; then
+                wal_dir=$val
+                shift 2
+            else
+                die "Option $arg requires an argument."
+            fi
+            ;;
+        -*)
+            die "Invalid option: $arg"
+            ;;
+        *)
+            pos_args+=("$arg")
+            shift
+            ;;
         esac
     done
 
-    OPTIND=1
-    while getopts ":hlt:d:" opt; do
-        case $opt in
-        h) usage && exit 0 ;;
-        l) colortheme="lighten" && shift ;;
-        t) spice_theme=$OPTARG && shift ;;
-        d) wal_dir=$OPTARG && shift ;;
-        ?) usage && die "Invalid option: -${OPTARG}." ;;
-        esac
-    done
-    imgfile="$1"
+    set -- "${pos_args[@]}"
+
+    imgfile=$1
 }
 
 interactive() {
     wal_dir=${wal_dir:-$HOME/Pictures/Wallpapers}
+    cache_dir="${HOME}/.cache/cutebg"
+    rofi_cmd() { rofi -dmenu -i -show-icons -p "  Select Wallpaper"; }
+    magick_cmd() {
+        cache_fname="$2"
+        [[ ! -d "${cache_dir}/${cache_fname%%/*}" ]] && mkdir -p "${cache_dir}/${cache_fname%%/*}"
+        cache_f="${cache_dir}/${cache_fname}"
+        if [[ ! -f "$cache_f" ]]; then
+            magick "$1" -strip -thumbnail 500x500^ -gravity center \
+                -extent 500x500 "$cache_f"
+        fi
+    }
+
+    [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
 
     wals=()
+    fullpath=()
     for entry in "$wal_dir"/*; do
         if [[ -d "$entry" ]]; then
             group="${entry##*/}"
             for file in "$entry"/*; do
-                wals+=("${group}/${file##*/}")
+                img="${group}/${file##*/}"
+                wals+=("$img")
+                fullpath+=("$file")
+                magick_cmd "$file" "$img"
             done
         else
-            wals+=("${entry##*/}")
+            img="${entry##*/}"
+            wals+=("$img")
+            fullpath+=("$entry")
+            magick_cmd "$entry" "$img"
         fi
     done
 
-    printf '%s' "${wal_dir}/${wals[@]}"
-    #for image in "${wal_dir}/${wals[@]}"; do printf '%s\n' "$image"; done
-    #echo -en "$image\0icon\x1f$image\n"; done | rofi -i -dmenu -show-icons
+    imgfile="${wal_dir}/$(
+        for image in "${wals[@]}"; do
+            printf "%s\x00icon\x1f%s\n" "$image" "${cache_dir}/${image}"
+        done | rofi_cmd
+    )"
 }
 
 main "${@}"
