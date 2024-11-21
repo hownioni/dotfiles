@@ -1,5 +1,6 @@
 #!/bin/bash
 
+lf-dbus &
 picom --daemon &
 copyq &
 flameshot &
