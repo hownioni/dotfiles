@@ -18,6 +18,7 @@ return {
 				},
 				sh = { "shellharden", "shfmt" },
 				bash = { "shellharden", "shfmt" },
+				asm = { "asmfmt" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

@@ -118,7 +118,7 @@ interactive() {
     rofi_theme="$HOME/.config/rofi/themes/cutebg.rasi"
 
     rofi_cmd() {
-        rofi -dmenu -i -show-icons -p "  Select Wallpaper" \
+        rofi -dmenu -i -show-icons -p "  Select Wallpaper: " \
             -theme "$rofi_theme" -theme-str "$rofi_override"
     }
 

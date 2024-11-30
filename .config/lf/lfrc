@@ -273,6 +273,9 @@ cmd compress %{{
     set -f
     printf "Archive name: "
     read -r name
+    if [[ -z "$name" && -d $f ]]; then
+        name="$f"
+    fi
     type="$1"
 
     case $type in

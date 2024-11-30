@@ -8,17 +8,18 @@ alias du='du -c -h'
 alias mkdir='mkdir -p -v'
 alias ping='ping -c 5'
 alias dmesg='dmesg -HL'
-alias su='su -'
+alias sudo='sudo '
+alias :v='pacman'
 alias yay='yay --aur '
 
 # "ls" to "eza"
 alias ls='eza -F --color=auto --icons=auto --group-directories-first'
-alias lr='ls -R'                    # recursive ls
+alias lr='ls -R' # recursive ls
 alias ll='ls -l'
 alias la='ls -a'
-alias lx='ll -s extension -I ~*'                   # sort by extension
-alias lz='ll -rs size'                   # sort by size
-alias lt='ll -rs modified'                   # sort by date
+alias lx='ll -s extension -I ~*' # sort by extension
+alias lz='ll -rs size'           # sort by size
+alias lt='ll -rs modified'       # sort by date
 alias l.='la | grep -E "^\."'
 
 # Replacements
@@ -28,9 +29,9 @@ alias bat='bat --color always'
 ## New commands
 alias da='date "+%A, %B %d, %Y [%T]"'
 alias du1='du --max-depth=1'
-alias hist='history | grep'         # requires an argument
+alias hist='history | grep' # requires an argument
 alias openports='ss --all --numeric --processes --ipv4 --ipv6'
-alias pgg='ps -Af | grep'           # requires an argument
+alias pgg='ps -Af | grep' # requires an argument
 alias ..='cd ..'
 alias rcp='rsync -ah --progress'
 alias bathelp='bat --plain --language=help'
