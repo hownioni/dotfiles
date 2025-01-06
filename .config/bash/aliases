@@ -8,8 +8,6 @@ alias du='du -c -h'
 alias mkdir='mkdir -p -v'
 alias ping='ping -c 5'
 alias dmesg='dmesg -HL'
-alias sudo='sudo '
-alias :v='pacman'
 alias yay='yay --aur '
 
 # "ls" to "eza"
