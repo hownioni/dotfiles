@@ -5,6 +5,7 @@ picom --daemon &
 copyq &
 flameshot &
 steam -silent &
+heroic &
 blueman-applet &
 udiskie -t &
 syncthingtray qt-widgets-gui --single-instance --wait &

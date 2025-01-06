@@ -188,16 +188,9 @@ cmd paste &{{
     mode="$1"
     shift
     case "$mode" in
-        copy)
-            rsync -av --ignore-existing --progress -- "$@" . |
-            stdbuf -i0 -o0 -e0 tr '\r' '\n' |
-            while IFS= read -r line; do
-                line="$(printf '%s' "$line" | ~/.config/lf/scripts/lf-escape)"
-                lf -remote "send $id echo \"$line\""
-            done
-            ;;
+        copy) cp -r --update=none -- "$@" .;;
         move)
-            mv -n -- "$@" .
+            mv --update=none -- "$@" .
             lf -remote "send clear"
             ;;
     esac
@@ -211,10 +204,11 @@ cmd paste-override &{{
     [ $# -gt 0 ] || exit
     case $mode in
         copy)
-            rsync -r "$@" ./
+            cp -r "$@" ./
             ;;
         move)
             rsync -r --remove-source-files "$@" ./
+            lf -remote "send clear"
             ;;
     esac
     lf -remote 'save\nmove\n'
@@ -255,6 +249,17 @@ cmd yank-dirname &printf '%s' "$PWD" | xclip -i -selection clipboard
 cmd yank-basename &basename -a -- $fx | head -c-1 | xclip -i -selection clipboard
 cmd yank-basename-without-extension &basename -a -- $fx | sed -E 's/\.[^.]+$//' | head -c-1 | xclip -i -selection clipboard
 
+cmd select-buffer &{{
+    set -- $(cat ~/.local/share/lf/files)
+    shift
+    if [ "$#" -eq 0 ]; then
+        lf -remote "send $id echoerr select-buffer: no file in copy/cut buffer"
+        exit
+    fi
+    files="$(printf '%s\n' "$@" $fs | sort -u | sed 's/\\/\\\\/g;s/"/\\"/g;s/^/"/;s/$/"/' | tr '\n' ' ')"
+    lf -remote "send $id :unselect; toggle $files"
+}}
+
 # Dragon-drop
 cmd dragon %dragon-drop -a -x $fx
 cmd dragon-stay %dragon-drop -a $fx
@@ -284,6 +289,7 @@ cmd compress %{{
         tgz) ext="tar.gz";;
         txz) ext="tar.xz";;
         zip) ext="zip";;
+        7z) ext="7z";;
     esac
 
     ouch compress $fx "${name}.${ext}"
@@ -355,6 +361,7 @@ map ag compress tgz
 map ab compress tbz2
 map ax compress txz
 map az compress zip
+map a7 compress 7z
 
 # Trash Mappings
 map dd trash
@@ -367,6 +374,7 @@ map Po paste-override
 map Pl :link
 map Yf yank-file
 map Yp yank-paths
+map bf select-buffer
 
 # Dragon mapping
 map dr dragon
@@ -386,7 +394,7 @@ map gpw cd ~/Pictures/Wallpapers/
 map gv cd ~/Videos
 map gm cd ~/Music
 map gM cd /data
-map gS cd ~/.local/share/
+map gl cd ~/.local
 map gu eval cd "/run/media/$USER"
 map gG cd ~/Games
 
@@ -396,7 +404,6 @@ map gc cd ~/.config
 map gC cd ~/codino
 map gr cd ~/repos
 map g. cd ~/.dotfiles
-map gl cd ~/.local
 map gs cd ~/.local/bin
 
 # Root directories

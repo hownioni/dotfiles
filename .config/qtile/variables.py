@@ -1,6 +1,6 @@
 import os
 
-from libqtile.config import Group
+from libqtile.config import Group, Match
 
 home = os.path.expanduser("~/")
 config = home + "/.config/qtile/"
@@ -34,6 +34,20 @@ group_labels = [
     "",
     "󰑴",
 ]
+
+group_matches = [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [Match(wm_class="vesktop"), Match(wm_class="zapzap")],
+    [Match(wm_class="Spotify")],
+    [],
+    [],
+    [],
+]
+
 # group_labels = ["DEV", "WWW", "SYS", "DOC", "GAMR", "CHAT", "MUS", "VID", "GFX",]
 
 # group_layouts = ["monadtall", "monadtall", "tile", "tile", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall"]
@@ -44,5 +58,6 @@ for i in range(len(group_names)):
             name=group_names[i],
             # layout=group_layouts[i].lower(),
             label=group_labels[i],
+            matches=group_matches[i],
         )
     )

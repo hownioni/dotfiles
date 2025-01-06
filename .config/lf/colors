@@ -1,8 +1,5 @@
 # vim:ft=dircolors
-# (This is not a dircolors file but it helps to highlight colors and comments)
 
-# default values from dircolors
-# (entries with a leading # are not implemented in lf)
 # #no     00              # NORMAL
 # fi      00              # FILE
 # #rs     0               # RESET
