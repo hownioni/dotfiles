@@ -21,8 +21,14 @@ export EDITOR='nano'
 export VISUAL='nvim'
 export TERMINAL='kitty'
 export MANPAGER='nvim +Man!'
-export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
+export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QUICK_CONTROLS_STYLE=org.kde.desktop
 export SAL_USE_VCLPLUGIN=qt5
 export LEDGER_FILE=$HOME/Documents/cuentas/${year}.journal
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export SDL_IM_MODULE=fcitx
+export GLFW_IM_MODULE=ibus
+export XMODIFIERS=@im=fcitx
 
 unset year

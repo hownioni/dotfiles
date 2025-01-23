@@ -123,32 +123,31 @@ interactive() {
     }
 
     magick_cmd() {
-        cache_fname="$2"
-        [[ ! -d "${cache_dir}/${cache_fname%%/*}" ]] &&
-            mkdir -p "${cache_dir}/${cache_fname%%/*}"
-        cache_f="${cache_dir}/${cache_fname}"
-        if [[ ! -f "$cache_f" ]]; then
-            magick "$1" -strip -thumbnail 500x500^ -gravity center \
-                -extent 500x500 "$cache_f"
+        img_path="$1"
+        img_filename="$2"
+
+        cache_file="${cache_dir}/${img_filename}"
+        if [[ ! -f "$cache_file" ]]; then
+            magick "$img_path" -strip -thumbnail 500x500^ -gravity center \
+                -extent 500x500 "$cache_file"
         fi
     }
 
     [[ ! -d "$cache_dir" ]] && mkdir -p "$cache_dir"
 
     wals=()
-    #fullpath=()
     for entry in "$wal_dir"/*; do
         if [[ -d "$entry" ]]; then
             group="${entry##*/}"
+            [[ ! -d "${cache_dir}/${group}" ]] &&
+                mkdir -p "${cache_dir}/${group}"
             for file in "$entry"/*; do
                 img="${group}/${file##*/}"
-                #fullpath+=("$file")
                 wals+=("$img")
                 magick_cmd "$file" "$img"
             done
         else
             img="${entry##*/}"
-            #fullpath+=("$entry")
             wals+=("$img")
             magick_cmd "$entry" "$img"
         fi
@@ -158,9 +157,6 @@ interactive() {
         for image in "${wals[@]}"; do
             printf "%s\x00icon\x1f%s\n" "$image" "${cache_dir}/${image}"
         done | rofi_cmd
-        #for i in "${!wals[@]}"; do
-        #    printf "%s\x00icon\x1f%s\n" "${wals[i]}" "${fullpath[i]}"
-        #done | rofi_cmd
     )"
 }
 

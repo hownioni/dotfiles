@@ -41,7 +41,7 @@ group_matches = [
     [],
     [],
     [],
-    [Match(wm_class="vesktop"), Match(wm_class="zapzap")],
+    [Match(wm_class="vesktop"), Match(wm_class="zapzap"), Match(wm_class="nheko")],
     [Match(wm_class="Spotify")],
     [],
     [],
