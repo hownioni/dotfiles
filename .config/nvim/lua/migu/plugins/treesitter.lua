@@ -12,6 +12,7 @@ return {
 					"cpp",
 					"diff",
 					"html",
+					"java",
 					"javascript",
 					"ledger",
 					"lua",
