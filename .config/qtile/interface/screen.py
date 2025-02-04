@@ -61,7 +61,9 @@ screens = [
                 widget.Battery(
                     background=colors[2],
                     foreground=colors[16],
-                    format="{percent:2.0%}",
+                    charge_char="󰂄",
+                    discharge_char="󱟞",
+                    format="{char} {percent:2.0%}",
                 )
                 if platform == "laptop"
                 else widget.CPU(),
