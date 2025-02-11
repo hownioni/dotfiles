@@ -21,6 +21,8 @@ x-scheme-handler/webcals=userapp-Thunderbird-8DFPS2.desktop
 x-scheme-handler/nxm=ModOrganizer-steamtinkerlaunch-dl.desktop
 x-scheme-handler/modl=modl.desktop
 x-scheme-handler/nxm-protocol=ModOrganizer-steamtinkerlaunch-dl.desktop
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
+x-scheme-handler/discord=vesktop.desktop
 
 [Added Associations]
 x-scheme-handler/mailto=userapp-Thunderbird-LWQNS2.desktop;
