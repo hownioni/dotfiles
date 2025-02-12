@@ -19,19 +19,3 @@ def load_colors(cache):
 
 
 load_colors(color_cache)
-
-# Defaults
-layout_theme = {
-    "border_width": 2,
-    "margin": 4,
-    "border_focus": colors[12],
-    "border_normal": colors[3],
-}
-
-widget_defaults = dict(
-    font="M PLUS 1",
-    fontsize=12,
-    padding=2,
-    background=colors[0],
-)
-extension_defaults = widget_defaults.copy()

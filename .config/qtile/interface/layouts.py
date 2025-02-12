@@ -1,7 +1,14 @@
 from libqtile import layout
 from libqtile.config import Match
 
-from .themes import colors, layout_theme
+from .themes import colors
+
+layout_theme = {
+    "border_width": 2,
+    "margin": 4,
+    "border_focus": colors[12],
+    "border_normal": colors[3],
+}
 
 layouts = [
     layout.Columns(

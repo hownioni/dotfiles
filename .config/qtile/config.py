@@ -3,7 +3,7 @@ import subprocess
 from libqtile import hook
 
 from interface.layouts import floating_layout, layouts
-from interface.screen import screens
+from interface.screen import screens, widget_defaults
 from keymaps import keys, mouse
 from variables import config, groups
 
@@ -16,6 +16,8 @@ mouse = mouse
 groups = groups
 
 layouts = layouts
+
+widget_defaults = widget_defaults
 
 screens = screens
 

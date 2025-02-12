@@ -3,7 +3,7 @@ import subprocess
 from libqtile import bar, widget
 from libqtile.config import Screen
 
-from .themes import colors, extension_defaults
+from .themes import colors
 
 # Variables
 platform = subprocess.run(
@@ -19,7 +19,13 @@ def txt_remove(text):
     return ""
 
 
-extension_defaults = extension_defaults
+widget_defaults = dict(
+    font="FiraCode Nerd Font",
+    fontsize=12,
+    padding=2,
+    background=colors[0],
+)
+extension_defaults = widget_defaults.copy()
 
 bar_thickness = 20
 screens = [
