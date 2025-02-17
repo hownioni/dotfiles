@@ -1,7 +1,7 @@
 from libqtile.config import Click, Drag, Key, KeyChord
 from libqtile.lazy import lazy
 
-from variables import config, groups
+from .variables import config, groups
 
 # Variables
 mod = "mod4"

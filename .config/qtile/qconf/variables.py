@@ -1,10 +1,18 @@
 import os
+import subprocess
 
 from libqtile.config import Group, Match
+from libqtile.lazy import lazy
 
 home = os.path.expanduser("~/")
 config = home + "/.config/qtile/"
 
+platform = subprocess.run(
+    ["hostnamectl", "chassis"], stdout=subprocess.PIPE
+).stdout.decode("utf-8")[:-1]
+backlight = subprocess.run(
+    ["ls", "/sys/class/backlight/"], stdout=subprocess.PIPE
+).stdout.decode("utf-8")[:-1]
 
 ### Groups
 groups = []
@@ -61,3 +69,22 @@ for i in range(len(group_names)):
             matches=group_matches[i],
         )
     )
+
+
+###Themes
+
+colors = []
+
+# Pywal
+color_cache = home + ".cache/wal/colors"
+
+
+def load_colors(cache):
+    with open(cache, "r") as file:
+        for i in range(16):
+            colors.append(file.readline().strip())
+    colors.append("#ffffff")
+    lazy.reload()
+
+
+load_colors(color_cache)

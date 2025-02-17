@@ -21,7 +21,6 @@ alias lt='ll -rs modified'       # sort by date
 alias l.='la | grep -E "^\."'
 
 # Replacements
-alias sxiv='nsxiv'
 alias bat='bat --color always'
 
 ## New commands

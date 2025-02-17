@@ -375,6 +375,10 @@ map Pl :link
 map Yf yank-file
 map Yp yank-paths
 map bf select-buffer
+map S :{{
+    $echo "$fs" > "/tmp/termfilechooser.portal"
+    quit
+}}
 
 # Dragon mapping
 map dr dragon

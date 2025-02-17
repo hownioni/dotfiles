@@ -2,10 +2,9 @@ import subprocess
 
 from libqtile import hook
 
-from interface.layouts import floating_layout, layouts
-from interface.screen import screens, widget_defaults
-from keymaps import keys, mouse
-from variables import config, groups
+from qconf.keymaps import keys, mouse
+from qconf.screen import floating_layout, layouts, screens, widget_defaults
+from qconf.variables import config, groups
 
 ### Mappings
 keys = keys
@@ -47,7 +46,7 @@ wl_input_rules = None
 # Hooks
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.Popen([config + "autostart.sh"])
+    subprocess.Popen([config + "scripts/autostart.sh"])
 
 
 @hook.subscribe.startup
