@@ -121,9 +121,13 @@ match dpi:
     case 168:
         bar_thickness = 60
         bar_fontsize = 20
+        context_fontsize = 20
+        context_width = 350
     case 96:
         bar_thickness = 22
         bar_fontsize = 13
+        context_fontsize = 13
+        context_width = 200
 
 bar_font = "Noto Sans Medium"
 bar_global_opacity = 1
