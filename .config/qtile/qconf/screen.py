@@ -9,6 +9,8 @@ from .variables import (
     bar_global_opacity,
     bar_thickness,
     colors,
+    context_fontsize,
+    context_width,
     platform,
 )
 
@@ -75,7 +77,10 @@ screens = [
                     name_transform=lambda name: name.upper(),
                 ),
                 widget.StatusNotifier(
-                    icon_size=bar_thickness, icon_theme="Papirus-Light"
+                    icon_size=bar_thickness,
+                    icon_theme="Papirus-Light",
+                    menu_fontsize=context_fontsize,
+                    menu_width=context_width,
                 ),
                 widget.Clock(format="%F %a - %H:%M"),
                 widget.PulseVolume(
@@ -86,7 +91,11 @@ screens = [
                     fmt=volume,
                 ),
                 widget.Backlight(backlight_name=backlight),
-                widget.IWD(padding=2),
+                widget.IWD(
+                    padding=2,
+                    menu_fontsize=context_fontsize,
+                    menu_width=context_width,
+                ),
                 widget.Battery(
                     background=colors[2],
                     foreground=colors[16],
