@@ -2,7 +2,15 @@ from libqtile import bar, layout
 from libqtile.config import Match, Screen
 from qtile_extras import widget
 
-from .variables import backlight, colors, platform
+from .variables import (
+    backlight,
+    bar_font,
+    bar_fontsize,
+    bar_global_opacity,
+    bar_thickness,
+    colors,
+    platform,
+)
 
 
 ## Custom functions
@@ -32,13 +40,12 @@ def volume(output):
 
 
 widget_defaults = dict(
-    font="Noto Sans Medium",
-    fontsize=13,
+    font=bar_font,
+    fontsize=bar_fontsize,
     background=colors[0],
 )
 extension_defaults = widget_defaults.copy()
 
-bar_thickness = 22
 screens = [
     Screen(
         top=bar.Bar(
@@ -93,7 +100,7 @@ screens = [
             ],
             bar_thickness,
             background=f"{colors[0]}",
-            opacity=0.9,
+            opacity=bar_global_opacity,
         ),
     ),
 ]

@@ -1,15 +1,16 @@
 from libqtile.config import Click, Drag, Key, KeyChord
 from libqtile.lazy import lazy
 
-from .variables import config, groups
-
-# Variables
-mod = "mod4"
-terminal = "kitty"
-browser = "firefox"
-school_browser = "firefox -P Escuela"
-launcher = "rofi -show drun"
-window_switch = "rofi -show window"
+from .variables import (
+    browser,
+    config,
+    groups,
+    launcher,
+    mod,
+    school_browser,
+    terminal,
+    window_switch,
+)
 
 
 # Hide/Show all windows in a group
