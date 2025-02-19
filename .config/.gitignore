@@ -6,7 +6,7 @@
 /systemd/user/default.target.wants/
 /spicetify/Backup
 /spicetify/Extracted/
-/spicetify/**/color.ini
+/spicetify/Themes/
 
 #This below is added by the dotconf-add function
 !/bash/
