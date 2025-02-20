@@ -101,7 +101,8 @@ screens = [
                     foreground=colors[16],
                     charge_char="󰂄",
                     discharge_char="󱟞",
-                    format="{char} {percent:2.0%}",
+                    full_char="󰁹",
+                    format="{char} {percent:2.0%} {hour:d}:{min:02d}",
                 )
                 if platform == "laptop"
                 else widget.CPUGraph(),
