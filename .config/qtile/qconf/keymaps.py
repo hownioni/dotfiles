@@ -22,6 +22,11 @@ def minimize_all(qtile):
             win.toggle_minimize()
 
 
+@lazy.function
+def donothing():
+    pass
+
+
 ## Keys
 keys = [
     # Essentials
@@ -29,12 +34,20 @@ keys = [
     Key([mod, "shift"], "Return", lazy.spawn(launcher), desc="Launch launcher"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.hide_show_bar(), desc="Toggle the bar"),
-    Key([mod, "shift"], "c", lazy.widget["battery"].charge_to_full())
-    if platform == "laptop"
-    else None,
-    Key([mod, "shift"], "x", lazy.widget["battery"].charge_dynamically())
-    if platform == "laptop"
-    else None,
+    Key(
+        [mod, "shift"],
+        "c",
+        lazy.widget["battery"].charge_to_full()
+        if platform == "laptop"
+        else donothing(),
+    ),
+    Key(
+        [mod, "shift"],
+        "x",
+        lazy.widget["battery"].charge_dynamically()
+        if platform == "laptop"
+        else donothing(),
+    ),
     KeyChord(
         [mod],
         "a",
