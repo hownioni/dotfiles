@@ -76,12 +76,13 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.StatusNotifier(
-                    icon_size=bar_thickness,
-                    icon_theme="Papirus-Light",
-                    menu_fontsize=context_fontsize,
-                    menu_width=context_width,
-                ),
+                # widget.StatusNotifier(
+                #    icon_size=bar_thickness,
+                #    icon_theme="Papirus-Light",
+                #    menu_fontsize=context_fontsize,
+                #    menu_width=context_width,
+                # ),
+                widget.Systray(icon_size=bar_thickness),
                 widget.Clock(format="%F %a - %H:%M"),
                 widget.PulseVolume(
                     mute_command="pamixer --toggle-mute",
