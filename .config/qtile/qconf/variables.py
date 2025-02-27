@@ -124,8 +124,9 @@ match dpi:
         context_fontsize = 20
         context_width = 350
     case 120:
-        bar_thickness = 30
-        bar_fontsize = 15
+        bar_thickness = 40
+        bar_fontsize = 16
+        context_fontsize = 16
         context_width = 220
     case 96:
         bar_thickness = 22
