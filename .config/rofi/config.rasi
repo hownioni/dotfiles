@@ -15,7 +15,7 @@ configuration {
     display-window: "🪟 Window";
     sidebar-mode: true;
     matching: "fuzzy";
-    dpi: 168;
+    dpi: 120;
 }
 
 @theme "/dev/null"

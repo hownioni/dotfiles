@@ -1,7 +1,7 @@
 [global]
 frame_color = "{color2}"
 separator_color= frame
-scale = 1.75
+scale = 1.25
 icon_corner_radius = 5
 font = "Opensans 12"
 icon_theme = "Papirus-Dark"
