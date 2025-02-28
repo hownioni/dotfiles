@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=MODL Handler
+Exec=/home/migu/Games/tools/handlers/modlhandler %u
+Type=Application
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/modl;
