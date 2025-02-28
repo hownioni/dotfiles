@@ -18,11 +18,15 @@ x-scheme-handler/webcal=userapp-Thunderbird-8DFPS2.desktop
 text/calendar=userapp-Thunderbird-8DFPS2.desktop
 application/x-extension-ics=userapp-Thunderbird-8DFPS2.desktop
 x-scheme-handler/webcals=userapp-Thunderbird-8DFPS2.desktop
-x-scheme-handler/nxm=ModOrganizer-steamtinkerlaunch-dl.desktop
+x-scheme-handler/nxm=nxm.desktop
 x-scheme-handler/modl=modl.desktop
-x-scheme-handler/nxm-protocol=ModOrganizer-steamtinkerlaunch-dl.desktop
-x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
 x-scheme-handler/discord=vesktop.desktop
+application/vnd.oasis.opendocument.text=libreoffice-writer.desktop
+application/vnd.oasis.opendocument.spreadsheet=libreoffice-calc.desktop
+application/vnd.oasis.opendocument.presentation=libreoffice-impress.desktop
+application/vnd.oasis.opendocument.graphics=libreoffice-draw.desktop
+application/vnd.oasis.opendocument.database=libreoffice-base.desktop
+application/vnd.oasis.opendocument.formula=libreoffice-math.desktop
 
 [Added Associations]
 x-scheme-handler/mailto=userapp-Thunderbird-LWQNS2.desktop;
