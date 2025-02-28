@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=NXM Handler
+Exec=/home/migu/Games/tools/handlers/nxmhandler %u
+Type=Application
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/nxm;
