@@ -61,6 +61,7 @@ keys = [
                 ],
                 name="Browser",
             ),
+            Key([], "c", lazy.spawn("qalculate-gtk"), desc="Launch calculator"),
         ],
         name="Apps",
     ),
