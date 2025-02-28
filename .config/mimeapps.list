@@ -27,6 +27,7 @@ application/vnd.oasis.opendocument.presentation=libreoffice-impress.desktop
 application/vnd.oasis.opendocument.graphics=libreoffice-draw.desktop
 application/vnd.oasis.opendocument.database=libreoffice-base.desktop
 application/vnd.oasis.opendocument.formula=libreoffice-math.desktop
+application/pdf=firefox.desktop
 
 [Added Associations]
 x-scheme-handler/mailto=userapp-Thunderbird-LWQNS2.desktop;
