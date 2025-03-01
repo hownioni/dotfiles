@@ -1,8 +1,0 @@
-#!/bin/sh
-
-rsync -avzhpoge ssh \
-    --progress --update \
-    --chown=barnie:media \
-    --chmod=Dug=rwx,Do=rx,Fug=rw,Fo=r \
-    /data/user-files/Music/ \
-    barnie@munrawr.duckdns.org:/data/media/music/
