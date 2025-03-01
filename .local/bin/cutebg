@@ -34,8 +34,8 @@ main() {
     [[ ! -d "${HOME}/.config/dunst" ]] && mkdir "${HOME}/.config/dunst"
     [[ ! -L "${HOME}/.config/dunst/dunstrc" ]] && ln -s "${HOME}/.cache/wal/dunstrc" "${HOME}/.config/dunst/dunstrc"
     pkill dunst
-    exists kvantummanager && apply-theme -s &>/dev/null
-    exists oomox-cli && oomox-cli -o pywal "${HOME}/.cache/wal/colors-oomox" -t "$HOME/.local/share/themes" &>/dev/null
+    #exists kvantummanager && apply-theme -s &>/dev/null
+    #exists oomox-cli && oomox-cli -o pywal "${HOME}/.cache/wal/colors-oomox" -t "$HOME/.local/share/themes" &>/dev/null
     exists pywal-discord && pywal-discord -p "${HOME}/.config/vesktop/themes/" -t default &>/dev/null
     qtile cmd-obj -o cmd -f reload_config
 }
