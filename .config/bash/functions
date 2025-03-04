@@ -38,7 +38,8 @@ dotbranch-mergeall() {
         for branch in "${branches[@]}"; do
             if [[ "$branch" != "master" ]]; then
                 dotfiles checkout "$branch"
-                read -p "Confirm push? [y/N] (Please review carefully)" -r
+                dotfiles show
+                read -p "Confirm push? [y/N] (Please review carefully)" -n 1 -r
                 echo "$REPLY"
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
                     dotfiles merge master
