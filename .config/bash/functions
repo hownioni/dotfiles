@@ -29,15 +29,15 @@ dotconf-add() {
 }
 
 dotbranch-mergeall() {
-    local branch branch_name
+    local branches branch_name
     branch_name="$(dotfiles rev-parse --abbrev-ref HEAD)"
     if [[ "$branch_name" != "master" ]]; then
         printf '%s\n' "Error: Current branch is not master"
     else
-        while read -r branch; do
+        readarray -t branches < <(dotfiles for-each-ref --format='%(refname:short)' refs/heads/)
+        for branch in "${branches[@]}"; do
             if [[ "$branch" != "master" ]]; then
                 dotfiles checkout "$branch"
-                dotfiles show
                 read -p "Confirm push? [y/N] (Please review carefully)" -r
                 echo "$REPLY"
                 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -46,6 +46,6 @@ dotbranch-mergeall() {
                 fi
                 dotfiles checkout master
             fi
-        done < <(dotfiles for-each-ref --format='%(refname:short)' refs/heads/)
+        done
     fi
 }
