@@ -103,9 +103,13 @@ screens = [
                     charge_char="󰂄",
                     discharge_char="󱟞",
                     full_char="󰁹",
+                    empty_char="󱟥",
+                    not_charging_char="󰂃",
+                    unknown_char="󰂑",
                     format="{char} {percent:2.0%} {hour:d}:{min:02d}",
                     update_interval=5,
                     charge_controller=lambda: (0, 80),
+                    notify_below=20,
                 )
                 if platform == "laptop"
                 else widget.CPUGraph(),
