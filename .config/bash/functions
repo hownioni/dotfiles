@@ -36,16 +36,14 @@ dotbranch-mergeall() {
     else
         while read -r branch; do
             if [[ "$branch" != "master" ]]; then
-                (
-                    dotfiles checkout "$branch"
-                    dotfiles show
-                    printf '%s\n>> ' "Confirm push? [y/N] (Please review carefully)"
-                    read -r confirm_push
-                    if [[ "$confirm_push" =~ ^[Yy]$ ]]; then
-                        dotfiles merge master
-                        dotfiles push
-                    fi
-                )
+                dotfiles checkout "$branch"
+                dotfiles show
+                read -p "Confirm push? [y/N] (Please review carefully)" -r
+                echo "$REPLY"
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    dotfiles merge master
+                    dotfiles push
+                fi
                 dotfiles checkout master
             fi
         done < <(dotfiles for-each-ref --format='%(refname:short)' refs/heads/)
