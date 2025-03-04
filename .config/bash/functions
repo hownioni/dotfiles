@@ -40,7 +40,7 @@ dotbranch-mergeall() {
                     dotfiles checkout "$branch"
                     dotfiles show
                     printf '%s\n>> ' "Confirm push? [y/N] (Please review carefully)"
-                    read -n 1 -r confirm_push
+                    read -r confirm_push
                     if [[ "$confirm_push" =~ ^[Yy]$ ]]; then
                         dotfiles merge master
                         dotfiles push
