@@ -49,3 +49,14 @@ dotbranch-mergeall() {
         dotfiles checkout master
     fi
 }
+
+dotbranch-pullall() {
+    local branches branch_name
+    branch_name="$(dotfiles rev-parse --abbrev-ref HEAD)"
+    readarray -t branches < <(dotfiles for-each-ref --format='%(refname:short)' refs/heads/)
+    for branch in "${branches[@]}"; do
+        dotfiles checkout "$branch"
+        dotfiles pull
+    done
+    dotfiles checkout master
+}
