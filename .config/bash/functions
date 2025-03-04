@@ -44,8 +44,8 @@ dotbranch-mergeall() {
                     dotfiles merge master
                     dotfiles push
                 fi
-                dotfiles checkout master
             fi
         done
+        dotfiles checkout master
     fi
 }
