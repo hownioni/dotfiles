@@ -85,5 +85,7 @@ return {
 				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 			end, "[T]oggle Inlay [H]ints")
 		end
+
+		map("<space>e", vim.diagnostic.open_float, "Open [E]rrors on window", "n")
 	end,
 }
