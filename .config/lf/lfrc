@@ -376,7 +376,7 @@ map Yf yank-file
 map Yp yank-paths
 map bf select-buffer
 map S :{{
-    $echo "$fs" > "/tmp/termfilechooser.portal"
+    $echo "$fs" > "/tmp/termfilechooser-${UID}.portal"
     quit
 }}
 
@@ -418,7 +418,7 @@ map gRe cd /etc
 
 map gL follow-link
 map gt. cd ~/.local/share/Trash/files
-map gtd cd /data/.Trash-1000/files
+map gtd eval cd "/data/.Trash-${UID}/files"
 
 map J :updir; set dironly true; down; set dironly false; open
 map K :updir; set dironly true; up; set dironly false; open
