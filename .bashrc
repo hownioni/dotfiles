@@ -40,3 +40,4 @@ shopt -s checkwinsize
 PS1='[\u@\h \W]\$ '
 
 eval "$(zoxide init --cmd cd bash)"
+eval "$(_AUTO_CPUFREQ_COMPLETE=bash_source auto-cpufreq)"
