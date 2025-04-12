@@ -23,6 +23,14 @@ def minimize_all(qtile):
 
 
 @lazy.function
+def float_to_front(qtile):
+    for group in qtile.groups:
+        for window in group.windows:
+            if window.floating:
+                window.cmd_bring_to_front()
+
+
+@lazy.function
 def donothing():
     pass
 
@@ -139,6 +147,7 @@ keys = [
         minimize_all(),
         desc="Toggle hide/show all windows on current group",
     ),
+    Key([mod], "z", float_to_front(), desc="Bring all floating windows to the front"),
     # Dmenu/Rofi
     KeyChord(
         [mod],
