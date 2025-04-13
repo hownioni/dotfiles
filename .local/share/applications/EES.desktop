@@ -1,5 +1,5 @@
 [Desktop Entry]
 Name=Engineering Equation Solver
-Exec="/home/migu/Documents/IRL/Escuela/0000 - General/EES/ees"
+Exec=sh -c "$HOME/Documents/IRL/Escuela/0000\\ -\\ General/EES/ees"
 Type=Application
 Terminal=false
