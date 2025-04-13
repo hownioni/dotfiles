@@ -37,6 +37,7 @@ main() {
     #exists kvantummanager && apply-theme -s &>/dev/null
     #exists oomox-cli && oomox-cli -o pywal "${HOME}/.cache/wal/colors-oomox" -t "$HOME/.local/share/themes" &>/dev/null
     exists pywal-discord && pywal-discord -p "${HOME}/.config/vesktop/themes/" -t default &>/dev/null
+    exists walcord
     qtile cmd-obj -o cmd -f reload_config
 }
 
