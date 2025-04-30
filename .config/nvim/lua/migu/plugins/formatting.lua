@@ -19,6 +19,7 @@ return {
 				sh = { "shellharden", "shfmt" },
 				bash = { "shellharden", "shfmt" },
 				asm = { "asmfmt" },
+				toml = { "pyproject-fmt" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

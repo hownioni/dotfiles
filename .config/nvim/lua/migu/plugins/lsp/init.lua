@@ -73,6 +73,7 @@ return {
 			yamlls = {},
 			marksman = {},
 			asm_lsp = {},
+			taplo = {},
 		}
 
 		require("mason").setup({
@@ -89,6 +90,7 @@ return {
 			"checkmake",
 			"shellharden",
 			"asmfmt",
+			"pyproject-fmt",
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
