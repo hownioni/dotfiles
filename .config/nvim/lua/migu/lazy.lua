@@ -28,6 +28,7 @@ vim.g.have_nerd_font = true
 require("lazy").setup({
 	spec = { { import = "migu.plugins" } },
 	ui = { icons = {} },
+	checker = { enabled = true },
 })
 
 local tweaks = function(colors)
