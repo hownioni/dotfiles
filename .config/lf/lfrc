@@ -54,6 +54,19 @@ cmd eval &{{
     lf -remote "$cmd"
 }}
 
+cmd edit-config ${{
+    $EDITOR ~/.config/lf/
+    lf -remote "send $id source ~/.config/lf/lfrc"
+}}
+
+cmd move-parent &{{
+    dironly="setlocal $(printf '%s' "$(dirname -- "$PWD")" | ~/.config/lf/scripts/lf-escape) dironly"
+    lf -remote "send $id :updir; $dironly true; $1; $dironly false; open"
+}}
+
+map J move-parent down
+map K move-parent up
+
 ### SEARCH ###
 cmd fzf_jump ${{
     res="$(fd . -d 1 -H | fzf --reverse --header="Jump to location")"
@@ -204,10 +217,25 @@ cmd paste-override &{{
     [ $# -gt 0 ] || exit
     case $mode in
         copy)
-            cp -r "$@" ./
+            cp -r "$@" .
             ;;
         move)
-            rsync -r --remove-source-files "$@" ./
+            for SRC in "$@"; do
+                PARENT_DIR="$(dirname -- "$SRC")"
+                SRC_BNAME="$(basename "$SRC")"
+                if [[ -d "$SRC" ]]; then
+                    find "$SRC" -type d -printf "${SRC_BNAME}/%P\0" |
+                        xargs -0 -I{} mkdir -vp ./{}
+
+                    find "$SRC" -not -type d -printf "${SRC_BNAME}/%P\0" |
+                        xargs -0 -I{} mv "$PARENT_DIR"/{} ./{}
+
+                    rm -r "$SRC"
+                elif [[ -e "$SRC" ]]; then
+                    mv "$SRC" "./${SRC_BNAME}"
+                fi
+            done
+
             lf -remote "send clear"
             ;;
     esac
@@ -355,7 +383,7 @@ map <delete> delete
 map zi zi
 
 # Archive mappings
-map au unarchive
+map au :unarchive; reload
 map at compress tar
 map ag compress tgz
 map ab compress tbz2
@@ -403,7 +431,7 @@ map gu eval cd "/run/media/$USER"
 map gG cd ~/Games
 
 # Coding
-map C cd ~/.config/lf/
+map C edit-config
 map gc cd ~/.config
 map gC cd ~/codino
 map gr cd ~/repos
@@ -420,7 +448,7 @@ map gL follow-link
 map gt. cd ~/.local/share/Trash/files
 map gtd eval cd "/data/.Trash-${UID}/files"
 
-map J :updir; set dironly true; down; set dironly false; open
-map K :updir; set dironly true; up; set dironly false; open
+map J move-parent down
+map K move-parent up
 #---
 #======
