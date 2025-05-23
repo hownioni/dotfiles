@@ -7,6 +7,8 @@
 /spicetify/Backup
 /spicetify/Extracted/
 /spicetify/Themes/
+/rofi/config.rasi
+/wal/templates/dunstrc
 
 #This below is added by the dotconf-add function
 !/bash/

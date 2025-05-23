@@ -8,7 +8,6 @@ copyq &
 flameshot &
 blueman-applet &
 udiskie -t &
-syncthingtray qt-widgets-gui --single-instance --wait &
 fcitx5 &
 kdeconnect-indicator &
 

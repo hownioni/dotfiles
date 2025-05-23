@@ -209,7 +209,7 @@ cmd paste &{{
     esac
 }}
 
-cmd paste-override &{{
+cmd paste-replace &{{
     set -f
     mode=$(head -1 ~/.local/share/lf/files)
     list=$(sed 1d ~/.local/share/lf/files)
@@ -230,7 +230,7 @@ cmd paste-override &{{
                     find "$SRC" -not -type d -printf "${SRC_BNAME}/%P\0" |
                         xargs -0 -I{} mv "$PARENT_DIR"/{} ./{}
 
-                    rm -r "$SRC"
+                    find "$SRC" -type d -empty -delete
                 elif [[ -e "$SRC" ]]; then
                     mv "$SRC" "./${SRC_BNAME}"
                 fi
@@ -398,15 +398,11 @@ map tc clear_trash
 map tl list_trash
 
 # Copy and paste
-map Po paste-override
+map Po paste-replace
 map Pl :link
 map Yf yank-file
 map Yp yank-paths
 map bf select-buffer
-map S :{{
-    $echo "$fs" > "/tmp/termfilechooser-${UID}.portal"
-    quit
-}}
 
 # Dragon mapping
 map dr dragon

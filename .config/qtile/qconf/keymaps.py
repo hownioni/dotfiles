@@ -156,15 +156,22 @@ keys = [
             Key(
                 [],
                 "e",
-                lazy.spawn("rofi -show emoji -emoji-mode menu"),
+                lazy.spawn("rofi -show emoji -emoji-mode menu -matching normal"),
                 desc="Emoji selector",
             ),
             Key([], "n", lazy.spawn("rofi -show nerdy"), desc="Nerd icon selector"),
             Key([], "i", lazy.spawn("wifimenu"), desc="Launch Rofi Wifi Menu"),
             Key([], "y", lazy.spawn("yt-watch"), desc="Play youtube video in terminal"),
             Key([], "w", lazy.spawn("cutebg"), desc="Change wallpaper"),
+            Key([], "s", lazy.spawn(f"{config}/scripts/display/change_res.sh")),
         ],
         name="Run script",
+    ),
+    Key(
+        [mod, "shift"],
+        "n",
+        lazy.spawn("dunstctl context"),
+        desc="Show context menu for notifications",
     ),
     # Media keys
     Key(

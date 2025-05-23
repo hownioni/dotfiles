@@ -1,72 +1,90 @@
-local function map(mode, lhs, rhs, opts)
-	local options = { silent = true }
+local function map(keys, func, desc, opts, mode)
+	mode = mode or "n"
+	local options = { desc = desc }
 	if opts then
 		options = vim.tbl_extend("force", options, opts)
 	end
-	vim.keymap.set(mode, lhs, rhs, options)
+	vim.keymap.set(mode, keys, func, options)
 end
 
--- Better navigation
-map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
-map("n", "<C-q>", "<C-w>q", { desc = "Close window" })
-
--- Resize window using <ctrl> arrow keys
-map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
-map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
-map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
-map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
-
--- Move Lines
-map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
-map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
-map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
-map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
-map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
-map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
-
--- buffers
-map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
-map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>bd", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
+-- [[ Basic Keymaps ]]
 
 -- Clear search
-map("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
+map("<Esc>", "<cmd>nohlsearch<CR>", "Clear search highlights")
+
+-- [[ Copied from LazyVim ]]
+
+-- Move to window using the <ctrl>+hjkl keys
+map("<C-h>", "<C-w>h", "Go to left window", { remap = true })
+map("<C-j>", "<C-w>j", "Go to lower window", { remap = true })
+map("<C-k>", "<C-w>k", "Go to upper window", { remap = true })
+map("<C-l>", "<C-w>l", "Go to right window", { remap = true })
+map("<C-q>", "<C-w>q", "Close window", { remap = true })
+
+-- Resize window using <ctrl> arrow keys
+map("<C-Up>", "<cmd>resize +2<cr>", "Increase Window Height")
+map("<C-Down>", "<cmd>resize -2<cr>", "Decrease Window Height")
+map("<C-Left>", "<cmd>vertical resize -2<cr>", "Decrease Window Width")
+map("<C-Right>", "<cmd>vertical resize +2<cr>", "Increase Window Width")
+
+-- Move Lines
+map("<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", "Move Down")
+map("<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", "Move Up")
+map("<A-j>", "<esc><cmd>m .+1<cr>==gi", "Move Down", nil, "i")
+map("<A-k>", "<esc><cmd>m .-2<cr>==gi", "Move Up", nil, "i")
+map("<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", "Move Down", nil, "v")
+map("<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", "Move Up", nil, "v")
+
+-- buffers
+map("[b", "<cmd>bprevious<cr>", "Prev Buffer")
+map("]b", "<cmd>bnext<cr>", "Next Buffer")
+map("<leader>bb", "<cmd>e #<cr>", "Switch to Other Buffer")
+map("<leader>bd", "<cmd>:bd<cr>", "Delete Buffer and Window")
+
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+map("n", "'Nn'[v:searchforward].'zv'", "Next Search Result", { expr = true }, "n")
+map("n", "'Nn'[v:searchforward]", "Next Search Result", { expr = true }, "x")
+map("n", "'Nn'[v:searchforward]", "Next Search Result", { expr = true }, "o")
+map("N", "'nN'[v:searchforward].'zv'", "Prev Search Result", { expr = true }, "n")
+map("N", "'nN'[v:searchforward]", "Prev Search Result", { expr = true }, "x")
+map("N", "'nN'[v:searchforward]", "Prev Search Result", { expr = true }, "o")
+
+-- save file
+map("<C-s>", "<cmd>w<cr><esc>", "Save File", nil, { "i", "x", "n", "s" })
+
+--keywordprg
+map("<leader>K", "<cmd>norm! K<cr>", "Keywordprg")
+
+-- better indenting
+map("<", "<gv", "", nil, "v")
+map(">", ">gv", "", nil, "v")
 
 -- commenting
-map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
-map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
+map("gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", "Add Comment Below")
+map("gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", "Add Comment Above")
 
 -- lazy
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+map("<leader>l", "<cmd>Lazy<cr>", "Lazy")
 
 -- new file
-map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+map("<leader>fn", "<cmd>enew<cr>", "New File")
 
 -- windows
-map("n", "<leader>w", "<c-w>", { desc = "Windows", remap = true })
-map("n", "<leader>sh", "<C-W>s", { desc = "Split Window Below", remap = true })
-map("n", "<leader>sv", "<C-W>v", { desc = "Split Window Right", remap = true })
-map("n", "<leader>sx", "<C-W>c", { desc = "Delete Window", remap = true })
+map("<leader>-", "<C-W>s", "Split Window Below", { remap = true })
+map("<leader>|", "<C-W>v", "Split Window Right", { remap = true })
+map("<leader>wd", "<C-W>c", "Delete Window", { remap = true })
 
 -- tabs
-map("n", "<leader>tl", "<cmd>tablast<cr>", { desc = "Last Tab" })
-map("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
-map("n", "<leader>tf", "<cmd>tabfirst<cr>", { desc = "First Tab" })
-map("n", "<leader>tt", "<cmd>tabnew<cr>", { desc = "New Tab" })
-map("n", "<leader>tl", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-map("n", "<leader>tx", "<cmd>tabclose<cr>", { desc = "Close Tab" })
-map("n", "<leader>th", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
+map("<leader><tab>l", "<cmd>tablast<cr>", "Last Tab")
+map("<leader><tab>o", "<cmd>tabonly<cr>", "Close Other Tabs")
+map("<leader><tab>f", "<cmd>tabfirst<cr>", "First Tab")
+map("<leader><tab><tab>", "<cmd>tabnew<cr>", "New Tab")
+map("<leader><tab>]", "<cmd>tabnext<cr>", "Next Tab")
+map("<leader><tab>d", "<cmd>tabclose<cr>", "Close Tab")
+map("<leader><tab>[", "<cmd>tabprevious<cr>", "Previous Tab")
 
 -- WhichKey
-map("n", "<leader>wK", "<cmd>WhichKey <CR>", { desc = "whichkey all keymaps" })
-
-map("n", "<leader>wk", function()
-	vim.cmd("WhichKey " .. vim.fn.input("WhichKey: "))
-end, { desc = "whichkey query lookup" })
+map("<leader>wk", "<cmd>WhichKey <CR>", "[W]hich[K]ey")
 
 -- [[ Basic Autocommands ]]
 
@@ -75,6 +93,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.on_yank()
 	end,
 })

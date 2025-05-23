@@ -1,7 +1,9 @@
+<location> .config/wal/templates/dunstrc
+
 [global]
 frame_color = "{color2}"
 separator_color= frame
-scale = 1.2
+scale = <dpi_factor>
 icon_corner_radius = 5
 font = "Opensans 12"
 icon_theme = "Papirus-Dark"
@@ -10,6 +12,7 @@ offset = 0
 frame_width = 4
 corners = all
 corner_radius = 10
+dmenu = /usr/bin/rofi -dmenu -p dunst:
 
 [urgency_low]
 background = "{background}"

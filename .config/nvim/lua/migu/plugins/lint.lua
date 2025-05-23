@@ -7,14 +7,13 @@ return {
 		lint.linters_by_ft = {
 			bash = { "shellcheck" },
 			sh = { "shellcheck" },
-			javascript = { "eslint_d" },
 			make = { "checkmake" },
 		}
 
 		lint.linters.shellcheck.args = {
 			"-x",
 			"--format",
-			"json",
+			"json1",
 			"-",
 		}
 
@@ -27,7 +26,7 @@ return {
 				-- Only run the linter in buffers that you can modify in order to
 				-- avoid superfluous noise, notably within the handy LSP pop-ups that
 				-- describe the hovered symbol using Markdown.
-				if vim.opt_local.modifiable:get() then
+				if vim.bo.modifiable then
 					lint.try_lint()
 				end
 			end,

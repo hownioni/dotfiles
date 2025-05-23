@@ -1,3 +1,5 @@
+<location> .config/rofi/config.rasi
+
 configuration {
     modi: "window,run,combi,drun,emoji,nerdy";
     combi-modi: "window,drun";
@@ -15,7 +17,7 @@ configuration {
     display-window: "🪟 Window";
     sidebar-mode: true;
     matching: "fuzzy";
-    dpi: 96;
+    dpi: <dpi>;
 }
 
 @theme "/dev/null"

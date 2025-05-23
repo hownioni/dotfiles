@@ -24,65 +24,45 @@ backlight = subprocess.run(
 ).stdout.decode("utf-8")[:-1]
 
 ### GROUPS
-groups = []
-
-group_names = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "0",
+group_info = [
+    ("1", "󰅩"),
+    ("2", ""),
+    ("3", ""),
+    ("4", ""),
+    ("5", "󰺵"),
+    ("6", "󰭹"),
+    ("7", ""),
+    ("8", ""),
+    ("9", ""),
+    ("0", "󰑴"),
 ]
-
-group_labels = [
-    "󰅩",
-    "",
-    "",
-    "",
-    "󰺵",
-    "󰭹",
-    "",
-    "",
-    "",
-    "󰑴",
-]
-
-group_matches = [
-    [],
-    [],
-    [],
-    [],
-    [],
-    [
-        Match(wm_class="vesktop"),
-        Match(wm_class="discord"),
-        Match(wm_class="zapzap"),
-        Match(wm_class="nheko"),
-    ],
-    [Match(wm_class="Spotify")],
-    [],
-    [],
-    [],
-]
-
 # group_labels = ["DEV", "WWW", "SYS", "DOC", "GAMR", "CHAT", "MUS", "VID", "GFX",]
 
-# group_layouts = ["monadtall", "monadtall", "tile", "tile", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall"]
 
-for i in range(len(group_names)):
-    groups.append(
-        Group(
-            name=group_names[i],
-            # layout=group_layouts[i].lower(),
-            label=group_labels[i],
-            matches=group_matches[i],
-        )
+groups = [
+    Group(name=group_info[idx][0], label=group_info[idx][1], **group)  # pyright: ignore [reportArgumentType]
+    for idx, group in enumerate(
+        [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {
+                "matches": [
+                    Match(wm_class="vesktop"),
+                    Match(wm_class="discord"),
+                    Match(wm_class="zapzap"),
+                    Match(wm_class="nheko"),
+                ]
+            },
+            {"matches": [Match(wm_class="Spotify")]},
+            {},
+            {},
+            {},
+        ],
     )
+]
 
 
 ### THEMES
@@ -123,19 +103,19 @@ def get_dpi_from_xresources():
 dpi = get_dpi_from_xresources()
 
 match dpi:
-    case 168:
+    case 192 | 168:
         bar_thickness = 60
         bar_fontsize = 20
         context_fontsize = 20
         context_width = 350
         bar_iconsize = bar_thickness
-    case 120:
+    case 144 | 120:
         bar_thickness = 40
         bar_fontsize = 16
         context_fontsize = 16
         context_width = 220
-        bar_iconsize = bar_thickness - 6
-    case 96:
+        bar_iconsize = bar_thickness
+    case _:
         bar_thickness = 22
         bar_fontsize = 13
         context_fontsize = 13

@@ -1,4 +1,4 @@
-local opt = vim.opt -- for conciseness
+local opt = vim.o
 
 -- Appearance
 opt.termguicolors = true
@@ -8,11 +8,12 @@ opt.pumheight = 10
 opt.pumblend = 10
 opt.showtabline = 1
 opt.list = true
-opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Autocomplete
 opt.wildmode = "longest:full,full"
 opt.completeopt = "menu,menuone,noselect"
+opt.inccommand = "split"
 
 -- Backspace
 opt.backspace = "indent,eol,start"
@@ -47,8 +48,8 @@ opt.splitkeep = "screen"
 -- Statusline
 opt.laststatus = 3
 opt.showmode = false
-opt.fillchars = opt.fillchars + "eob: "
-opt.fillchars:append({
+vim.opt.fillchars:append("eob: ")
+vim.opt.fillchars:append({
 	stl = " ",
 })
 opt.formatoptions = "jcroqlnt"
@@ -72,7 +73,10 @@ opt.backup = false
 opt.undofile = true
 opt.title = true
 opt.confirm = true
-opt.clipboard:append("unnamedplus")
+opt.breakindent = true
+vim.schedule(function()
+	opt.clipboard = "unnamedplus"
+end)
 opt.autowrite = true
-opt.iskeyword:append("-")
-opt.shortmess:append("I")
+vim.opt.iskeyword:append("-")
+vim.opt.shortmess:append("I")

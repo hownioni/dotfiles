@@ -1,4 +1,6 @@
-Xft.dpi: 96
+<location> .config/X11/Xresources
+
+Xft.dpi: <dpi>
 
 ! These might also be useful depending on your monitor and personal preference:
 Xft.autohint: 0

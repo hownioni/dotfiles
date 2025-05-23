@@ -17,14 +17,14 @@ return {
 			-- Mason must be loaded before dependants
 			-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
 			{
-				"williamboman/mason.nvim",
+				"mason-org/mason.nvim",
 				opts = {
 					registries = {
 						"github:mason-org/mason-registry",
 					},
 				},
 			},
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			-- Useful status updates for LSP.
@@ -70,8 +70,6 @@ return {
 				},
 			})
 
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
-
 			--  Add any additional override configuration in the following tables. Available keys are:
 			--  - cmd (table): Override the default command used to start the server
 			--  - filetypes (table): Override the default list of associated filetypes for the server
@@ -87,22 +85,33 @@ return {
 					},
 				},
 				clangd = {},
-				pyright = {
-					capabilities = (function()
-						local _capabilities = vim.lsp.protocol.make_client_capabilities()
-						_capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
-						return _capabilities
-					end)(),
+				-- pyright = {
+				-- 	capabilities = (function()
+				-- 		local _capabilities = vim.lsp.protocol.make_client_capabilities()
+				-- 		_capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
+				-- 		return _capabilities
+				-- 	end)(),
+				-- 	settings = {
+				-- 		pyright = {
+				-- 			disableOrganizeImports = true,
+				-- 		},
+				-- 		python = {
+				-- 			analysis = {
+				-- 				diagnosticServerityOverrides = {
+				-- 					reportUnusedVariable = "information",
+				-- 				},
+				-- 				typeCheckingMode = "basic",
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
+				basedpyright = {
 					settings = {
-						pyright = {
+						basedpyright = {
 							disableOrganizeImports = true,
-						},
-						python = {
 							analysis = {
-								diagnosticServerityOverrides = {
-									reportUnusedVariable = "information",
-								},
-								typeCheckingMode = "basic",
+								diagnosticMode = "workspace",
+								typeCheckingMode = "standard",
 							},
 						},
 					},
@@ -126,6 +135,8 @@ return {
 				taplo = {},
 			}
 
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
+
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua",
@@ -134,23 +145,15 @@ return {
 				"checkmake",
 				"shellharden",
 				"asmfmt",
-				"pyproject-fmt",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-			require("mason-lspconfig").setup({
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for ts_ls)
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						vim.lsp.enable(server_name)
-						vim.lsp.config(server_name, server)
-					end,
-				},
-			})
+			for server, config in pairs(servers) do
+				config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
+				vim.lsp.config(server, config)
+			end
+
+			require("mason-lspconfig").setup()
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
