@@ -1,1 +1,0 @@
-xrandr --output eDP --mode 2560x1600 --primary

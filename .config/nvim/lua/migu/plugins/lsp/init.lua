@@ -85,26 +85,6 @@ return {
 					},
 				},
 				clangd = {},
-				-- pyright = {
-				-- 	capabilities = (function()
-				-- 		local _capabilities = vim.lsp.protocol.make_client_capabilities()
-				-- 		_capabilities.textDocument.publishDiagnostics.tagSupport.valueSet = { 2 }
-				-- 		return _capabilities
-				-- 	end)(),
-				-- 	settings = {
-				-- 		pyright = {
-				-- 			disableOrganizeImports = true,
-				-- 		},
-				-- 		python = {
-				-- 			analysis = {
-				-- 				diagnosticServerityOverrides = {
-				-- 					reportUnusedVariable = "information",
-				-- 				},
-				-- 				typeCheckingMode = "basic",
-				-- 			},
-				-- 		},
-				-- 	},
-				-- },
 				basedpyright = {
 					settings = {
 						basedpyright = {
