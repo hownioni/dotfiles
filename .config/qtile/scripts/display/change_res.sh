@@ -19,20 +19,26 @@ readarray -td $'\n' connected_monitors < <(xrandr | grep " connected " | awk '{p
 
 monitor=$(
     zenity --forms --title="Monitor to change" \
+        --width=400 \
         --add-combo "Monitor" \
-        --combo-values "$(join_arr '|' "${connected_monitors[@]}")"
+        --combo-values "$(join_arr '|' "${connected_monitors[@]}")" || exit
 )
+
+[[ -z "$monitor" ]] && exit
 
 readarray -td $'\n' resolutions < <(get_avail_res "$monitor")
 
 readarray -td $'\n' settings < <(
     zenity --forms --title="Set resolution" \
+        --width="400" \
         --add-combo "Resolutions" \
         --combo-values "$(join_arr '|' "${resolutions[@]}")" \
         --add-combo "Primary?" \
-        --combo-values "yes|no" \
-        --separator=$'\n'
+        --combo-values "yes" \
+        --separator=$'\n' || exit
 )
+
+[[ ${#settings[@]} == 0 ]] && exit
 
 if [[ "${settings[1]}" == "yes" ]]; then
     primary="--primary"

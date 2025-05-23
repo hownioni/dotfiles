@@ -32,6 +32,7 @@ replace_template() {
 
 resolution="$(xdpyinfo | awk '/dimensions/{print $2}')"
 if ([[ ! -f "$vars_file" ]] || ! check_var "dpi") || [[ $# != 0 && "$1" != "$resolution" ]]; then
+    [[ $# != 0 ]] && resolution="$1"
     while true; do
         dpi="$(
             zenity --entry \
