@@ -64,3 +64,5 @@ fi
 if [ -f "$Xresources" ]; then
     xrdb -merge "$Xresources"
 fi
+
+"$HOME"/.fehbg &
