@@ -65,4 +65,5 @@ if [ -f "$Xresources" ]; then
     xrdb -merge "$Xresources"
 fi
 
+dunstctl reload
 "$HOME"/.fehbg &
