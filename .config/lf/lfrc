@@ -180,7 +180,7 @@ cmd chmod %{{
 
 ### RENAME ### 
 cmd bulk-rename ${{
-    vimv -- $(basename -a -- $fx)
+    vimv -q -- $(basename -a -- $fx)
     lf -remote "send $id :load; unselect"
 }}
 
