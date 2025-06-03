@@ -1,0 +1,34 @@
+[user]
+	email = honihoneyhowni@gmail.com
+	name = Hownioni
+
+[core]
+	compression = 9
+	whitespace = error
+	preloadindex = true
+
+[url "git@github.com:hownioni/"]
+	insteadOf = "ho:"
+
+[url "https://github.com/"]
+	insteadOf = "gh/"
+
+[init]
+	defaultBranch = main
+
+[status]
+	branch = true
+	showStash = true
+
+[push]
+	autoSetupRemote = true
+	default = current
+	followTags = true
+
+[pull]
+	default = current
+	rebase = true
+
+[rebase]
+	autoStash = true
+	missingCommitsCheck = warn
