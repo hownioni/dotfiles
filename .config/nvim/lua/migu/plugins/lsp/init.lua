@@ -113,6 +113,11 @@ return {
 				marksman = {},
 				asm_lsp = {},
 				taplo = {},
+				texlab = {
+					on_attach = function(_, bufnr)
+						require("migu.plugins.lsp.keymaps").texlab(bufnr)
+					end,
+				},
 			}
 
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -151,4 +156,5 @@ return {
 			})
 		end,
 	},
+	require("migu.plugins.lsp.blink-cmp"),
 }

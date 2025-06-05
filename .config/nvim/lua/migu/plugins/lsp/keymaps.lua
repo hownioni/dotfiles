@@ -85,4 +85,12 @@ return {
 			end, "[T]oggle Inlay [H]ints")
 		end
 	end,
+	texlab = function(bufnr)
+		vim.keymap.set(
+			"n",
+			"<localleader>K",
+			"<plug>(vimtex-doc-package)",
+			{ desc = "Vimtex Docs", silent = true, buffer = bufnr }
+		)
+	end,
 }
