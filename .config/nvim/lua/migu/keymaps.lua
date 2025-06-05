@@ -1,10 +1,10 @@
 local function map(keys, func, desc, opts, mode)
-	mode = mode or "n"
-	local options = { desc = desc }
-	if opts then
-		options = vim.tbl_extend("force", options, opts)
-	end
-	vim.keymap.set(mode, keys, func, options)
+    mode = mode or "n"
+    local options = { desc = desc }
+    if opts then
+        options = vim.tbl_extend("force", options, opts)
+    end
+    vim.keymap.set(mode, keys, func, options)
 end
 
 -- [[ Basic Keymaps ]]
@@ -90,9 +90,9 @@ map("<leader>wk", "<cmd>WhichKey <CR>", "[W]hich[K]ey")
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-	callback = function()
-		vim.hl.on_yank()
-	end,
+    desc = "Highlight when yanking (copying) text",
+    group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
+    callback = function()
+        vim.hl.on_yank()
+    end,
 })

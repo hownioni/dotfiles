@@ -50,7 +50,7 @@ opt.laststatus = 3
 opt.showmode = false
 vim.opt.fillchars:append("eob: ")
 vim.opt.fillchars:append({
-	stl = " ",
+    stl = " ",
 })
 opt.formatoptions = "jcroqlnt"
 
@@ -75,7 +75,7 @@ opt.title = true
 opt.confirm = true
 opt.breakindent = true
 vim.schedule(function()
-	opt.clipboard = "unnamedplus"
+    opt.clipboard = "unnamedplus"
 end)
 opt.autowrite = true
 vim.opt.iskeyword:append("-")
