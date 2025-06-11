@@ -1,5 +1,17 @@
 return {
     {
+        -- Autopairs
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        opts = {},
+    },
+    {
+        -- Indent line
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        opts = {},
+    },
+    {
         -- Better Around/Inside textobjects
         --
         -- Examples:
@@ -19,17 +31,7 @@ return {
         opts = {},
     },
     {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        opts = {},
-    },
-    {
         "nmac427/guess-indent.nvim",
-        opts = {},
-    },
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        main = "ibl",
         opts = {},
     },
 }

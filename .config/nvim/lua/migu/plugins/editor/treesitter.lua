@@ -1,8 +1,8 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
+        lazy = false,
         build = ":TSUpdate",
-        event = { "BufReadPre", "BufNewFile" },
         opts = {
             ensure_installed = {
                 "bash",
@@ -16,7 +16,6 @@ return {
                 "java",
                 "javascript",
                 "json",
-                "latex",
                 "ledger",
                 "lua",
                 "luadoc",
@@ -29,6 +28,7 @@ return {
                 "vimdoc",
                 "yaml",
             },
+            ignore_install = { "latex" },
             auto_install = true,
             highlight = {
                 enable = true,

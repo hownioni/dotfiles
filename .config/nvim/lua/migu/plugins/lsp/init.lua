@@ -70,75 +70,88 @@ return {
                 },
             })
 
-            --  Add any additional override configuration in the following tables. Available keys are:
-            --  - cmd (table): Override the default command used to start the server
-            --  - filetypes (table): Override the default list of associated filetypes for the server
-            --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-            --  - settings (table): Override the default settings passed when initializing the server.
-            --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+            ---@class LspServersConfig
+            ---@field mason table<string, vim.lsp.Config>
+            ---@field others table<string, vim.lsp.Config>
             local servers = {
-                bashls = {
-                    settings = {
-                        bashIde = {
-                            shellcheckPath = "",
-                        },
-                    },
-                },
-                clangd = {},
-                basedpyright = {
-                    settings = {
-                        basedpyright = {
-                            disableOrganizeImports = true,
-                            analysis = {
-                                diagnosticMode = "workspace",
-                                typeCheckingMode = "standard",
+                --  Add any additional override configuration in the following tables. Available keys are:
+                --  - cmd (table): Override the default command used to start the server
+                --  - filetypes (table): Override the default list of associated filetypes for the server
+                --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
+                --  - settings (table): Override the default settings passed when initializing the server.
+                --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+                mason = {
+                    bashls = {
+                        settings = {
+                            bashIde = {
+                                shellcheckPath = "",
                             },
                         },
                     },
-                },
-                lua_ls = {
-                    settings = {
-                        Lua = {
-                            completion = {
-                                callSnippet = "Replace",
-                            },
-                            diagnostics = {
-                                disable = { "missing-fields" },
+                    clangd = {},
+                    basedpyright = {
+                        settings = {
+                            basedpyright = {
+                                disableOrganizeImports = true,
+                                analysis = {
+                                    diagnosticMode = "workspace",
+                                    typeCheckingMode = "standard",
+                                },
                             },
                         },
                     },
+                    lua_ls = {
+                        settings = {
+                            Lua = {
+                                completion = {
+                                    callSnippet = "Replace",
+                                },
+                                diagnostics = {
+                                    disable = { "missing-fields" },
+                                },
+                            },
+                        },
+                    },
+                    ruff = {},
+                    yamlls = {},
+                    marksman = {},
+                    asm_lsp = {},
+                    taplo = {},
+                    texlab = {
+                        on_attach = function(_, bufnr)
+                            require("migu.plugins.lsp.keymaps").texlab(bufnr)
+                        end,
+                    },
                 },
-                ruff = {},
-                yamlls = {},
-                marksman = {},
-                asm_lsp = {},
-                taplo = {},
-                texlab = {
-                    on_attach = function(_, bufnr)
-                        require("migu.plugins.lsp.keymaps").texlab(bufnr)
-                    end,
-                },
+                others = {},
             }
 
-            local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-            local ensure_installed = vim.tbl_keys(servers or {})
+            local ensure_installed = vim.tbl_keys(servers.mason or {})
             vim.list_extend(ensure_installed, {
                 "stylua",
                 "shfmt",
                 "shellcheck",
-                "checkmake",
                 "shellharden",
+                "checkmake",
                 "asmfmt",
+                "prettier",
             })
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-            for server, config in pairs(servers) do
-                config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
-                vim.lsp.config(server, config)
+            for server, config in pairs(vim.tbl_extend("keep", servers.mason, servers.others)) do
+                if not vim.tbl_isempty(config) then
+                    vim.lsp.config(server, config)
+                end
             end
 
-            require("mason-lspconfig").setup()
+            require("mason-lspconfig").setup({
+                ensure_installed = {},
+                automatic_enable = true,
+            })
+
+            if not vim.tbl_isempty(servers.others) then
+                vim.lsp.enable(vim.tbl_keys(servers.others))
+            end
 
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
