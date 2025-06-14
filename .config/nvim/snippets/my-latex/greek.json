@@ -1,0 +1,262 @@
+{
+  "Alpha": {
+    "prefix": ";a",
+    "body": "\\alpha",
+    "description": "α"
+  },
+  "Beta": {
+    "prefix": ";b",
+    "body": "\\beta",
+    "description": "β"
+  },
+  "Gamma": {
+    "prefix": ";g",
+    "body": "\\gamma",
+    "description": "γ"
+  },
+  "Delta": {
+    "prefix": ";d",
+    "body": "\\delta",
+    "description": "β"
+  },
+  "Epsilon": {
+    "prefix": ";e",
+    "body": "\\epsilon",
+    "description": "ϵ"
+  },
+  "Var Epsilon": {
+    "prefix": ";ve",
+    "body": "\\varepsilon",
+    "description": "ε"
+  },
+  "Zeta": {
+    "prefix": ";z",
+    "body": "\\zeta",
+    "description": "ζ"
+  },
+  "Eta": {
+    "prefix": ";ee",
+    "body": "\\eta",
+    "description": "η"
+  },
+  "Theta": {
+    "prefix": ";th",
+    "body": "\\theta",
+    "description": "θ"
+  },
+  "Var Theta": {
+    "prefix": ";vth",
+    "body": "\\vartheta",
+    "description": "ϑ"
+  },
+  "Iota": {
+    "prefix": ";i",
+    "body": "\\iota",
+    "description": "ι"
+  },
+  "Kappa": {
+    "prefix": ";k",
+    "body": "\\kappa",
+    "description": "κ"
+  },
+  "Var Kappa": {
+    "prefix": ";vk",
+    "body": "\\varkappa",
+    "description": "β"
+  },
+  "Lambda": {
+    "prefix": ";l",
+    "body": "\\lambda",
+    "description": "ϰ"
+  },
+  "Mu": {
+    "prefix": ";m",
+    "body": "\\mu",
+    "description": "μ"
+  },
+  "Nu": {
+    "prefix": ";n",
+    "body": "\\nu",
+    "description": "ν"
+  },
+  "Xi": {
+    "prefix": ";x",
+    "body": "\\xi",
+    "description": "ξ"
+  },
+  "Pi": {
+    "prefix": ";p",
+    "body": "\\pi",
+    "description": "π"
+  },
+  "Var Pi": {
+    "prefix": ";vp",
+    "body": "\\varpi",
+    "description": "β"
+  },
+  "Rho": {
+    "prefix": ";r",
+    "body": "\\rho",
+    "description": "ρ"
+  },
+  "Var Rho": {
+    "prefix": ";vr",
+    "body": "\\varrho",
+    "description": "ϖ"
+  },
+  "Sigma": {
+    "prefix": ";s",
+    "body": "\\sigma",
+    "description": "σ"
+  },
+  "Var Sigma": {
+    "prefix": ";vs",
+    "body": "\\varsigma",
+    "description": "ς"
+  },
+  "Tau": {
+    "prefix": ";t",
+    "body": "\\tau",
+    "description": "τ"
+  },
+  "Upsilon": {
+    "prefix": ";u",
+    "body": "\\upsilon",
+    "description": "υ"
+  },
+  "Phi": {
+    "prefix": ";ph",
+    "body": "\\phi",
+    "description": "ϕ"
+  },
+  "Var Phi": {
+    "prefix": ";vph",
+    "body": "\\varphi",
+    "description": "φ"
+  },
+  "Chi": {
+    "prefix": ";ch",
+    "body": "\\chi",
+    "description": "χ"
+  },
+  "Psi": {
+    "prefix": ";ps",
+    "body": "\\psi",
+    "description": "ψ"
+  },
+  "Omega": {
+    "prefix": ";o",
+    "body": "\\omega",
+    "description": "ω"
+  },
+  "GAMMA": {
+    "prefix": ";G",
+    "body": "\\Gamma",
+    "description": "Γ"
+  },
+  "DELTA": {
+    "prefix": ";D",
+    "body": "\\Delta",
+    "description": "Δ"
+  },
+  "THETA": {
+    "prefix": ";TH",
+    "body": "\\Theta",
+    "description": "Θ"
+  },
+  "LAMBDA": {
+    "prefix": ";L",
+    "body": "\\Lambda",
+    "description": "Λ"
+  },
+  "XI": {
+    "prefix": ";X",
+    "body": "\\Xi",
+    "description": "Ξ"
+  },
+  "PI": {
+    "prefix": ";P",
+    "body": "\\Pi",
+    "description": "Π"
+  },
+  "SIGMA": {
+    "prefix": ";S",
+    "body": "\\Sigma",
+    "description": "Σ"
+  },
+  "UPSILON": {
+    "prefix": ";U",
+    "body": "\\Upsilon",
+    "description": "Υ"
+  },
+  "PHI": {
+    "prefix": ";PH",
+    "body": "\\Phi",
+    "description": "Φ"
+  },
+  "PSI": {
+    "prefix": ";PS",
+    "body": "\\Psi",
+    "description": "Ψ"
+  },
+  "OMEGA": {
+    "prefix": ";O",
+    "body": "\\Omega",
+    "description": "Ω"
+  },
+  "Slanted GAMMA": {
+    "prefix": ";vG",
+    "body": "\\varGamma",
+    "description": "slanted Γ"
+  },
+  "Slanted DELTA": {
+    "prefix": ";vD",
+    "body": "\\varDelta",
+    "description": "slanted Δ"
+  },
+  "Slanted THETA": {
+    "prefix": ";vTH",
+    "body": "\\varTheta",
+    "description": "slanted Θ"
+  },
+  "Slanted LAMBDA": {
+    "prefix": ";vL",
+    "body": "\\varLambda",
+    "description": "slanted Λ"
+  },
+  "Slanted XI": {
+    "prefix": ";vX",
+    "body": "\\varXi",
+    "description": "slanted Ξ"
+  },
+  "Slanted PI": {
+    "prefix": ";vP",
+    "body": "\\varPi",
+    "description": "slanted Π"
+  },
+  "Slanted SIGMA": {
+    "prefix": ";vS",
+    "body": "\\varSigma",
+    "description": "slanted Σ"
+  },
+  "Slanted UPSILON": {
+    "prefix": ";vU",
+    "body": "\\varUpsilon",
+    "description": "slanted Υ"
+  },
+  "Slanted PHI": {
+    "prefix": ";vPH",
+    "body": "\\varPhi",
+    "description": "slanted Φ"
+  },
+  "Slanted PSI": {
+    "prefix": ";vPS",
+    "body": "\\varPsi",
+    "description": "slanted Ψ"
+  },
+  "Slanted OMEGA": {
+    "prefix": ";vO",
+    "body": "\\varOmega",
+    "description": "slanted Ω"
+  }
+}

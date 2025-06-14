@@ -1,41 +1,27 @@
 return {
-    -- {
-    --     "echasnovski/mini.snippets",
-    --     event = "InsertEnter",
-    --     version = false,
-    --     dependencies = "rafamadriz/friendly-snippets",
-    --     opts = function()
-    --         local snips = require("mini.snippets")
-    --
-    --         -- Adjust language patterns
-    --         -- Adjust language patterns
-    --         local latex_patterns = { "latex/**/*.json", "**/latex.json" }
-    --         local lang_patterns = {
-    --             tex = latex_patterns,
-    --             plaintex = latex_patterns,
-    --             -- Recognize special injected language of markdown tree-sitter parser
-    --             markdown_inline = { "markdown.json" },
-    --         }
-    --
-    --         return {
-    --             snippets = {
-    --                 snips.gen_loader.from_lang({ lang_patterns = lang_patterns }),
-    --             },
-    --         }
-    --     end,
-    -- },
     {
-        "L3MON4D3/LuaSnip",
-        version = "2.*",
-        build = "make install_jsregexp",
-        dependencies = {
-            {
-                "rafamadriz/friendly-snippets",
-                config = function()
-                    require("luasnip.loaders.from_vscode").lazy_load()
-                end,
-            },
-        },
+        "echasnovski/mini.snippets",
+        event = "InsertEnter",
+        version = false,
+        dependencies = "rafamadriz/friendly-snippets",
+        opts = function()
+            local gen_loader = require("mini.snippets").gen_loader
+
+            -- Adjust language patterns
+            local latex_patterns = { "my-latex/**/*.json", "**/my-latex.json" }
+            local lang_patterns = {
+                tex = latex_patterns,
+                plaintex = latex_patterns,
+                -- Recognize special injected language of markdown tree-sitter parser
+                markdown_inline = { "markdown.json" },
+            }
+
+            return {
+                snippets = {
+                    gen_loader.from_lang({ lang_patterns = lang_patterns }),
+                },
+            }
+        end,
     },
     {
         "saghen/blink.cmp",
@@ -43,8 +29,7 @@ return {
         version = "1.*",
         dependencies = {
             -- Snippet Engine
-            -- "echasnovski/mini.snippets",
-            "L3MON4D3/LuaSnip",
+            "echasnovski/mini.snippets",
             "folke/lazydev.nvim",
             {
                 "micangl/cmp-vimtex",
@@ -60,13 +45,20 @@ return {
         ---@type blink.cmp.Config
         opts = {
             keymap = { preset = "default" },
-            appearance = { nerd_font_variant = "mono" },
+            snippets = { preset = "mini_snippets" },
             completion = {
-                documentation = {
-                    auto_show = true,
-                    auto_show_delay_ms = 500,
+                trigger = {
+                    show_in_snippet = false,
+                },
+                accept = {
+                    auto_brackets = {
+                        kind_resolution = {
+                            blocked_filetypes = { "tex" },
+                        },
+                    },
                 },
                 menu = {
+                    auto_show = false,
                     draw = {
                         columns = {
                             { "label", "label_description", gap = 1 },
@@ -82,11 +74,30 @@ return {
                         },
                     },
                 },
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 500,
+                },
+                ghost_text = {
+                    enabled = true,
+                    show_with_menu = false,
+                },
             },
-            -- snippets = { preset = "mini_snippets" },
-            snippets = { preset = "luasnip" },
+            signature = { enabled = true },
+            fuzzy = {
+                implementation = "prefer_rust_with_warning",
+                sorts = {
+                    "exact",
+                    "score",
+                    "sort_text",
+                },
+            },
             sources = {
-                default = { "lazydev", "lsp", "path", "snippets", "vimtex", "buffer" },
+                default = { "lsp", "path", "snippets", "buffer" },
+                per_filetype = {
+                    lua = { inherit_defaults = true, "lazydev" },
+                    tex = { inherit_defaults = true, "vimtex" },
+                },
                 providers = {
                     lazydev = {
                         name = "LazyDev",
@@ -98,11 +109,14 @@ return {
                         name = "VimTeX",
                         module = "blink.compat.source",
                         score_offset = 100,
+                        fallbacks = { "buffer" },
+                    },
+                    buffer = {
+                        score_offset = -10,
                     },
                 },
             },
-            fuzzy = { implementation = "prefer_rust_with_warning" },
-            signature = { enabled = true },
+            appearance = { nerd_font_variant = "mono" },
         },
         opts_extend = { "sources.default" },
     },

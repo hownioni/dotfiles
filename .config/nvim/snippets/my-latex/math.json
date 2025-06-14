@@ -1,0 +1,72 @@
+{
+  "subscript": {
+    "prefix": "jj",
+    "body": "$1_{$2}",
+    "description": "Subscript"
+  },
+  "superscript": {
+    "prefix": "kk",
+    "body": "$1^{$2}",
+    "description": "Superscript"
+  },
+  "fraction": {
+    "prefix": "ff",
+    "body": "\\frac{$1}{$2}",
+    "description": "N/N"
+  },
+  "display fraction": {
+    "prefix": "fd",
+    "body": "\\dfrac{$1}{$2}",
+    "description": "display N/N"
+  },
+  "text fraction": {
+    "prefix": "ft",
+    "body": "\\tfrac{$1}{$2}",
+    "description": "text N/N"
+  },
+  "limit": {
+    "prefix": "lim",
+    "body": "\\lim_{${1:n} \\to ${2:\\infty}}",
+    "description": "lim n -> ∞"
+  },
+  "ceil": {
+    "prefix": "ceil",
+    "body": "\\left\\lceil $1 \\right\\rceil",
+    "description": "⌈x⌉"
+  },
+  "floor": {
+    "prefix": "floor",
+    "body": "\\left\\lfloor $1 \\right\\rfloor",
+    "description": "⌊x⌋"
+  },
+  "sqrt": {
+    "prefix": "sq",
+    "body": "\\sqrt{$1}",
+    "description": "√x"
+  },
+  "integral": {
+    "prefix": "int",
+    "body": "\\int ${1:f(x)} \\, d${2:x}",
+    "description": "∫f(x)dx"
+  },
+  "definite integral": {
+    "prefix": "dint",
+    "body": "\\int_{${1:a}}^{${2:b}} ${3:f(x)} \\, d${4:x}",
+    "description": "∫_a^b f(x)dx"
+  },
+  "evaluate integral": {
+    "prefix": "eval",
+    "body": "\\left ${1:F(x)} \\right\\rvert_{${2:a}}^{${3:b}}",
+    "description": "F(x)│_a^b"
+  },
+  "summation": {
+    "prefix": "sum",
+    "body": "\\sum_{${1:${2:k}=${3:0}}}^{${4:n}} ${5:\\\\frac{1\\}{n^{2\\}\\}}",
+    "description": "∑_{k=1}^n k"
+  },
+  "product": {
+    "prefix": "prod",
+    "body": "\\prod_{${1:${2:k}=${3:0}}}^{${4:n}} ${5:\\\\frac{1\\}{n^{2\\}\\}}",
+    "description": "∑_{k=1}^n k"
+  }
+}

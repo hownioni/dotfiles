@@ -1,0 +1,42 @@
+{
+  "Typewriter": {
+    "prefix": "Ftt",
+    "body": "\\texttt{$1}",
+    "description": "Typewriter"
+  },
+  "Italic": {
+    "prefix": "Fit",
+    "body": "\\textit{$1}",
+    "description": "Italic"
+  },
+  "Bold": {
+    "prefix": "Fbb",
+    "body": "\\textbf{$1}",
+    "description": "Bold"
+  },
+  "Math roman": {
+    "prefix": "Mrm",
+    "body": "\\mathrm{$1}",
+    "description": "Math roman"
+  },
+  "Math caligraphy": {
+    "prefix": "Mcc",
+    "body": "\\mathcal{$1}",
+    "description": "Math caligraphy"
+  },
+  "Math boldface": {
+    "prefix": "Mbf",
+    "body": "\\mathbf{$1}",
+    "description": "Math boldface"
+  },
+  "Math blackboard": {
+    "prefix": "Mbb",
+    "body": "\\mathbb{$1}",
+    "description": "Math blackboard"
+  },
+  "text": {
+    "prefix": "tt",
+    "body": "\\text{$1}",
+    "description": "Text inside math block"
+  }
+}

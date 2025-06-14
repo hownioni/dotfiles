@@ -1,0 +1,107 @@
+{
+  "to": {
+    "prefix": "->",
+    "body": "\\to",
+    "description": "->"
+  },
+  "left right arrow": {
+    "prefix": "<->",
+    "body": "\\leftrightarrow",
+    "description": "<->"
+  },
+  "maps to": {
+    "prefix": "!>",
+    "body": "\\mapsto",
+    "description": "|->"
+  },
+  "dots": {
+    "prefix": "...",
+    "body": "\\dots",
+    "description": "..."
+  },
+  "implies": {
+    "prefix": "=>",
+    "body": "\\implies",
+    "description": "==>"
+  },
+  "implied by": {
+    "prefix": "=<",
+    "body": "\\impliedby",
+    "description": "<=="
+  },
+  "not equals": {
+    "prefix": "!=",
+    "body": "\\neq",
+    "description": "!="
+  },
+  "infinity": {
+    "prefix": "ooo",
+    "body": "\\infty",
+    "description": "∞"
+  },
+  "less or equal": {
+    "prefix": "<=",
+    "body": "\\leq",
+    "description": "<="
+  },
+  "greater or equal": {
+    "prefix": ">=",
+    "body": "\\geq",
+    "description": ">="
+  },
+  "much lesser": {
+    "prefix": "<<",
+    "body": "\\ll",
+    "description": "<<"
+  },
+  "much greater": {
+    "prefix": ">>",
+    "body": "\\gg",
+    "description": ">>"
+  },
+  "Exists": {
+    "prefix": ",EE",
+    "body": "\\exists",
+    "description": "∃"
+  },
+  "Not exists": {
+    "prefix": ",EEN",
+    "body": "\\nexists",
+    "description": "∄"
+  },
+  "For all": {
+    "prefix": ",AA",
+    "body": "\\forall",
+    "description": "∀"
+  },
+  "cross": {
+    "prefix": "xx",
+    "body": "\\times",
+    "description": "×"
+  },
+  "cdot": {
+    "prefix": "**",
+    "body": "\\cdot",
+    "description": "·"
+  },
+  "subset": {
+    "prefix": ",cc",
+    "body": "\\subset",
+    "description": ""
+  },
+  "not in": {
+    "prefix": ",inn",
+    "body": "\\not\\in",
+    "description": ""
+  },
+  "in": {
+    "prefix": ",in",
+    "body": "\\in",
+    "description": ""
+  },
+  "quad": {
+    "prefix": ",qq",
+    "body": "\\quad ",
+    "description": "' '"
+  }
+}

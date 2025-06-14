@@ -1,0 +1,31 @@
+{
+  "\\begin{}…\\end{}": {
+    "prefix": "bb",
+    "body": ["\\\\begin{${1:env}}", "\t$2", "\\\\end{${1:env}}"],
+    "description": "Begin - End"
+  },
+  "Display Math — \\[ … \\]": {
+    "prefix": "dm",
+    "body": ["\\[", "\t$1", "\\]"],
+    "description": "Display Math"
+  },
+  "Inline Math - $ … $": {
+    "prefix": "im",
+    "body": "\\$$1\\$",
+    "description": "Inline Math"
+  },
+  "List": {
+    "prefix": ".ll",
+    "body": [
+      "\\\\begin{${1|itemize,enumerate,description|}}",
+      "\t\\item$2",
+      "\\\\end{${1|itemize,enumerate,description|}}"
+    ],
+    "description": "List environment"
+  },
+  "item newline": {
+    "prefix": "nit",
+    "body": "\n\\item",
+    "description": "Item on newline"
+  }
+}
