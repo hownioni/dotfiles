@@ -17,8 +17,8 @@ set period 1
 
 # Search
 set ignorecase true
-set globsearch true
-set globfilter true
+set searchmethod glob
+set filtermethod glob
 set incsearch true
 set findlen 0
 
@@ -299,7 +299,14 @@ cmd dlfile %dlfile
 # extract the current file with the right command
 cmd unarchive %{{
     set -f
-    ouch decompress $fx
+    printf "Password: "
+    read -r password
+    
+    if [[ -z "$password" ]]; then
+        ouch decompress $fx
+    else
+        ouch decompress --password "$password" $fx
+    fi
 }}
 
 cmd compress %{{
@@ -399,7 +406,7 @@ map tl list_trash
 
 # Copy and paste
 map Po paste-replace
-map Pl :link
+map Pl link
 map Yf yank-file
 map Yp yank-paths
 map bf select-buffer

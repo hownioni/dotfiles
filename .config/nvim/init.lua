@@ -7,6 +7,7 @@ vim.g.maplocalleader = "\\"
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { expr = true }) -- Makes space do nothing
 
 vim.g.have_nerd_font = true
+vim.g.c_syntax_for_h = 1
 
 require("migu.options")
 require("migu.keymaps")

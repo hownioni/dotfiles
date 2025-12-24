@@ -7,11 +7,14 @@ from libqtile.lazy import lazy
 
 ### GENERAL
 mod = "mod4"
+
 terminal = "kitty"
 browser = "firefox"
 school_browser = "firefox -P Escuela"
 launcher = "rofi -show drun"
 window_switch = "rofi -show window"
+screenshot = "env QT_ENABLE_HIGHDPI_SCALING=0 flameshot gui"
+
 home = os.path.expanduser("~/")
 config = home + "/.config/qtile/"
 
@@ -108,19 +111,19 @@ match dpi:
         bar_fontsize = 20
         context_fontsize = 20
         context_width = 350
-        bar_iconsize = bar_thickness
+        bar_iconsize = 50
     case 144 | 120:
         bar_thickness = 40
         bar_fontsize = 16
         context_fontsize = 16
         context_width = 220
-        bar_iconsize = bar_thickness
+        bar_iconsize = 36
     case _:
         bar_thickness = 22
         bar_fontsize = 13
         context_fontsize = 13
         context_width = 200
-        bar_iconsize = bar_thickness
+        bar_iconsize = 20
 
-bar_font = "Noto Sans Medium"
+bar_font = "sans"
 bar_global_opacity = 1

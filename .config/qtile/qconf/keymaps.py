@@ -9,6 +9,7 @@ from .variables import (
     mod,
     platform,
     school_browser,
+    screenshot,
     terminal,
     window_switch,
 )
@@ -188,7 +189,7 @@ keys = [
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
     Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
-    Key([], "Print", lazy.spawn("flameshot gui")),
+    Key([], "Print", lazy.spawn(screenshot)),
 ]
 
 # Drag floating layouts.

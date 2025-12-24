@@ -3,7 +3,8 @@ import subprocess
 from libqtile import hook
 
 from qconf.keymaps import keys, mouse
-from qconf.screen import floating_layout, layouts, screens, widget_defaults
+from qconf.layout import floating_layout, layouts
+from qconf.screen import screens, widget_defaults
 from qconf.variables import config, groups
 
 ### Mappings
