@@ -2,7 +2,6 @@ import os
 import re
 import subprocess
 
-from libqtile.config import Group, Match
 from libqtile.lazy import lazy
 
 ### GENERAL
@@ -11,8 +10,14 @@ mod = "mod4"
 terminal = "kitty"
 browser = "firefox"
 school_browser = "firefox -P Escuela"
-launcher = "rofi -show drun"
+
+# rofi
+launcher = "rofi -show drun -drun-exclude-categories Game"
+game_launcher = "rofi -show drun -drun-categories Game"
+rofimoji = "rofi -show emoji -emoji-mode menu -matching normal"
+rofinerd = "rofi -show nerdy"
 window_switch = "rofi -show window"
+
 screenshot = "env QT_ENABLE_HIGHDPI_SCALING=0 flameshot gui"
 
 home = os.path.expanduser("~/")
@@ -25,48 +30,6 @@ platform = subprocess.run(
 backlight = subprocess.run(
     ["ls", "/sys/class/backlight/"], stdout=subprocess.PIPE
 ).stdout.decode("utf-8")[:-1]
-
-### GROUPS
-group_info = [
-    ("1", "󰅩"),
-    ("2", ""),
-    ("3", ""),
-    ("4", ""),
-    ("5", "󰺵"),
-    ("6", "󰭹"),
-    ("7", ""),
-    ("8", ""),
-    ("9", ""),
-    ("0", "󰑴"),
-]
-# group_labels = ["DEV", "WWW", "SYS", "DOC", "GAMR", "CHAT", "MUS", "VID", "GFX",]
-
-
-groups = [
-    Group(name=group_info[idx][0], label=group_info[idx][1], **group)  # pyright: ignore [reportArgumentType]
-    for idx, group in enumerate(
-        [
-            {},
-            {},
-            {},
-            {},
-            {},
-            {
-                "matches": [
-                    Match(wm_class="vesktop"),
-                    Match(wm_class="discord"),
-                    Match(wm_class="zapzap"),
-                    Match(wm_class="nheko"),
-                ]
-            },
-            {"matches": [Match(wm_class="Spotify")]},
-            {},
-            {},
-            {},
-        ],
-    )
-]
-
 
 ### THEMES
 colors = []

@@ -7,10 +7,10 @@
 
 # Load profiles from $HOME/.config/bash/profile
 if test -d "$HOME"/.config/bash/profile/; then
-    for profile in "$HOME"/.config/bash/profile/*.sh; do
-        test -r "$profile" && . "$profile"
-    done
-    unset profile
+	for profile in "$HOME"/.config/bash/profile/*.sh; do
+		test -r "$profile" && . "$profile"
+	done
+	unset profile
 fi
 
 year=$(date +%Y)
@@ -27,5 +27,6 @@ export QT_IM_MODULE=fcitx
 export SDL_IM_MODULE=fcitx
 export GLFW_IM_MODULE=ibus
 export XMODIFIERS=@im=fcitx
+export MOZ_USE_XINPUT2=1
 
 unset year

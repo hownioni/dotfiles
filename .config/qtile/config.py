@@ -2,10 +2,11 @@ import subprocess
 
 from libqtile import hook
 
-from qconf.keymaps import keys, mouse
+from qconf.groups import groups
+from qconf.keybinds import keys, mouse
 from qconf.layout import floating_layout, layouts
 from qconf.screen import screens, widget_defaults
-from qconf.variables import config, groups
+from qconf.variables import config
 
 ### Mappings
 keys = keys
@@ -17,34 +18,25 @@ groups = groups
 
 layouts = layouts
 
+floating_layout = floating_layout
+floats_kept_above = True
+
 widget_defaults = widget_defaults
 
 screens = screens
 
 ### Options
-dgroups_key_binder = None
-dgroups_app_rules = []
 follow_mouse_focus = True
 bring_front_click = "floating_only"
 cursor_warp = False
-
-# Floating
-floating_layout = floating_layout
-floats_kept_above = True
-
 auto_fullscreen = True
+auto_minimize = False
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
-auto_minimize = True
-
-# When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
 
 
-# Hooks
+### Hooks
 @hook.subscribe.startup_once
 def autostart():
     subprocess.Popen([config + "scripts/autostart.sh"])
@@ -82,4 +74,4 @@ def mo2_nosteal(window):
         window.can_steal_focus = False
 
 
-wmname = "LG3D"
+wmname = "QTile"

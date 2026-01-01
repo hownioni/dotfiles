@@ -10,30 +10,11 @@ layout_config = {
     "margin": 9,
     "border_focus": colors[12],
     "border_normal": colors[3],
+    "font": "FiraCode NerdFont",
 }
 
-layouts = [
-    layout.Bsp(
-        **layout_config,
-        fair=False,
-        border_on_single=True,
-    ),
-    layout.Columns(
-        **layout_config,
-        border_focus_stack=colors[12],
-        border_normal_stack=colors[3],
-        split=False,
-    ),
-    layout.Max(
-        border_width=0,
-        margin=0,
-    ),
-]
-
 floating_layout = layout.Floating(
-    border_width=2,
-    border_focus=colors[12],
-    border_normal=colors[3],
+    **layout_config,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -63,3 +44,23 @@ floating_layout = layout.Floating(
         Match(wm_class="sober_services"),
     ],
 )
+
+layouts = [
+    layout.Bsp(
+        **layout_config,
+        fair=False,
+        border_on_single=True,
+    ),
+    layout.Columns(
+        **layout_config,
+        border_focus_stack=colors[12],
+        border_normal_stack=colors[3],
+        split=False,
+        num_colums=2,
+    ),
+    floating_layout,
+    layout.Max(
+        border_width=0,
+        margin=0,
+    ),
+]

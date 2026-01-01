@@ -4,6 +4,7 @@ from qtile_extras import widget
 from qtile_extras.widget.decorations import PowerLineDecoration
 
 from .variables import (
+    backlight,
     bar_font,
     bar_fontsize,
     bar_global_opacity,
@@ -31,13 +32,41 @@ def volume(output):
     if output.endswith("%"):
         volume = int(output[:-1])
 
-        icons = {range(0, 33): "󰕿", range(33, 66): "󰖀", range(66, 101): "󰕾"}
+        icons = {
+            range(0, 33): "󰕿",
+            range(33, 66): "󰖀",
+            range(66, 101): "󰕾",
+        }
 
         icon = icons[next(filter(lambda r: volume in r, icons.keys()))]
 
         return icon
     elif output == "M":
         return "󰕿"
+    else:
+        return output
+
+
+@WidgetTweaker
+def brightness(output):
+    if output.endswith("%"):
+        volume = int(output[:-1])
+
+        icons = {
+            range(0, 11): "",
+            range(11, 22): "",
+            range(22, 33): "",
+            range(33, 44): "",
+            range(44, 55): "",
+            range(55, 66): "",
+            range(66, 77): "",
+            range(77, 88): "",
+            range(88, 101): "",
+        }
+
+        icon = icons[next(filter(lambda r: volume in r, icons.keys()))]
+
+        return icon
     else:
         return output
 
@@ -53,7 +82,7 @@ powerline_bslash = {"decorations": [PowerLineDecoration(path="back_slash")]}
 widget_defaults = dict(
     font=bar_font,
     fontsize=bar_fontsize,
-    padding=4,
+    padding=5,
     background=colors[0],
 )
 extension_defaults = widget_defaults.copy()
@@ -85,16 +114,19 @@ screens = [
                     background=colors[2],
                     **powerline_bslash,
                 ),
-                widget.WindowName(
-                    empty_group_string="Desktop",
-                    max_chars=130,
-                    **powerline_rdr,
-                ),
                 widget.Chord(
                     background=colors[1],
                     foreground=colors[16],
                     chords_colors={},
                     name_transform=lambda name: name.upper(),
+                    **powerline_bslash,
+                ),
+                widget.WindowName(
+                    empty_group_string="Desktop",
+                    max_chars=130,
+                ),
+                widget.Spacer(
+                    length=1,
                     **powerline_rdr,
                 ),
                 widget.WidgetBox(
@@ -125,7 +157,7 @@ screens = [
                     **powerline_fslash,
                 ),
                 widget.TextBox(
-                    text=" ",
+                    text="",
                     fontsize=bar_iconsize,
                     background=colors[13],
                     foreground=colors[0],
@@ -145,6 +177,7 @@ screens = [
                     empty_char="󱟥",
                     not_charging_char="󰂃",
                     unknown_char="󰂑",
+                    show_short_text=False,
                     format="{char}",
                     update_interval=5,
                     fontsize=bar_iconsize,
@@ -163,21 +196,48 @@ screens = [
                     background=colors[2],
                     **powerline_fslash,
                 ),
+                widget.TextBox(
+                    text="",
+                    tag_sensor="CPU",
+                    background=colors[13],
+                    foreground=colors[0],
+                    fontsize=bar_iconsize,
+                ),
+                widget.ThermalSensor(
+                    background=colors[13],
+                    foreground=colors[0],
+                    **powerline_fslash,
+                ),
+                widget.Backlight(
+                    backlight_name=backlight,
+                    background=colors[2],
+                    foreground=colors[16],
+                ),
+                widget.Backlight(
+                    backlight_name=backlight,
+                    background=colors[2],
+                    foreground=colors[16],
+                    fmt=brightness,
+                    **powerline_fslash,
+                ),
                 widget.PulseVolume(
                     fmt=volume,
                     fontsize=bar_iconsize,
-                    background=colors[1],
+                    background=colors[13],
+                    foreground=colors[0],
+                    padding=10,
                 ),
                 widget.PulseVolume(
                     mute_command="pamixer --toggle-mute",
                     volume_down_command="pamixer --decrease 2",
                     volume_up_command="pamixer --increase 2",
                     volume_app="pamixer",
-                    background=colors[1],
+                    background=colors[13],
+                    foreground=colors[0],
                     **powerline_bslash,
                 ),
                 widget.TextBox(
-                    text=" ",
+                    text="",
                     fontsize=bar_iconsize,
                     background=colors[4],
                 ),

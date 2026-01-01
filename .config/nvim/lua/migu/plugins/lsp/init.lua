@@ -89,17 +89,18 @@ return {
                         },
                     },
                     clangd = {},
-                    basedpyright = {
-                        settings = {
-                            basedpyright = {
-                                disableOrganizeImports = true,
-                                analysis = {
-                                    diagnosticMode = "workspace",
-                                    typeCheckingMode = "standard",
-                                },
-                            },
-                        },
-                    },
+                    -- basedpyright = {
+                    --     settings = {
+                    --         basedpyright = {
+                    --             disableOrganizeImports = true,
+                    --             analysis = {
+                    --                 diagnosticMode = "workspace",
+                    --                 typeCheckingMode = "standard",
+                    --             },
+                    --         },
+                    --     },
+                    -- },
+                    ty = {},
                     lua_ls = {
                         settings = {
                             Lua = {
