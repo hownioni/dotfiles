@@ -9,8 +9,9 @@
 /spicetify/Backup
 /spicetify/Extracted/
 /spicetify/Themes/
-/rofi/config.rasi
-/wal/templates/dunstrc
+/rofi/dpi.rasi
+/dunst/dunstrc.d/00-colors-dunst.conf
+/dunst/dunstrc.d/90-dpi.conf
 
 #This below is added by the dotconf-add function
 !/bash/
@@ -34,3 +35,4 @@
 !/wal/
 !/mimeapps.list
 !/git/
+!/dunst/

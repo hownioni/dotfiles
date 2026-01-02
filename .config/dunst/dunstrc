@@ -1,0 +1,11 @@
+[global]
+separator_color= frame
+icon_corner_radius = 5
+font = "Opensans 12"
+icon_theme = "Papirus-Dark"
+origin = top-center
+offset = 0
+frame_width = 4
+corners = all
+corner_radius = 10
+dmenu = /usr/bin/rofi -dmenu -p dunst:

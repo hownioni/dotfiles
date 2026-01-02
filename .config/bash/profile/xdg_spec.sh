@@ -1,30 +1,44 @@
 #!/usr/bin/env sh
-# Declutter home
-export CARGO_HOME="$HOME"/.local/share/cargo
 
-export INPUTRC="$HOME"/.config/readline/inputrc
+### XDG Variables
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
 
-[ ! -d "$HOME"/.local/state/bash/ ] && mkdir "$HOME"/.local/state/bash
-export HISTFILE="$HOME"/.local/state/bash/history
+### Declutter home
+export CARGO_HOME="$XDG_DATA_HOME"/cargo
 
-export GTK2_RC_FILES="$HOME"/.config/gtk-2.0/gtkrc:"$HOME"/.config/gtk-2.0/gtkrc.mine
+export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 
-export XCURSOR_PATH=/usr/share/icons:"$HOME"/.local/share/icons
+[ ! -d "$XDG_STATE_HOME"/bash/ ] && mkdir "$XDG_STATE_HOME"/bash
+export HISTFILE="$XDG_STATE_HOME"/bash/history
+[ ! -f "$HISTFILE" ] && touch "$HISTFILE"
 
-[ ! -d "$HOME"/.local/state/python ] && mkdir "$HOME"/.local/state/python
-export PYTHON_HISTORY="$HOME"/.local/state/python/history
+export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc:"$XDG_CONFIG_HOME"/gtk-2.0/gtkrc.mine
 
+export XCURSOR_PATH=/usr/share/icons:"$XDG_DATA_HOME"/icons
+
+[ ! -d "$XDG_STATE_HOME"/python ] && mkdir "$XDG_STATE_HOME"/python
+export PYTHON_HISTORY="$XDG_STATE_HOME"/python/history
 [ ! -f "$PYTHON_HISTORY" ] && touch "$PYTHON_HISTORY"
-export WINEPREFIX="$HOME"/.local/share/wine
 
-[ ! -d "$HOME"/.local/share/npm/ ] && mkdir "$HOME"/.local/share/npm
-[ ! -d "$HOME"/.cache/npm/ ] && mkdir "$HOME"/.cache/npm
-export NPM_CONFIG_USERCONFIG="$HOME"/.config/npm/npmrc
+export WINEPREFIX="$XDG_DATA_HOME"/wine
 
-[ ! -d "$HOME"/.local/share/renpy ] && mkdir "$HOME"/.local/share/renpy
-export RENPY_PATH_TO_SAVES="$HOME"/.local/share/renpy
+[ ! -d "$XDG_DATA_HOME"/npm/ ] && mkdir "$XDG_DATA_HOME"/npm
+[ ! -d "$XDG_CACHE_HOME"/npm/ ] && mkdir "$XDG_CACHE_HOME"/npm
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
 
-export TERMINFO="$HOME".local/share/terminfo
-export TERMINFO_DIRS="$HOME"/.local/share/terminfo:/usr/share/terminfo
+[ ! -d "$XDG_DATA_HOME"/renpy ] && mkdir "$XDG_DATA_HOME"/renpy
+export RENPY_PATH_TO_SAVES="$XDG_DATA_HOME"/renpy
 
-export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${HOME}/.config/java -Djavafx.cachedir=${HOME}/.cache/openjfx"
+export TERMINFO="$XDG_DATA_HOME"/terminfo
+export TERMINFO_DIRS="$XDG_DATA_HOME"/terminfo:/usr/share/terminfo
+
+export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java -Djavafx.cachedir=${XDG_CACHE_HOME}/openjfx"
+
+export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
+
+export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
+
+export SQLITE_HISTORY="$XDG_CACHE_HOME"/sqlite_history
