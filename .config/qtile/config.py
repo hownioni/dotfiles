@@ -33,7 +33,6 @@ auto_fullscreen = True
 auto_minimize = False
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-wl_input_rules = None
 
 
 ### Hooks

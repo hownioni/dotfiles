@@ -104,8 +104,9 @@ screens = [
                     **powerline_bslash,
                 ),
                 widget.CurrentLayout(
-                    padding=None,
-                    mode="both",
+                    # padding=None,
+                    # mode="both",
+                    mode="icon",
                     scale=0.50,
                     background=colors[2],
                 ),
