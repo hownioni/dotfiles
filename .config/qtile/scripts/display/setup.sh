@@ -57,9 +57,9 @@ done
 
 Xresources="$HOME/.config/X11/Xresources"
 
-if [[ -f "$HOME/.config/qtile/scripts/display/xrandr_command.sh" ]]; then
-	bash "$HOME/.config/qtile/scripts/display/xrandr_command.sh"
-fi
+# if [[ -f "$HOME/.config/qtile/scripts/display/xrandr_command.sh" ]]; then
+# 	bash "$HOME/.config/qtile/scripts/display/xrandr_command.sh"
+# fi
 
 if [ -f "$Xresources" ]; then
 	xrdb -merge "$Xresources"

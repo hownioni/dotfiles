@@ -104,9 +104,8 @@ screens = [
                     **powerline_bslash,
                 ),
                 widget.CurrentLayout(
-                    # padding=None,
-                    # mode="both",
-                    mode="icon",
+                    padding=bar_fontsize // 2,
+                    mode="both",
                     scale=0.50,
                     background=colors[2],
                 ),
@@ -182,7 +181,9 @@ screens = [
                     format="{char}",
                     update_interval=5,
                     fontsize=bar_iconsize,
-                ),
+                )
+                if platform == "laptop"
+                else widget.Spacer(length=0),
                 widget.Battery(
                     background=colors[2],
                     foreground=colors[16],
@@ -193,10 +194,7 @@ screens = [
                     **powerline_fslash,
                 )
                 if platform == "laptop"
-                else widget.CPUGraph(
-                    background=colors[2],
-                    **powerline_fslash,
-                ),
+                else widget.Spacer(length=0),
                 widget.TextBox(
                     text="",
                     tag_sensor="CPU",

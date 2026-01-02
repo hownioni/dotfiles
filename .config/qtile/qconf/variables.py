@@ -69,13 +69,13 @@ def get_dpi_from_xresources():
 dpi = get_dpi_from_xresources()
 
 match dpi:
-    case 192 | 168:
+    case 192:
         bar_thickness = 60
         bar_fontsize = 20
         context_fontsize = 20
         context_width = 350
         bar_iconsize = 50
-    case 144 | 120:
+    case 168 | 144 | 120:
         bar_thickness = 40
         bar_fontsize = 16
         context_fontsize = 16
