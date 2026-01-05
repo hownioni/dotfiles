@@ -13,6 +13,10 @@ if test -d "$HOME"/.config/bash/profile/; then
 	unset profile
 fi
 
+if [[ -f "$HOME/.local/share/dotfiles/setup.sh" ]]; then
+	"$HOME/.local/share/dotfiles/setup.sh"
+fi
+
 year=$(date +%Y)
 
 export PATH="$PATH:$HOME/.local/bin"

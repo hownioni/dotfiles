@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-vars_file="$HOME/.config/qtile/scripts/display/vars"
-templates="$HOME/.config/qtile/scripts/display/templates"
+setup_home="$HOME/.local/share/dotfiles"
+vars_file="$setup_home/vars"
+templates="$setup_home/templates"
+hostneim="$(hostnamectl hostname)"
 
 check_var() {
 	var="$1"
@@ -31,8 +33,9 @@ replace_template() {
 }
 
 resolution="$(xdpyinfo | awk '/dimensions/{print $2}')"
-if ([[ ! -f "$vars_file" ]] || ! check_var "dpi") || [[ $# != 0 && "$1" != "$resolution" ]]; then
-	[[ $# != 0 ]] && resolution="$1"
+new_resolution="$1"
+if ([[ ! -f "$vars_file" ]] || ! check_var "dpi") || [[ $# != 0 && "$new_resolution" != "$resolution" ]]; then
+	resolution="$new_resolution"
 	while true; do
 		dpi="$(
 			zenity --entry \
@@ -57,9 +60,11 @@ done
 
 Xresources="$HOME/.config/X11/Xresources"
 
-# if [[ -f "$HOME/.config/qtile/scripts/display/xrandr_command.sh" ]]; then
-# 	bash "$HOME/.config/qtile/scripts/display/xrandr_command.sh"
-# fi
+[[ ! -d "$setup_home/screenlayout" ]] && mkdir "$setup_home/screenlayout"
+
+if [[ -f "$setup_home/screenlayout/${hostneim}.sh" ]]; then
+	"$setup_home/screenlayout/${hostneim}.sh"
+fi
 
 if [ -f "$Xresources" ]; then
 	xrdb -merge "$Xresources"

@@ -21,7 +21,8 @@ window_switch = "rofi -show window"
 screenshot = "env QT_ENABLE_HIGHDPI_SCALING=0 flameshot gui"
 
 home = os.path.expanduser("~/")
-config = home + "/.config/qtile/"
+config_dir = home + "/.config/qtile/"
+dotdata_dir = home + ".local/share/dotfiles"
 
 platform = subprocess.run(
     ["hostnamectl", "chassis"], stdout=subprocess.PIPE
@@ -30,6 +31,21 @@ platform = subprocess.run(
 backlight = subprocess.run(
     ["ls", "/sys/class/backlight/"], stdout=subprocess.PIPE
 ).stdout.decode("utf-8")[:-1]
+
+
+def get_display_server() -> str:
+    session_type = os.environ.get("XDG_SESSION_TYPE")
+    if session_type:
+        return session_type.lower()
+    elif "WAYLAND_DISPLAY" in os.environ:
+        return "wayland"
+    elif "DISPLAY" in os.environ:
+        return "x11"
+    else:
+        return "unknown"
+
+
+disp_server = get_display_server()
 
 ### THEMES
 colors = []
@@ -50,7 +66,7 @@ load_colors(color_cache)
 
 
 ### SCREEN
-def get_dpi_from_xresources():
+def get_dpi_from_xresources() -> float:
     try:
         # Use subprocess to run the 'xrdb -query' command and capture the output
         xrdb_output = subprocess.check_output(["xrdb", "-query"], text=True)
@@ -66,16 +82,16 @@ def get_dpi_from_xresources():
         return 96
 
 
-dpi = get_dpi_from_xresources()
+dpi = get_dpi_from_xresources() if disp_server == "x11" else 96
 
 match dpi:
-    case 192:
+    case 192 | 168:
         bar_thickness = 60
         bar_fontsize = 20
         context_fontsize = 20
         context_width = 350
         bar_iconsize = 50
-    case 168 | 144 | 120:
+    case 144 | 120:
         bar_thickness = 40
         bar_fontsize = 16
         context_fontsize = 16

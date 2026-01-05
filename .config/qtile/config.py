@@ -6,7 +6,7 @@ from qconf.groups import groups
 from qconf.keybinds import keys, mouse
 from qconf.layout import floating_layout, layouts
 from qconf.screen import screens, widget_defaults
-from qconf.variables import config
+from qconf.variables import config_dir, dotdata_dir
 
 ### Mappings
 keys = keys
@@ -38,13 +38,13 @@ reconfigure_screens = True
 ### Hooks
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.Popen([config + "scripts/autostart.sh"])
+    subprocess.Popen([config_dir + "scripts/autostart.sh"])
 
 
 @hook.subscribe.startup
 def start_always():
     subprocess.Popen(["xsetroot", "-cursor_name", "left_ptr"])
-    subprocess.Popen([config + "scripts/display/setup.sh"])
+    subprocess.Popen([dotdata_dir + "setup.sh"])
 
 
 @hook.subscribe.client_new

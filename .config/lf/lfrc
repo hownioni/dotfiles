@@ -438,7 +438,8 @@ map C edit-config
 map gc cd ~/.config
 map gC cd ~/codino
 map gr cd ~/repos
-map g. cd ~/.dotfiles
+map g.. cd ~/.dotfiles
+map g.l cd ~/.local/share/dotfiles
 map gs cd ~/.local/bin
 
 # Root directories

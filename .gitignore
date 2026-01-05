@@ -5,11 +5,14 @@
 !/.*
 /.*/
 
-# Include config and local/bin
+# Include config, local/bin and local/share/dotfiles
 !/.config/
 !/.local
 /.local/*
 !/.local/bin/
+!/.local/share/
+/.local/share/*
+!/.local/share/dotfiles/
 
 
 ## Exclude these files

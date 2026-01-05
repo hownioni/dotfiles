@@ -4,7 +4,8 @@ from libqtile.lazy import lazy
 from .groups import groups
 from .variables import (
     browser,
-    config,
+    config_dir,
+    disp_server,
     game_launcher,
     launcher,
     mod,
@@ -83,7 +84,7 @@ keys = [
     Key(
         [mod, "control"],
         "c",
-        lazy.spawn(f"kitty -d {config} nvim {config}"),
+        lazy.spawn(f"kitty -d {config_dir} nvim {config_dir}"),
         desc="Edit config",
     ),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
@@ -164,7 +165,9 @@ keys = [
             ),
             Key([], "y", lazy.spawn("yt-watch"), desc="Play youtube video in terminal"),
             Key([], "w", lazy.spawn("cutebg"), desc="Change wallpaper"),
-            Key([], "s", lazy.spawn(f"{config}/scripts/display/change_res.sh")),
+            Key([], "s", lazy.spawn(f"{config_dir}/scripts/display/change_res.sh"))
+            if disp_server == "x11"
+            else donothing(),
         ],
         name="Run script",
     ),
