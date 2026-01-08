@@ -21,8 +21,8 @@ window_switch = "rofi -show window"
 screenshot = "env QT_ENABLE_HIGHDPI_SCALING=0 flameshot gui"
 
 home = os.path.expanduser("~/")
-config_dir = home + "/.config/qtile/"
-dotdata_dir = home + ".local/share/dotfiles"
+config_dir = home + ".config/qtile/"
+dotdata_dir = home + ".local/share/dotfiles/"
 
 platform = subprocess.run(
     ["hostnamectl", "chassis"], stdout=subprocess.PIPE
