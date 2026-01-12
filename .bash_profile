@@ -27,7 +27,7 @@ export VISUAL='nvim'
 export TERMINAL='kitty'
 export MANPAGER='nvim +Man!'
 export LEDGER_FILE=$HOME/Documents/cuentas/${year}.journal
-[[ "$XDG_SESSION_TYPE" != "wayland" ]] && export GTK_IM_MODULE=fcitx
+[[ "$XDG_SESSION_TYPE" == "x11" ]] && export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export SDL_IM_MODULE=fcitx
 export GLFW_IM_MODULE=ibus
