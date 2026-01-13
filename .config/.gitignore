@@ -5,7 +5,6 @@
 #  files to ignore
 /qtile/scripts/display/vars
 /qtile/scripts/display/xrandr_command.sh
-/systemd/user/default.target.wants/
 /spicetify/Backup
 /spicetify/Extracted/
 /spicetify/Themes/
@@ -31,7 +30,6 @@
 !/qtile/
 !/readline/
 !/spicetify/
-!/systemd/
 !/wal/
 !/mimeapps.list
 !/git/

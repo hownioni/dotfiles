@@ -1,6 +1,6 @@
 return {
     {
-        "echasnovski/mini.snippets",
+        "nvim-mini/mini.snippets",
         event = "InsertEnter",
         version = false,
         dependencies = "rafamadriz/friendly-snippets",
@@ -29,7 +29,7 @@ return {
         version = "1.*",
         dependencies = {
             -- Snippet Engine
-            "echasnovski/mini.snippets",
+            "nvim-mini/mini.snippets",
             "folke/lazydev.nvim",
             {
                 "micangl/cmp-vimtex",

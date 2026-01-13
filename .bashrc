@@ -20,11 +20,13 @@ if [[ -e "$HOME"/.config/bash/functions ]]; then
 	source "$HOME"/.config/bash/functions
 fi
 
-# Import colorscheme from 'wal' asynchronously
-(cat ~/.cache/wal/sequences &)
+if [[ -d "$HOME/.cache/wal" ]]; then
+	# Import colorscheme from 'wal' asynchronously
+	(cat ~/.cache/wal/sequences &)
 
-# To add support for TTYs this line can be optionally added.
-source ~/.cache/wal/colors-tty.sh
+	# To add support for TTYs this line can be optionally added.
+	source ~/.cache/wal/colors-tty.sh
+fi
 
 if [ -f "$HOME"/.config/lf/lf.sh ]; then
 	source "$HOME"/.config/lf/lf.sh

@@ -2,6 +2,9 @@ return {
     {
         "folke/lazydev.nvim",
         ft = "lua", -- only load on lua files
+        ---@module 'lazydev'
+        ---@type lazydev.Config
+        ---@diagnostic disable-next-line: missing-fields
         opts = {
             library = {
                 -- Load luvit types when the `vim.uv` word is found
@@ -18,11 +21,10 @@ return {
             -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
             {
                 "mason-org/mason.nvim",
-                opts = {
-                    registries = {
-                        "github:mason-org/mason-registry",
-                    },
-                },
+                ---@module 'mason.settings'
+                ---@type MasonSettings
+                ---@diagnostic disable-next-line: missing-fields
+                opts = {},
             },
             "mason-org/mason-lspconfig.nvim",
             "WhoIsSethDaniel/mason-tool-installer.nvim",

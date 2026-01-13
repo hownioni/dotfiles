@@ -96,7 +96,7 @@ map <c-f> :fzf_search
 
 ### OPEN ###
 #cmd open &~/.config/lf/lf_open "$f"
-cmd open $set -f; rifle -p 0 "$fx"
+cmd open $set -f; rifle -p 0 "$fx" 2>/dev/null
 
 #cmd open-with-gui &$@ $fx ## opens with a gui application outside lf client
 #cmd open-with-cli $$@ $fx ## opens with a cli application inside lf client
@@ -104,9 +104,9 @@ cmd open $set -f; rifle -p 0 "$fx"
 cmd open-with ${{
     clear
     set -f
-    rifle -l $fx | sed -e "s/:[a-Z]*:[a-Z]*:/ \| /"
+    rifle -l $fx 2>/dev/null | sed -e "s/:[a-Z]*:[a-Z]*:/ \| /"
     read -p "open with: " method
-    rifle -p $method $fx
+    rifle -p $method $fx 2>/dev/null
 }}
 #---
 
