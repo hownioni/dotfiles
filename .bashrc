@@ -20,7 +20,7 @@ if [[ -e "$HOME"/.config/bash/functions ]]; then
 	source "$HOME"/.config/bash/functions
 fi
 
-if [[ -d "$HOME/.cache/wal" ]]; then
+if [[ -d "$HOME/.cache/wal" ]] && ! hash matugen 2>/dev/null; then
 	# Import colorscheme from 'wal' asynchronously
 	(cat ~/.cache/wal/sequences &)
 

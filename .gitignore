@@ -19,6 +19,7 @@
 .*history*
 .bash_logout
 .Xauthority
+.Xresources
 .gtkrc-2.0
 .lesshst
 .pulse-cookie

@@ -21,21 +21,6 @@ printinfo() {
 	printf '%b%s%b\n' "$green" "$*" "$nc" >&2
 }
 
-get_display_server() {
-	if [[ -v XDG_SESSION_TYPE ]]; then
-		printf '%s\n' "${XDG_SESSION_TYPE,,}"
-	elif [[ -v WAYLAND_DISPLAY ]]; then
-		printf '%s\n' "wayland"
-	elif [[ -v DISPLAY ]]; then
-		printf '%s\n' "x11"
-	elif [[ -t 0 ]] && [[ -t 1 ]]; then
-		printf '%s\n' "tty"
-	else
-		printf '%s\n' "unknown"
-		return 1
-	fi
-}
-
 check_var() {
 	local var="$1"
 	[[ -f "$vars_file" ]] && grep -q "^<${var}>" "$vars_file"

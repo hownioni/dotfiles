@@ -7,7 +7,7 @@ source "$dotdata_dir"/dpi.sh
 setup_display() {
 	local display_server resolution new_resolution dpi dpi_factor
 
-	display_server="$(get_display_server)"
+	display_server="$XDG_SESSION_TYPE"
 	if [[ "$display_server" == "x11" ]]; then
 		resolution="$(xdpyinfo | awk '/dimensions/{print $2}')"
 		new_resolution="$1"
@@ -54,13 +54,13 @@ setup_display() {
 
 main() {
 	local display_server
-	display_server="$(get_display_server)"
+	display_server="$XDG_SESSION_TYPE"
 
 	if [[ $display_server != "tty" ]]; then
 		setup_display "$@"
 	fi
 }
 
-if get_display_server >/dev/null 2>&1; then
+if [[ -v $XDG_SESSION_TYPE ]]; then
 	main "$@"
 fi
