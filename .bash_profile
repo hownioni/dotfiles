@@ -26,6 +26,7 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 export TERMINAL='kitty'
 export MANPAGER='nvim +Man!'
+export HOSTNAME
 export LEDGER_FILE=$HOME/Documents/cuentas/${year}.journal
 [[ "$XDG_SESSION_TYPE" == "x11" ]] && export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
