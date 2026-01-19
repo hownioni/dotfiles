@@ -13,12 +13,6 @@ kdeconnect-indicator &
 caffeine start &
 
 if [[ "$dev_type" != "laptop" ]]; then
-	# qbittorrent
-	pgrep '^qbittorrent$' || qbittorrent &>/dev/null &
-	sleep 1
-	xdotool search --class qbittorrent windowunmap
+	qbittorrent &
 	mangohud steam -silent &
 fi
-
-[[ -z $(jobs) ]] || disown
-exit 0

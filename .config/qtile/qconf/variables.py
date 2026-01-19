@@ -1,6 +1,7 @@
 import os
 import re
 import subprocess
+from pathlib import Path
 
 from libqtile.lazy import lazy
 
@@ -20,9 +21,9 @@ window_switch = "rofi -show window"
 
 screenshot = "env QT_ENABLE_HIGHDPI_SCALING=0 flameshot gui"
 
-home = os.path.expanduser("~/")
-config_dir = home + ".config/qtile/"
-dotdata_dir = home + ".local/share/dotfiles/"
+home = Path("~/").expanduser()
+config_dir = home / ".config/qtile/"
+dotdata_dir = home / ".local/share/dotfiles/"
 
 platform = subprocess.run(
     ["hostnamectl", "chassis"], stdout=subprocess.PIPE
@@ -51,7 +52,7 @@ disp_server = get_display_server()
 colors = []
 
 # Pywal
-color_cache = home + ".cache/wal/colors"
+color_cache = home / ".cache/wal/colors"
 
 
 def load_colors(cache):

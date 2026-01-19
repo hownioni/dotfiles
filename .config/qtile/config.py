@@ -38,13 +38,13 @@ reconfigure_screens = True
 ### Hooks
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.Popen([config_dir + "scripts/autostart.sh"])
+    subprocess.Popen([config_dir / "scripts/autostart.sh"])
 
 
 @hook.subscribe.startup
 def start_always():
     subprocess.Popen(["xsetroot", "-cursor_name", "left_ptr"])
-    subprocess.Popen([dotdata_dir + "setup.sh"])
+    subprocess.Popen([dotdata_dir / "setup.sh"])
 
 
 @hook.subscribe.client_new
@@ -73,4 +73,4 @@ def mo2_nosteal(window):
         window.can_steal_focus = False
 
 
-wmname = "QTile"
+wmname = "Qtile"
