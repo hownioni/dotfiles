@@ -1,31 +1,31 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 shopt -s extglob
 
 help() {
-    "$@" --help 2>&1 | bathelp
+	"$@" --help 2>&1 | bathelp
 }
 
 autocookie() {
-    sleep 1
-    while true; do xdotool click --delay 5 --repeat 10000 1; done
+	sleep 1
+	while true; do xdotool click --delay 5 --repeat 10000 1; done
 }
 
 dotconf-add() {
-    local conf
-    for conf in "$@"; do
-        local file pattern
-        [[ ! -e "$conf" ]] && printf "File doesn't exist\n" && return 1
-        file=${conf%%+(/)}
-        file=${file##*/}
-        [[ -d "$conf" ]] && file=${file}/
-        pattern='!'"/${file}"
-        if ! grep -Fxq "$pattern" "$HOME"/.config/.gitignore; then
-            printf "%s\n" "$pattern" >>"$HOME"/.config/.gitignore
-            dotfiles add "$HOME"/.config/.gitignore
-        fi
-        dotfiles add "$conf"
-    done
+	local conf
+	for conf in "$@"; do
+		local file pattern
+		[[ ! -e "$conf" ]] && printf "File doesn't exist\n" && return 1
+		file=${conf%%+(/)}
+		file=${file##*/}
+		[[ -d "$conf" ]] && file=${file}/
+		pattern='!'"/${file}"
+		if ! grep -Fxq "$pattern" "$HOME"/.config/.gitignore; then
+			printf "%s\n" "$pattern" >>"$HOME"/.config/.gitignore
+			dotfiles add "$HOME"/.config/.gitignore
+		fi
+		dotfiles add "$conf"
+	done
 }
 
 # dotbranch-mergeall() {

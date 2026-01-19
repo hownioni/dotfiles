@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-## Modified commands
+### Modified commands
 alias grep='grep --color=auto'
 alias more='less'
 alias df='df -h'
@@ -23,7 +23,7 @@ alias l.='la | grep -E "^\."'
 # Replacements
 alias bat='bat --color always'
 
-## New commands
+### New commands
 alias da='date "+%A, %B %d, %Y [%T]"'
 alias du1='du --max-depth=1'
 alias hist='history | grep' # requires an argument
@@ -35,3 +35,5 @@ alias bathelp='bat --plain --language=help'
 
 # Dotfiles
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
+
+alias carterita='hledger --file="$HOME/Documents/cuentas/carterita.journal"'

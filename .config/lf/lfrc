@@ -1,4 +1,4 @@
-###!! BASIC SETTINGS !!###
+### BASIC SETTINGS
 set ifs "\n"
 set shell bash
 set shellopts '-eu'
@@ -36,12 +36,11 @@ map w
 map d
 map r
 map zh
-#======
 
 # Warning
 &[ "$LF_LEVEL" -eq 1 ] || lf -remote "send $id echoerr \"Warning: You're in a nested lf instance!\""
 
-###!! CUSTOM FUNCTIONS !!###
+### CUSTOM FUNCTIONS
 cmd on-select &{{
     lf -remote "send $id set statfmt $(printf '%s' "$(eza -ldg --color=always "$f")" | ~/.config/lf/scripts/lf-escape)"
 }}
@@ -67,7 +66,7 @@ cmd move-parent &{{
 map J move-parent down
 map K move-parent up
 
-### SEARCH ###
+### SEARCH
 cmd fzf_jump ${{
     res="$(fd . -d 1 -H | fzf --reverse --header="Jump to location")"
     if [ -n "$res" ] ; then
@@ -92,9 +91,8 @@ cmd fzf_search ${{
 }}
 
 map <c-f> :fzf_search
-#---
 
-### OPEN ###
+### OPEN
 #cmd open &~/.config/lf/lf_open "$f"
 cmd open $set -f; rifle -p 0 "$fx" 2>/dev/null
 
@@ -108,9 +106,8 @@ cmd open-with ${{
     read -p "open with: " method
     rifle -p $method $fx 2>/dev/null
 }}
-#---
 
-### MAKE STUFF ###
+### MAKE STUFF
 cmd mkdir %{{
     dir=""
 
@@ -176,9 +173,8 @@ cmd chmod %{{
     esac
     lf -remote 'send reload'
 }}
-#---
 
-### RENAME ### 
+### RENAME
 cmd bulk-rename ${{
     vimv -q -- $(basename -a -- $fx)
     lf -remote "send $id :load; unselect"
@@ -192,10 +188,8 @@ map rI :rename; cmd-home
 map rA :rename; cmd-end
 map rc :rename; cmd-delete-home
 map rC :rename; cmd-end; cmd-delete-home
-#---
 
-### COPY & PASTE COMMANDS ###
-
+### COPY & PASTE COMMANDS
 cmd paste &{{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
@@ -271,11 +265,76 @@ cmd follow-link %{{
 }}
 
 # Copy directory names
-cmd yank-file $printf '%s' "$f" | xclip -i -selection clipboard
-cmd yank-paths $printf '%s' "$fx" | xclip -i -selection clipboard
-cmd yank-dirname &printf '%s' "$PWD" | xclip -i -selection clipboard
-cmd yank-basename &basename -a -- $fx | head -c-1 | xclip -i -selection clipboard
-cmd yank-basename-without-extension &basename -a -- $fx | sed -E 's/\.[^.]+$//' | head -c-1 | xclip -i -selection clipboard
+cmd yank-file ${{
+    clip_cmd() {
+        local display_server="$XDG_SESSION_TYPE"
+        if [[ "$display_server" == "x11" ]]; then
+            xclip -i -selection clipboard
+        elif [[ "$display_server" == "wayland" ]]; then
+            dms clipboard copy
+        else
+            false
+        fi
+    }
+
+    printf '%s' "$f" | clip_cmd
+}}
+cmd yank-paths ${{
+    clip_cmd() {
+        local display_server="$XDG_SESSION_TYPE"
+        if [[ "$display_server" == "x11" ]]; then
+            xclip -i -selection clipboard
+        elif [[ "$display_server" == "wayland" ]]; then
+            dms clipboard copy
+        else
+            false
+        fi
+    }
+
+    printf '%s' "$fx" | clip_cmd
+}}
+cmd yank-dirname &{{
+    clip_cmd() {
+        local display_server="$XDG_SESSION_TYPE"
+        if [[ "$display_server" == "x11" ]]; then
+            xclip -i -selection clipboard
+        elif [[ "$display_server" == "wayland" ]]; then
+            dms clipboard copy
+        else
+            false
+        fi
+    }
+
+    printf '%s' "$PWD" | clip_cmd
+}}
+cmd yank-basename &{{
+    clip_cmd() {
+        local display_server="$XDG_SESSION_TYPE"
+        if [[ "$display_server" == "x11" ]]; then
+            xclip -i -selection clipboard
+        elif [[ "$display_server" == "wayland" ]]; then
+            dms clipboard copy
+        else
+            false
+        fi
+    }
+
+    basename -a -- $fx | head -c-1 | clip_cmd
+}}
+cmd yank-basename-without-extension &{{
+    clip_cmd() {
+        local display_server="$XDG_SESSION_TYPE"
+        if [[ "$display_server" == "x11" ]]; then
+            xclip -i -selection clipboard
+        elif [[ "$display_server" == "wayland" ]]; then
+            dms clipboard copy
+        else
+            false
+        fi
+    }
+
+    basename -a -- $fx | sed -E 's/\.[^.]+$//' | head -c-1 | clip_cmd
+}}
 
 cmd select-buffer &{{
     set -- $(cat ~/.local/share/lf/files)
@@ -293,9 +352,8 @@ cmd dragon %dragon-drop -a -x $fx
 cmd dragon-stay %dragon-drop -a $fx
 cmd dragon-individual %dragon-drop $fx
 cmd dlfile %dlfile
-#---
 
-### ARCHIVE BINDINGS ###
+### ARCHIVE BINDINGS
 # extract the current file with the right command
 cmd unarchive %{{
     set -f
@@ -329,7 +387,6 @@ cmd compress %{{
 
     ouch compress $fx "${name}.${ext}"
 }}
-#---
 
 ### TRASH BINDINGS ###
 
@@ -417,13 +474,14 @@ map ds dragon-stay
 map di dragon-individual
 map dl dlfile
 
-### MOVEMENT ###
+### MOVEMENT
 # User directories
 map gd cd ~/Downloads
 map gD. cd ~/Documents
 map gDi cd ~/Documents/IRL
 map gDe cd ~/Documents/IRL/Escuela
 map gDp cd ~/Documents/PDF
+map gDc cd ~/Documents/cuentas
 map gp. cd ~/Pictures
 map gpw cd ~/Pictures/Wallpapers/
 map gv cd ~/Videos
@@ -454,5 +512,3 @@ map gtd eval cd "/data/.Trash-${UID}/files"
 
 map J move-parent down
 map K move-parent up
-#---
-#======
