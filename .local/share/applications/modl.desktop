@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=MODL Handler
-Exec=/home/migu/Games/tools/handlers/modlhandler %u
+Exec=/bin/sh -c "$HOME/Games/tools/handlers/modlhandler" %u
 Type=Application
 Terminal=false
 NoDisplay=true

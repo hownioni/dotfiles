@@ -93,18 +93,14 @@ cmd fzf_search ${{
 map <c-f> :fzf_search
 
 ### OPEN
-#cmd open &~/.config/lf/lf_open "$f"
-cmd open $set -f; rifle -p 0 "$fx" 2>/dev/null
-
-#cmd open-with-gui &$@ $fx ## opens with a gui application outside lf client
-#cmd open-with-cli $$@ $fx ## opens with a cli application inside lf client
+cmd open $set -f; rifle -p 0 $fx
 
 cmd open-with ${{
     clear
     set -f
-    rifle -l $fx 2>/dev/null | sed -e "s/:[a-Z]*:[a-Z]*:/ \| /"
+    rifle -l $fx | sed -e "s/:[a-Z]*:[a-Z]*:/ \| /"
     read -p "open with: " method
-    rifle -p $method $fx 2>/dev/null
+    rifle -p $method $fx
 }}
 
 ### MAKE STUFF
@@ -136,17 +132,17 @@ cmd mkfile %{{
     done
 
     if [ -e "$file" ]; then
-        lf -remote "send $id \$\$EDITOR \"$file\""
+        lf -remote "send $id :select \"$file\"; \$\$EDITOR \"$file\""
     else
         case $mode in
             normal)
                 touch "$file"
-                lf -remote "send $id \$\$EDITOR \"$file\""
+                lf -remote "send $id :select \"$file\"; \$\$EDITOR \"$file\""
                 ;;
             script)
                 echo "#!/usr/bin/env bash" >> "$file"
                 chmod +x "$file"
-                lf -remote "send $id \$\$EDITOR \"$file\""
+                lf -remote "send $id :select \"$file\"; \$\$EDITOR \"$file\""
                 ;;
         esac
     fi
@@ -357,9 +353,9 @@ cmd dlfile %dlfile
 # extract the current file with the right command
 cmd unarchive %{{
     set -f
-    printf "Password: "
+    printf "password: "
     read -r password
-    
+
     if [[ -z "$password" ]]; then
         ouch decompress $fx
     else
@@ -388,24 +384,14 @@ cmd compress %{{
     ouch compress $fx "${name}.${ext}"
 }}
 
-### TRASH BINDINGS ###
+### TRASH BINDINGS
 
 cmd trash %trash-put -- $fx
 cmd clear_trash !trash-empty
 cmd restore_trash !trash-restore
 cmd list_trash !trash-list
-#---
 
-### CD ###
-# LFCD
-cmd quit-and-cd &{{
-    pwd > "$LF_CD_FILE"
-    lf -remote "send $id quit"
-}}
-
-map Q quit-and-cd
-#---
-
+### CD
 # zoxide
 cmd z %{{
     result="$(printf '%s' "$(zoxide query --exclude $PWD $@)" | ~/.config/lf/scripts/lf-escape)"
@@ -419,19 +405,19 @@ cmd zi ${{
 
 cmd on-cd &{{
     zoxide add "$PWD"
-    printf '\033]0;lf - %s\007' "$PWD" > /dev/tty
+    lf -remote "send $id tty-write \"\033]0;lf - ${PWD/#$HOME/\~}\007\""
 }}
 
 on-cd
-#---
-#======
 
-###!! BINDINGS !!###
+### BINDINGS
 # Basic Functions
 map . set hidden!
 map p paste
 map x cut
 map DD delete
+map q %lf -remote "send $id :cd \"$OLDPWD\"; quit"
+map Q quit
 map mf mkfile normal
 map ms mkfile script
 map md mkdir
@@ -439,8 +425,6 @@ map mx. chmod files
 map mxr chmod dir-recurs
 map bgd $cutebg $f
 map bgl $cutebg -l $f
-#map O push :open-with-gui<space> ## input application
-#map o push :open-with-cli<space> ## input application
 map o open-with
 map <enter> open
 map <delete> delete
@@ -486,7 +470,8 @@ map gp. cd ~/Pictures
 map gpw cd ~/Pictures/Wallpapers/
 map gv cd ~/Videos
 map gm cd ~/Music
-map gM cd /data
+map gMd cd /data
+map gMg cd /games
 map gl cd ~/.local
 map gu eval cd "/run/media/$USER"
 map gG cd ~/Games
@@ -494,6 +479,7 @@ map gG cd ~/Games
 # Coding
 map C edit-config
 map gc cd ~/.config
+map gć cd ~/.cache
 map gC cd ~/codino
 map gr cd ~/repos
 map g.. cd ~/.dotfiles
@@ -509,6 +495,7 @@ map gRe cd /etc
 map gL follow-link
 map gt. cd ~/.local/share/Trash/files
 map gtd eval cd "/data/.Trash-${UID}/files"
+map gtg eval cd "/games/.Trash-${UID}/files"
 
-map J move-parent down
-map K move-parent up
+map <a-j> move-parent down
+map <a-k> move-parent up

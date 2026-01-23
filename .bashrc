@@ -11,6 +11,7 @@ if [[ -e "$HOME"/.config/bash/aliases ]]; then
 fi
 
 if [[ -e "/usr/share/bash-complete-alias/complete_alias" ]]; then
+	# shellcheck disable=SC1094
 	source "/usr/share/bash-complete-alias/complete_alias"
 fi
 
@@ -22,14 +23,18 @@ fi
 
 if [[ -d "$HOME/.cache/wal" ]] && ! hash matugen 2>/dev/null; then
 	# Import colorscheme from 'wal' asynchronously
-	(cat ~/.cache/wal/sequences &)
+	# shellcheck disable=SC1091
+	(cat "$HOME"/.cache/wal/sequences &)
 
 	# To add support for TTYs this line can be optionally added.
-	source ~/.cache/wal/colors-tty.sh
+	# shellcheck disable=SC1091
+	source "$HOME"/.cache/wal/colors-tty.sh
 fi
 
-if [ -f "$HOME"/.config/lf/lf.sh ]; then
-	source "$HOME"/.config/lf/lf.sh
+LFCD="$HOME/.config/lf/lfcd.sh"
+if [ -f "$LFCD" ]; then
+	# shellcheck disable=SC1090
+	source "$LFCD"
 fi
 
 # Shopt

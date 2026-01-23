@@ -27,6 +27,7 @@
 .fehbg
 .gitconfig
 .wget-hsts
+.mtab.fuseiso
 
 # C
 *.[oa]

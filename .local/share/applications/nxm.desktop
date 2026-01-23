@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=NXM Handler
-Exec=/home/migu/Games/tools/handlers/nxmhandler %u
+Exec=/bin/sh -c "$HOME/Games/tools/handlers/nxmhandler" %u
 Type=Application
 Terminal=false
 NoDisplay=true
