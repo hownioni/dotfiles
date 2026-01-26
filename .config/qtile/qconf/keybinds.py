@@ -119,7 +119,7 @@ keys = [
         desc="Reset all window size ratios",
     ),
     Key([mod, "shift"], "t", lazy.window.toggle_floating(), desc="Toggle floating"),
-    Key([mod, "shift"], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
     Key(
         [mod, "shift"],
         "m",
