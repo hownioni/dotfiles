@@ -43,6 +43,3 @@ shopt -s checkwinsize
 PS1='[\u@\h \W]\$ '
 
 eval "$(zoxide init --cmd cd bash)"
-if [[ "$(hostnamectl chassis)" == "laptop" ]]; then
-	eval "$(_AUTO_CPUFREQ_COMPLETE=bash_source auto-cpufreq)"
-fi
