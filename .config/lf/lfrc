@@ -459,43 +459,45 @@ map di dragon-individual
 map dl dlfile
 
 ### MOVEMENT
-# User directories
-map gd cd ~/Downloads
-map gD. cd ~/Documents
-map gDi cd ~/Documents/IRL
-map gDe cd ~/Documents/IRL/Escuela
-map gDp cd ~/Documents/PDF
-map gDc cd ~/Documents/cuentas
-map gp. cd ~/Pictures
+# Documents
+map gD. cd ~/Documents/
+map gDi cd ~/Documents/IRL/
+map gDe cd ~/Documents/IRL/Escuela/
+map gDr cd ~/Documents/Reading/
+map gDc cd ~/Documents/cuentas/
+
+map gd cd ~/Downloads/
+map gp. cd ~/Pictures/
 map gpw cd ~/Pictures/Wallpapers/
-map gv cd ~/Videos
-map gm cd ~/Music
-map gMd cd /data
-map gMg cd /games
-map gl cd ~/.local
-map gu eval cd "/run/media/$USER"
-map gG cd ~/Games
+map gv cd ~/Videos/
+map gm cd ~/Music/
+map gG cd ~/Games/
+map gMd cd /data/
+map gMg cd /games/
+map gu eval cd "/run/media/$USER/"
 
 # Coding
 map C edit-config
-map gc cd ~/.config
-map gć cd ~/.cache
-map gC cd ~/codino
-map gr cd ~/repos
-map g.. cd ~/.dotfiles
-map g.l cd ~/.local/share/dotfiles
-map gs cd ~/.local/bin
+map gc cd ~/.config/
+map gć cd ~/.cache/
+map gC cd ~/codino/
+map gr cd ~/repos/
+map gl cd ~/.local/
+map g.. cd ~/.dotfiles/
+map g.l cd ~/.local/share/dotfiles/
+map gs cd ~/.local/bin/
 
 # Root directories
 map gR. cd /
-map gRu cd /usr
-map gRs cd /usr/share
-map gRe cd /etc
+map gRu cd /usr/
+map gRs cd /usr/share/
+map gRe cd /etc/
+
+# Trash
+map gt. cd ~/.local/share/Trash/files/
+map gtd eval cd "/data/.Trash-${UID}/files/"
+map gtg eval cd "/games/.Trash-${UID}/files/"
 
 map gL follow-link
-map gt. cd ~/.local/share/Trash/files
-map gtd eval cd "/data/.Trash-${UID}/files"
-map gtg eval cd "/games/.Trash-${UID}/files"
-
 map <a-j> move-parent down
 map <a-k> move-parent up

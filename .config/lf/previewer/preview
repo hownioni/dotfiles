@@ -15,7 +15,7 @@ cache_d="$HOME/.cache/lf_previews"
 if [[ ! -d "$cache_d" ]]; then mkdir "$cache_d"; fi
 
 ext="${file##*.}"
-ext="${file,,}"
+ext="${ext,,}"
 cache_f="${cache_d}/${ext}_preview"
 
 exiftype="$(exiftool -s3 -MIMEType "$file")"
