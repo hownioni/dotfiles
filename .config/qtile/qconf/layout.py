@@ -55,7 +55,7 @@ layouts = [
         **layout_config,
         border_focus_stack=colors[12],
         border_normal_stack=colors[3],
-        split=False,
+        split=True,
         num_colums=2,
     ),
     floating_layout,

@@ -9,7 +9,6 @@ from .variables import (
     game_launcher,
     launcher,
     mod,
-    platform,
     rofimoji,
     rofinerd,
     school_browser,
@@ -42,28 +41,20 @@ def donothing():
 
 keys = [
     ### Essentials
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod, "shift"], "Return", lazy.spawn(launcher), desc="Launch launcher"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "t", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "space", lazy.spawn(launcher), desc="Launch launcher"),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "b", lazy.hide_show_bar(), desc="Toggle the bar"),
-    # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key(
-        [mod, "shift"],
+        [mod, "control"],
         "c",
-        lazy.widget["battery"].charge_to_full()
-        if platform == "laptop"
-        else donothing(),
+        lazy.spawn(f"kitty -d {config_dir} nvim {config_dir}"),
+        desc="Edit config",
     ),
-    Key(
-        [mod, "shift"],
-        "x",
-        lazy.widget["battery"].charge_dynamically()
-        if platform == "laptop"
-        else donothing(),
-    ),
-    # Launch apps
+    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
+    ### Launch apps
     KeyChord(
         [mod],
         "a",
@@ -81,19 +72,11 @@ keys = [
         ],
         name="Apps",
     ),
-    Key(
-        [mod, "control"],
-        "c",
-        lazy.spawn(f"kitty -d {config_dir} nvim {config_dir}"),
-        desc="Edit config",
-    ),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     ### Navigation & Resizing
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key(["mod1"], "Tab", lazy.spawn(window_switch), desc="Change windows"),
     Key(
         [mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"
@@ -108,7 +91,7 @@ keys = [
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     Key(
         [mod, "shift"],
-        "space",
+        "braceleft",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
@@ -135,9 +118,8 @@ keys = [
         lazy.layout.normalize(),
         desc="Reset all window size ratios",
     ),
-    # Key([mod], "m", lazy.layout.maximize(), desc="Toggle between max and min ratio"),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating"),
-    Key([mod], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key([mod, "shift"], "t", lazy.window.toggle_floating(), desc="Toggle floating"),
+    Key([mod, "shift"], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
     Key(
         [mod, "shift"],
         "m",
