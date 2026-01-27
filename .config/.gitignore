@@ -13,6 +13,7 @@
 /spicetify/Themes/
 /rofi/dpi.rasi
 dank*
+dms*
 
 #This below is added by the dotconf-add function
 !/bash/
@@ -35,3 +36,4 @@ dank*
 !/mimeapps.list
 !/git/
 !/dunst/
+!/niri/
