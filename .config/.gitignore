@@ -5,6 +5,7 @@
 #  files to ignore
 /dunst/dunstrc.d/00-colors-dunst.conf
 /dunst/dunstrc.d/90-dpi.conf
+/niri/local/
 /nvim/lazy-lock.json
 /qtile/scripts/display/vars
 /qtile/scripts/display/xrandr_command.sh

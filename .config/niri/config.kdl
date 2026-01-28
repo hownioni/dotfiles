@@ -11,11 +11,11 @@ gestures {
 // Input device configuration.
 input {
     keyboard {
-        xkb {
-            layout "us"
-            variant "altgr-intl"
-            options "compose:menu"
-        }
+        // xkb {
+        //     layout "us"
+        //     variant "altgr-intl"
+        //     options "compose:menu"
+        // }
         repeat-delay 200
         repeat-rate 30
         numlock

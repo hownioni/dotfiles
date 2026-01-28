@@ -77,6 +77,20 @@ opt.breakindent = true
 vim.schedule(function()
     opt.clipboard = "unnamedplus"
 end)
+if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+    vim.g.clipboard = {
+        name = "dmsclip",
+        copy = {
+            ["+"] = { "dms", "clipboard", "copy" },
+            ["*"] = { "dms", "clipboard", "copy" },
+        },
+        paste = {
+            ["+"] = { "dms", "clipboard", "paste" },
+            ["*"] = { "dms", "clipboard", "paste" },
+        },
+        cache_enabled = true,
+    }
+end
 opt.autowrite = true
 vim.opt.iskeyword:append("-")
 vim.opt.shortmess:append("I")
