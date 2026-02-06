@@ -13,6 +13,22 @@ return {
         },
     },
     {
+        "hownioni/Arduino-Nvim",
+        branch = "patch-1",
+        dependencies = {
+            "nvim-telescope/telescope.nvim",
+            "neovim/nvim-lspconfig",
+        },
+        config = function()
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "arduino",
+                callback = function()
+                    require("Arduino-Nvim")
+                end,
+            })
+        end,
+    },
+    {
         -- Main LSP Configuration
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -91,17 +107,6 @@ return {
                         },
                     },
                     clangd = {},
-                    -- basedpyright = {
-                    --     settings = {
-                    --         basedpyright = {
-                    --             disableOrganizeImports = true,
-                    --             analysis = {
-                    --                 diagnosticMode = "workspace",
-                    --                 typeCheckingMode = "standard",
-                    --             },
-                    --         },
-                    --     },
-                    -- },
                     ty = {},
                     lua_ls = {
                         settings = {
@@ -125,6 +130,10 @@ return {
                             require("migu.plugins.lsp.keymaps").texlab(bufnr)
                         end,
                     },
+                    arduino_language_server = {},
+                    ts_ls = {},
+                    html = {},
+                    cssls = {},
                 },
                 others = {},
             }
