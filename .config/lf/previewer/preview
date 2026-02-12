@@ -24,7 +24,7 @@ filetype="$(file -Lb --mime-type "$file")"
 if [[ "$filetype" =~ ^image ]]; then
 	draw "$file"
 
-elif [[ "$filetype" == "application/pdf" ]]; then
+elif [[ "$filetype" =~ ^application/pdf ]]; then
 	pdftoppm -f 1 -l 1 \
 		-scale-to-x 1920 \
 		-scale-to-y -1 \
@@ -36,6 +36,12 @@ elif [[ "$filetype" == "application/pdf" ]]; then
 
 elif [[ "$filetype" =~ ^application/epub ]]; then
 	epub-thumbnailer "$file" "$cache_f" "$((w * h))"
+
+	draw "$cache_f"
+
+elif [[ "$filetype" =~ ^application/postscript ]]; then
+	gs -sDEVICE=jpeg -r100 -o "$cache_f" "$file" >/dev/null
+
 	draw "$cache_f"
 
 elif [[ "$exiftype" =~ ^video ]]; then

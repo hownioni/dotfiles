@@ -5,9 +5,9 @@ image/jpeg=nsxiv.desktop
 image/png=nsxiv.desktop
 image/webp=nsxiv.desktop
 text/xml=nsxiv.desktop
-x-scheme-handler/mailto=userapp-Thunderbird-D2VN22.desktop
-message/rfc822=userapp-Thunderbird-D2VN22.desktop
-x-scheme-handler/mid=userapp-Thunderbird-D2VN22.desktop
+x-scheme-handler/mailto=userapp-Thunderbird-6YLFK3.desktop
+message/rfc822=userapp-Thunderbird-6YLFK3.desktop
+x-scheme-handler/mid=userapp-Thunderbird-6YLFK3.desktop
 x-scheme-handler/news=userapp-Thunderbird-TH8NS2.desktop
 x-scheme-handler/snews=userapp-Thunderbird-TH8NS2.desktop
 x-scheme-handler/nntp=userapp-Thunderbird-TH8NS2.desktop
@@ -40,8 +40,8 @@ application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
 
 [Added Associations]
-x-scheme-handler/mailto=userapp-Thunderbird-LWQNS2.desktop;userapp-Thunderbird-D2VN22.desktop;
-x-scheme-handler/mid=userapp-Thunderbird-LWQNS2.desktop;userapp-Thunderbird-D2VN22.desktop;
+x-scheme-handler/mailto=userapp-Thunderbird-6YLFK3.desktop;userapp-Thunderbird-LWQNS2.desktop;userapp-Thunderbird-D2VN22.desktop;
+x-scheme-handler/mid=userapp-Thunderbird-6YLFK3.desktop;userapp-Thunderbird-LWQNS2.desktop;userapp-Thunderbird-D2VN22.desktop;
 x-scheme-handler/news=userapp-Thunderbird-TH8NS2.desktop;
 x-scheme-handler/snews=userapp-Thunderbird-TH8NS2.desktop;
 x-scheme-handler/nntp=userapp-Thunderbird-TH8NS2.desktop;
