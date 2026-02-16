@@ -133,10 +133,12 @@ window-rule {
 window-rule {
     match app-id=r#"^gnome-calculator$"#
     match app-id=r#"^galculator$"#
-    match app-id=r#"^qalculate*"#
+    match app-id=r#"^qalculate.*"#
     match app-id=r#"^blueman-manager$"#
     match app-id=r#"^org\.gnome\.Nautilus$"#
     match app-id=r#"^xdg-desktop-portal$"#
+    match app-id=r#"^org.godotengine.Editor"#
+    exclude app-id=r#"^org.godotengine.Editor"# title=r#".*Godot.*"#
     open-floating true
 }
 window-rule {
