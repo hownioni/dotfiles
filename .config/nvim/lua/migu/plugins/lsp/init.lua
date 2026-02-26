@@ -134,6 +134,7 @@ return {
                     ts_ls = {},
                     html = {},
                     cssls = {},
+                    qmlls = {},
                 },
                 others = {},
             }

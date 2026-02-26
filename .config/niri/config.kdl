@@ -180,7 +180,7 @@ recent-windows {
 
 spawn-at-startup "lf-dbus"
 spawn-at-startup "udiskie" "-t"
-spawn-at-startup "kdeconnect-indicator"
+spawn-at-startup "kdeconnectd"
 
 // Include dms files
 include "dms/colors.kdl"
@@ -189,6 +189,8 @@ include "dms/alttab.kdl"
 include "dms/binds.kdl"
 include "dms/outputs.kdl"
 include "dms/cursor.kdl"
+include "dms/windowrules.kdl"
 
 // Include local files
 include "local/kblayout.kdl"
+
