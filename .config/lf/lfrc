@@ -416,8 +416,7 @@ map . set hidden!
 map p paste
 map x cut
 map DD delete
-map q %lf -remote "send $id :cd \"$OLDPWD\"; quit"
-map Q quit
+map Q %lf -remote "send $id :cd \"$OLDPWD\"; quit"
 map mf mkfile normal
 map ms mkfile script
 map md mkdir
