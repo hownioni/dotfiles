@@ -14,6 +14,7 @@ set tabstop 4
 set scrolloff 5
 set wrapscroll
 set period 1
+set rulerfile ~/.config/lf/ruler
 
 # Search
 set ignorecase true
@@ -41,9 +42,9 @@ map zh
 &[ "$LF_LEVEL" -eq 1 ] || lf -remote "send $id echoerr \"Warning: You're in a nested lf instance!\""
 
 ### CUSTOM FUNCTIONS
-cmd on-select &{{
-    lf -remote "send $id set statfmt $(printf '%s' "$(eza -ldg --color=always "$f")" | ~/.config/lf/scripts/lf-escape)"
-}}
+#cmd on-select &{{
+#    lf -remote "send $id set statfmt $(printf '%s' "$(eza -ldg --color=always "$f")" | ~/.config/lf/scripts/lf-escape)"
+#}}
 
 cmd eval &{{
     cmd="send $id"
@@ -353,25 +354,45 @@ cmd dlfile %dlfile
 # extract the current file with the right command
 cmd unarchive %{{
     set -f
-    printf "password: "
+
+    mapfile -t files < <(printf "%s" "$fx")
+    while : ; do
+        printf "Output dir: "
+        read -r out_dir
+
+        if [[ -z "$out_dir" && ${#files[@]} -eq 1 ]]; then
+            out_dir="${f%%.*}"
+        fi
+
+        [[ -n "$out_dir" ]] && break
+    done
+
+    printf "Password: "
     read -r password
 
     if [[ -z "$password" ]]; then
-        ouch decompress $fx
+        ouch decompress --dir "$out_dir" $fx
     else
-        ouch decompress --password "$password" $fx
+        ouch decompress --dir "$out_dir" --password "$password" $fx
     fi
 }}
 
 cmd compress %{{
     set -f
-    printf "Archive name: "
-    read -r name
-    if [[ -z "$name" && -d $f ]]; then
-        name="$f"
-    fi
-    type="$1"
 
+    mapfile -t files < <(printf "%s" "$fx")
+    while : ; do
+        printf "Archive name: "
+        read -r name
+
+        if [[ -z "$name" && ${#files[@]} -eq 1 && -d $f ]]; then
+            name="$f"
+        fi
+
+        [[ -n "$name" ]] && break
+    done
+
+    type="$1"
     case $type in
         tar) ext="tar";;
         tbz2) ext="tar.bz2";;
