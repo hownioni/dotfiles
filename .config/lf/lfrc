@@ -192,10 +192,11 @@ cmd paste &{{
     mode="$1"
     shift
     case "$mode" in
-        copy) cp -r --update=none -- "$@" .;;
+        copy)
+            cp -r --update=none -- "$@" .
+            ;;
         move)
             mv --update=none -- "$@" .
-            lf -remote "send clear"
             ;;
     esac
 }}
