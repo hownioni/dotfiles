@@ -197,6 +197,7 @@ cmd paste &{{
             ;;
         move)
             mv --update=none -- "$@" .
+            lf -remote "send clear"
             ;;
     esac
 }}
@@ -353,7 +354,7 @@ cmd dlfile %dlfile
 
 ### ARCHIVE BINDINGS
 # extract the current file with the right command
-cmd unarchive %{{
+cmd unarchive ${{
     set -f
 
     mapfile -t files < <(printf "%s" "$fx")
@@ -362,7 +363,9 @@ cmd unarchive %{{
         read -r out_dir
 
         if [[ -z "$out_dir" && ${#files[@]} -eq 1 ]]; then
-            out_dir="${f%%.*}"
+            out_dir="${f##*/}"
+            out_dir="${out_dir%%.*}"
+            echo "$out_dir"
         fi
 
         [[ -n "$out_dir" ]] && break
