@@ -1,4 +1,5 @@
 return {
+    require("migu.plugins.editor.compile"),
     require("migu.plugins.editor.format"),
     require("migu.plugins.editor.lint"),
     require("migu.plugins.editor.telescope"),

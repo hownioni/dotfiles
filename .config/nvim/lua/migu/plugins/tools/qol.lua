@@ -31,6 +31,10 @@ return {
         opts = {},
     },
     {
+        "nvim-mini/mini.align",
+        opts = {},
+    },
+    {
         "nmac427/guess-indent.nvim",
         opts = {},
     },
