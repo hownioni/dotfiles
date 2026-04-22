@@ -47,9 +47,6 @@ return {
             keymap = { preset = "default" },
             snippets = { preset = "mini_snippets" },
             completion = {
-                trigger = {
-                    show_in_snippet = false,
-                },
                 accept = {
                     auto_brackets = {
                         kind_resolution = {
