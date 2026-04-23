@@ -122,6 +122,19 @@ cmd mkdir %{{
     fi
 }}
 
+cmd mkdirgroup %{{
+    dir=""
+
+    while [ -z "$dir" ];
+    do
+        printf "Directory Name: "
+        read -r dir
+    done
+
+    mkdir -p -m 775 -- "$dir"
+    mv -t $dir $fx
+}}
+
 cmd mkfile %{{
     mode="$1"
     file=""
@@ -357,27 +370,36 @@ cmd dlfile %dlfile
 cmd unarchive %{{
     set -f
 
-    mapfile -t files < <(printf "%s" "$fx")
-    while : ; do
-        printf "Output dir: "
-        read -r out_dir
-
-        if [[ -z "$out_dir" && ${#files[@]} -eq 1 ]]; then
-            out_dir="${f##*/}"
-            out_dir="${out_dir%%.*}"
-            echo "$out_dir"
-        fi
-
-        [[ -n "$out_dir" ]] && break
-    done
-
     printf "Password: "
     read -r password
 
-    if [[ -z "$password" ]]; then
-        ouch decompress --dir "$out_dir" $fx
-    else
-        ouch decompress --dir "$out_dir" --password "$password" $fx
+    type="${1:-}"
+
+    if [[ -z "$type" ]]; then
+        if [[ -z "$password" ]]; then
+            ouch decompress $fx
+        else
+            ouch decompress --password "$password" $fx
+        fi
+    elif [[ "$type" == "dir" ]]; then
+        mapfile -t files < <(printf "%s" "$fx")
+        while : ; do
+            printf "Output dir: "
+            read -r out_dir
+
+            if [[ -z "$out_dir" && ${#files[@]} -eq 1 ]]; then
+                out_dir="${f##*/}"
+                out_dir="${out_dir%%.*}"
+            fi
+
+            [[ -n "$out_dir" ]] && break
+        done
+
+        if [[ -z "$password" ]]; then
+            ouch decompress --dir "$out_dir" $fx
+        else
+            ouch decompress --dir "$out_dir" --password "$password" $fx
+        fi
     fi
 }}
 
@@ -451,7 +473,8 @@ map DD delete
 map Q %lf -remote "send $id :cd \"$OLDPWD\"; quit"
 map mf mkfile normal
 map ms mkfile script
-map md mkdir
+map md. mkdir
+map mdg mkdirgroup
 map mx. chmod files
 map mxr chmod dir-recurs
 map bgd $cutebg $f
@@ -462,7 +485,8 @@ map <delete> delete
 map zi zi
 
 # Archive mappings
-map au :unarchive; reload
+map au. :unarchive; reload
+map aud :unarchive dir; reload
 map at compress tar
 map ag compress tgz
 map ab compress tbz2
