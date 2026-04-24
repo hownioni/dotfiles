@@ -17,7 +17,7 @@ input {
         //     options "compose:menu"
         // }
         repeat-delay 200
-        repeat-rate 30
+        repeat-rate 35
         numlock
     }
 
