@@ -122,9 +122,14 @@ cmd mkdir %{{
     fi
 }}
 
-cmd mkdirgroup %{{
-    dir=""
+cmd mkdgroup %{{
+    set -f
+    mode=$(head -1 ~/.local/share/lf/files)
+    list=$(sed 1d ~/.local/share/lf/files)
+    set -- _ $list; shift
+    [ $# -gt 0 ] || exit
 
+    dir=""
     while [ -z "$dir" ];
     do
         printf "Directory Name: "
@@ -132,7 +137,16 @@ cmd mkdirgroup %{{
     done
 
     mkdir -p -m 775 -- "$dir"
-    mv -t $dir $fx
+
+    case $mode in
+        copy)
+            cp -r -- "$@" "$dir"
+            ;;
+        move)
+            mv -- "$@" "$dir"
+            lr -remote "send clear"
+            ;;
+    esac
 }}
 
 cmd mkfile %{{
@@ -473,8 +487,8 @@ map DD delete
 map Q %lf -remote "send $id :cd \"$OLDPWD\"; quit"
 map mf mkfile normal
 map ms mkfile script
-map md. mkdir
-map mdg mkdirgroup
+map md mkdir
+map mg mkdgroup
 map mx. chmod files
 map mxr chmod dir-recurs
 map bgd $cutebg $f
