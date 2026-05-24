@@ -99,7 +99,7 @@ cmd open $set -f; rifle -p 0 $fx
 cmd open-with ${{
     clear
     set -f
-    rifle -l $fx | sed -e "s/:[a-Z]*:[a-Z]*:/ \| /"
+    rifle -l $fx | sed -e "s/:[a-zA-Z]*:[a-zA-Z]*:/ \| /"
     read -p "open with: " method
     rifle -p $method $fx
 }}
@@ -225,6 +225,30 @@ cmd paste &{{
         move)
             mv --update=none -- "$@" .
             lf -remote "send clear"
+            ;;
+    esac
+}}
+
+cmd paste-rename %{{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    list=$(sed 1d ~/.local/share/lf/files)
+    set -- _ $list; shift
+    [ $# -gt 0 ] || exit
+
+    file=${list##*/}
+
+    while : ; do
+        printf "Rename to [default: $file]: "
+        read -r new_name
+        new_name=${new_name:-$file}
+
+        [[ "$new_name" != "$file" ]] && break
+    done
+
+    case "$mode" in
+        copy)
+            cp -r --update=none -- "$list" ./"$new_name"
             ;;
     esac
 }}
@@ -517,8 +541,12 @@ map tl list_trash
 # Copy and paste
 map Po paste-replace
 map Pl link
+map Pr paste-rename
 map Yf yank-file
 map Yp yank-paths
+map Yd yank-dirname
+map Yb yank-basename
+map YB yank-basename-without-extension
 map bf select-buffer
 
 # Dragon mapping
