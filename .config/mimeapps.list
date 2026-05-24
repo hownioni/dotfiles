@@ -38,6 +38,7 @@ application/x-extension-shtml=firefox.desktop
 application/xhtml+xml=firefox.desktop
 application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 
 [Added Associations]
 x-scheme-handler/mailto=userapp-Thunderbird-6YLFK3.desktop;userapp-Thunderbird-LWQNS2.desktop;userapp-Thunderbird-D2VN22.desktop;

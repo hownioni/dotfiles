@@ -2,6 +2,7 @@ local opt = vim.o
 
 -- Appearance
 opt.termguicolors = true
+opt.colorcolumn = "80"
 opt.signcolumn = "yes"
 opt.cmdheight = 1
 opt.pumheight = 10
@@ -91,6 +92,21 @@ if os.getenv("XDG_SESSION_TYPE") == "wayland" then
         cache_enabled = true,
     }
 end
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "checkhealth",
+    callback = function()
+        vim.opt_local.colorcolumn = ""
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "ColorScheme", "VimEnter" }, {
+    callback = function()
+        vim.schedule(function()
+            vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#3a3a3a" })
+        end)
+    end,
+})
+
 opt.autowrite = true
 vim.opt.iskeyword:append("-")
 vim.opt.shortmess:append("I")

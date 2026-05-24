@@ -83,9 +83,6 @@ map("<leader><tab>]", "<cmd>tabnext<cr>", "Next Tab")
 map("<leader><tab>d", "<cmd>tabclose<cr>", "Close Tab")
 map("<leader><tab>[", "<cmd>tabprevious<cr>", "Previous Tab")
 
--- WhichKey
-map("<leader>wk", "<cmd>WhichKey <CR>", "[W]hich[K]ey")
-
 -- [[ Basic Autocommands ]]
 
 -- Highlight when yanking (copying) text
@@ -94,5 +91,24 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
     callback = function()
         vim.hl.on_yank()
+    end,
+})
+
+-- Prose writing mode: soft word-wrap + visual-line navigation
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "tex", "plaintex", "text", "rst", "asciidoc" },
+    group = vim.api.nvim_create_augroup("prose-mode", { clear = true }),
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.colorcolumn = ""
+
+        -- j/k navigate visual lines; arrow keys intentionally left as logical-line navigation
+        local opts = { expr = true, buffer = true }
+        vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", opts)
+        vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", opts)
+        vim.keymap.set("n", "0", "g0", { buffer = true })
+        vim.keymap.set("n", "$", "g$", { buffer = true })
+        vim.keymap.set("n", "^", "g^", { buffer = true })
     end,
 })
