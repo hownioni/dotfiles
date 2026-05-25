@@ -1,6 +1,10 @@
 return {
     "ej-shafran/compile-mode.nvim",
     version = "^5.0.0",
+    keys = {
+        { "<leader>cc", "<cmd>Compile<cr>",   desc = "compile" },
+        { "<leader>cr", "<cmd>Recompile<cr>", desc = "recompile" },
+    },
     dependencies = {
         "nvim-lua/plenary.nvim",
         "m00qek/baleia.nvim",

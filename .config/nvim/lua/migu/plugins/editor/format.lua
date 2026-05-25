@@ -4,12 +4,20 @@ return {
     cmd = { "ConformInfo" },
     keys = {
         {
-            "<leader>gf",
+            "grf",
             function()
                 require("conform").format({ async = true, lsp_format = "fallback" })
             end,
             mode = "",
-            desc = "[G]et [F]ormatting",
+            desc = "format buffer",
+        },
+        {
+            "<leader>tf",
+            function()
+                vim.g.disable_autoformat = not vim.g.disable_autoformat
+                vim.notify(vim.g.disable_autoformat and "Autoformat off" or "Autoformat on")
+            end,
+            desc = "toggle autoformat",
         },
     },
     opts = {
@@ -55,9 +63,9 @@ return {
             },
         },
         format_on_save = function(bufnr)
-            -- Disable "format_on_save lsp_fallback" for languages that don't
-            -- have a well standardized coding style. You can add additional
-            -- languages here or re-enable it for the disabled ones.
+            if vim.g.disable_autoformat then
+                return nil
+            end
             local disable_filetypes = { c = true, cpp = true }
             if disable_filetypes[vim.bo[bufnr].filetype] then
                 return nil

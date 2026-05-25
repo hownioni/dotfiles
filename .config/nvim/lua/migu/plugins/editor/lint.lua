@@ -3,11 +3,11 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     keys = {
         {
-            "<leader>gl",
+            "grl",
             function()
                 require("lint").try_lint()
             end,
-            desc = "[G]et [L]inting",
+            desc = "lint buffer",
         },
     },
     config = function()

@@ -10,78 +10,104 @@ end
 -- [[ Basic Keymaps ]]
 
 -- Clear search
-map("<Esc>", "<cmd>nohlsearch<CR>", "Clear search highlights")
+map("<Esc>", "<cmd>nohlsearch<CR>", "clear search highlights")
 
 -- [[ Copied from LazyVim ]]
 
 -- Move to window using the <ctrl>+hjkl keys
-map("<C-h>", "<C-w>h", "Go to left window", { remap = true })
-map("<C-j>", "<C-w>j", "Go to lower window", { remap = true })
-map("<C-k>", "<C-w>k", "Go to upper window", { remap = true })
-map("<C-l>", "<C-w>l", "Go to right window", { remap = true })
-map("<C-q>", "<C-w>q", "Close window", { remap = true })
+map("<C-h>", "<C-w>h", "go to left window", { remap = true })
+map("<C-j>", "<C-w>j", "go to lower window", { remap = true })
+map("<C-k>", "<C-w>k", "go to upper window", { remap = true })
+map("<C-l>", "<C-w>l", "go to right window", { remap = true })
+map("<C-q>", "<C-w>q", "close window", { remap = true })
 
 -- Resize window using <ctrl> arrow keys
-map("<C-Up>", "<cmd>resize +2<cr>", "Increase Window Height")
-map("<C-Down>", "<cmd>resize -2<cr>", "Decrease Window Height")
-map("<C-Left>", "<cmd>vertical resize -2<cr>", "Decrease Window Width")
-map("<C-Right>", "<cmd>vertical resize +2<cr>", "Increase Window Width")
+map("<C-Up>", "<cmd>resize +2<cr>", "increase window height")
+map("<C-Down>", "<cmd>resize -2<cr>", "decrease window height")
+map("<C-Left>", "<cmd>vertical resize -2<cr>", "decrease window width")
+map("<C-Right>", "<cmd>vertical resize +2<cr>", "increase window width")
 
 -- Move Lines
-map("<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", "Move Down")
-map("<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", "Move Up")
-map("<A-j>", "<esc><cmd>m .+1<cr>==gi", "Move Down", nil, "i")
-map("<A-k>", "<esc><cmd>m .-2<cr>==gi", "Move Up", nil, "i")
-map("<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", "Move Down", nil, "v")
-map("<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", "Move Up", nil, "v")
+map("<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", "move down")
+map("<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", "move up")
+map("<A-j>", "<esc><cmd>m .+1<cr>==gi", "move down", nil, "i")
+map("<A-k>", "<esc><cmd>m .-2<cr>==gi", "move up", nil, "i")
+map("<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", "move down", nil, "v")
+map("<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", "move up", nil, "v")
 
 -- buffers
-map("[b", "<cmd>bprevious<cr>", "Prev Buffer")
-map("]b", "<cmd>bnext<cr>", "Next Buffer")
-map("<leader>bb", "<cmd>e #<cr>", "Switch to Other Buffer")
-map("<leader>bd", "<cmd>:bd<cr>", "Delete Buffer and Window")
+map("[b", "<cmd>bprevious<cr>", "prev buffer")
+map("]b", "<cmd>bnext<cr>", "next buffer")
+map("<leader>bb", "<cmd>e #<cr>", "switch to other buffer")
+map("<leader>bd", "<cmd>:bd<cr>", "delete buffer and window")
+map("<leader>bO", function()
+    local current = vim.fn.bufnr()
+    for _, buf in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
+        if buf.bufnr ~= current then
+            vim.cmd("bd " .. buf.bufnr)
+        end
+    end
+end, "close other buffers")
+
+-- diagnostics
+map("]d", vim.diagnostic.goto_next, "next diagnostic")
+map("[d", vim.diagnostic.goto_prev, "prev diagnostic")
+
+-- quickfix
+map("]q", "<cmd>cnext<cr>", "next quickfix item")
+map("[q", "<cmd>cprev<cr>", "prev quickfix item")
+map("]Q", "<cmd>clast<cr>", "last quickfix item")
+map("[Q", "<cmd>cfirst<cr>", "first quickfix item")
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-map("n", "'Nn'[v:searchforward].'zv'", "Next Search Result", { expr = true }, "n")
-map("n", "'Nn'[v:searchforward]", "Next Search Result", { expr = true }, "x")
-map("n", "'Nn'[v:searchforward]", "Next Search Result", { expr = true }, "o")
-map("N", "'nN'[v:searchforward].'zv'", "Prev Search Result", { expr = true }, "n")
-map("N", "'nN'[v:searchforward]", "Prev Search Result", { expr = true }, "x")
-map("N", "'nN'[v:searchforward]", "Prev Search Result", { expr = true }, "o")
+map("n", "'Nn'[v:searchforward].'zv'", "next search result", { expr = true }, "n")
+map("n", "'Nn'[v:searchforward]", "next search result", { expr = true }, "x")
+map("n", "'Nn'[v:searchforward]", "next search result", { expr = true }, "o")
+map("N", "'nN'[v:searchforward].'zv'", "prev search result", { expr = true }, "n")
+map("N", "'nN'[v:searchforward]", "prev search result", { expr = true }, "x")
+map("N", "'nN'[v:searchforward]", "prev search result", { expr = true }, "o")
 
 -- save file
-map("<C-s>", "<cmd>w<cr><esc>", "Save File", nil, { "i", "x", "n", "s" })
+map("<C-s>", "<cmd>w<cr><esc>", "save file", nil, { "i", "x", "n", "s" })
 
 --keywordprg
-map("<leader>K", "<cmd>norm! K<cr>", "Keywordprg")
+map("<leader>K", "<cmd>norm! K<cr>", "keywordprg")
 
 -- better indenting
 map("<", "<gv", "", nil, "v")
 map(">", ">gv", "", nil, "v")
 
 -- commenting
-map("gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", "Add Comment Below")
-map("gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", "Add Comment Above")
+map("gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", "add comment below")
+map("gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", "add comment above")
+
+-- toggles
+map("<leader>ts", function()
+    vim.opt_local.spell = not vim.opt_local.spell
+end, "toggle spell")
+map("<leader>tl", function()
+    vim.wo.relativenumber = not vim.wo.relativenumber
+end, "toggle relative numbers")
 
 -- lazy
-map("<leader>l", "<cmd>Lazy<cr>", "Lazy")
+map("<leader>l", "<cmd>Lazy<cr>", "lazy")
 
 -- new file
-map("<leader>fn", "<cmd>enew<cr>", "New File")
+map("<leader>fn", "<cmd>enew<cr>", "new file")
 
 -- windows
-map("<leader>-", "<C-W>s", "Split Window Below", { remap = true })
-map("<leader>|", "<C-W>v", "Split Window Right", { remap = true })
-map("<leader>wd", "<C-W>c", "Delete Window", { remap = true })
+map("<leader>-", "<C-W>s", "split window below", { remap = true })
+map("<leader>|", "<C-W>v", "split window right", { remap = true })
+map("<leader>wd", "<C-W>c", "delete window", { remap = true })
 
 -- tabs
-map("<leader><tab>l", "<cmd>tablast<cr>", "Last Tab")
-map("<leader><tab>o", "<cmd>tabonly<cr>", "Close Other Tabs")
-map("<leader><tab>f", "<cmd>tabfirst<cr>", "First Tab")
-map("<leader><tab><tab>", "<cmd>tabnew<cr>", "New Tab")
-map("<leader><tab>]", "<cmd>tabnext<cr>", "Next Tab")
-map("<leader><tab>d", "<cmd>tabclose<cr>", "Close Tab")
-map("<leader><tab>[", "<cmd>tabprevious<cr>", "Previous Tab")
+map("<leader><tab>l", "<cmd>tablast<cr>", "last tab")
+map("<leader><tab>o", "<cmd>tabonly<cr>", "close other tabs")
+map("<leader><tab>f", "<cmd>tabfirst<cr>", "first tab")
+map("<leader><tab><tab>", "<cmd>tabnew<cr>", "new tab")
+map("<leader><tab>]", "<cmd>tabnext<cr>", "next tab")
+map("<leader><tab>d", "<cmd>tabclose<cr>", "close tab")
+map("<leader><tab>[", "<cmd>tabprevious<cr>", "previous tab")
 
 -- [[ Basic Autocommands ]]
 

@@ -7,44 +7,19 @@ return {
 
         local telescope = require("telescope.builtin")
 
-        -- Rename the variable under your cursor.
-        --  Most Language Servers support renaming across files, etc.
-        map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-
-        -- Execute a code action, usually your cursor needs to be on top of an error
-        -- or a suggestion from your LSP for this to activate.
-        map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
-
         -- Find references for the word under your cursor.
-        map("grr", telescope.lsp_references, "[G]oto [R]eferences")
-
-        -- Jump to the implementation of the word under your cursor.
-        --  Useful when your language has ways of declaring types without an actual implementation.
-        map("gri", telescope.lsp_implementations, "[G]oto [I]mplementation")
-
-        -- Jump to the definition of the word under your cursor.
-        --  This is where a variable was first declared, or where a function is defined, etc.
-        --  To jump back, press <C-t>.
-        map("grd", telescope.lsp_definitions, "[G]oto [D]efinition")
-
-        -- WARN: This is not Goto Definition, this is Goto Declaration.
-        --  For example, in C this would take you to the header.
-        map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-        -- Jump to the type of the word under your cursor.
-        --  Useful when you're not sure what type a variable is and you want to see
-        --  the definition of its *type*, not where it was *defined*.
-        map("grt", telescope.lsp_type_definitions, "[G]oto [T]ype Definition")
-
-        -- Fuzzy find all the symbols in your current document.
-        --  Symbols are things like variables, functions, types, etc.
-        map("<leader>Sd", telescope.lsp_document_symbols, "Open [D]ocument [S]ymbols")
-
-        -- Fuzzy find all the symbols in your current workspace.
-        --  Similar to document symbols, except searches over your entire project.
-        map("<leader>Sw", telescope.lsp_dynamic_workspace_symbols, "Open [W]orkspace [S]ymbols")
-
-        map("<leader>e", vim.diagnostic.open_float, "Open [E]rrors on window")
+        -- gr* is Neovim 0.11+'s standard LSP keymap prefix. The r stands for
+        -- "refactor" — chosen over gl ("language") because gr was a free
+        -- namespace with no planned alternative use.
+        -- https://github.com/neovim/neovim/pull/28650
+        map("grr", telescope.lsp_references, "references")
+        map("gri", telescope.lsp_implementations, "implementation")
+        map("grd", telescope.lsp_definitions, "definition")
+        map("grD", vim.lsp.buf.declaration, "declaration")
+        map("grt", telescope.lsp_type_definitions, "type definition")
+        map("gre", vim.diagnostic.open_float, "diagnostics float")
+        map("<leader>sy", telescope.lsp_document_symbols, "document symbols")
+        map("<leader>sW", telescope.lsp_dynamic_workspace_symbols, "workspace symbols")
 
         -- The following two autocommands are used to highlight references of the
         -- word under your cursor when your cursor rests there for a little while.
@@ -82,7 +57,7 @@ return {
         if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map("<leader>th", function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-            end, "[T]oggle Inlay [H]ints")
+            end, "toggle inlay hints")
         end
     end,
     texlab = function(bufnr)
