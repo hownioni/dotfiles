@@ -14,7 +14,8 @@ return {
     },
     {
         "hownioni/Arduino-Nvim",
-        branch = "patch-1",
+        dev = true,
+        dir = "~/repos/GitHub/Arduino-Nvim/",
         dependencies = {
             "nvim-telescope/telescope.nvim",
             "neovim/nvim-lspconfig",
