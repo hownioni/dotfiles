@@ -1,0 +1,9 @@
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/scripts/statusline-command.sh"
+  },
+  "advisorModel": "opus",
+  "theme": "auto",
+  "editorMode": "vim"
+}
