@@ -419,25 +419,6 @@ cmd unarchive %{{
         else
             ouch decompress --password "$password" $fx
         fi
-    elif [[ "$type" == "dir" ]]; then
-        mapfile -t files < <(printf "%s" "$fx")
-        while : ; do
-            printf "Output dir: "
-            read -r out_dir
-
-            if [[ -z "$out_dir" && ${#files[@]} -eq 1 ]]; then
-                out_dir="${f##*/}"
-                out_dir="${out_dir%%.*}"
-            fi
-
-            [[ -n "$out_dir" ]] && break
-        done
-
-        if [[ -z "$password" ]]; then
-            ouch decompress --dir "$out_dir" $fx
-        else
-            ouch decompress --dir "$out_dir" --password "$password" $fx
-        fi
     fi
 }}
 
@@ -523,8 +504,7 @@ map <delete> delete
 map zi zi
 
 # Archive mappings
-map au. :unarchive; reload
-map aud :unarchive dir; reload
+map au :unarchive; reload
 map at compress tar
 map ag compress tgz
 map ab compress tbz2

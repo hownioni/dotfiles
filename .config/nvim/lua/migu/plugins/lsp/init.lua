@@ -13,9 +13,7 @@ return {
         },
     },
     {
-        "hownioni/Arduino-Nvim",
-        dev = true,
-        dir = "~/repos/GitHub/Arduino-Nvim/",
+        "yuukiflow/Arduino-Nvim",
         dependencies = {
             "nvim-telescope/telescope.nvim",
             "neovim/nvim-lspconfig",
