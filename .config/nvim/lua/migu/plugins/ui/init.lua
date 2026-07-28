@@ -9,7 +9,6 @@ local function file_exists(name)
 end
 
 local pywal_file = vim.fn.expand("$HOME/.cache/wal/colors.sh")
-local dms_file = vim.fn.expand("$HOME/.config/nvim/lua/migu/plugins/ui/dankcolors.lua")
 local display_server = os.getenv("XDG_SESSION_TYPE")
 
 local require_tbl = {
@@ -23,9 +22,9 @@ if file_exists(pywal_file) and display_server == "x11" then
     vim.list_extend(require_tbl, {
         require("migu.plugins.ui.pywal"),
     })
-elseif file_exists(dms_file) and display_server == "wayland" then
+elseif display_server == "wayland" then
     vim.list_extend(require_tbl, {
-        require("migu.plugins.ui.dankcolors"),
+        require("migu.plugins.ui.wlcolors"),
     })
 end
 

@@ -14,3 +14,5 @@ require("vim._core.ui2").enable({})
 require("migu.options")
 require("migu.keymaps")
 require("migu.lazy")
+
+vim.cmd.colorscheme("dms")
