@@ -24,6 +24,7 @@ export PATH="$PATH:$HOME/.local/bin"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export EDITOR='nvim'
 export VISUAL='nvim'
+export DIFFPROG='nvim -d'
 export TERMINAL='kitty'
 export MANPAGER='nvim +Man!'
 export HOSTNAME
