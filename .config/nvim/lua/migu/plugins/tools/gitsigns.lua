@@ -1,6 +1,7 @@
 return {
     { -- Adds git related signs to the gutter, as well as utilities for managing changes
         "lewis6991/gitsigns.nvim",
+        lazy = false,
         opts = {
             signs = {
                 add = { text = "+" },
@@ -44,19 +45,19 @@ return {
                     gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
                 end, { desc = "git reset hunk" })
                 -- normal mode
-                map("n", "<leader>ghs", gitsigns.stage_hunk,   { desc = "git stage hunk" })
-                map("n", "<leader>ghr", gitsigns.reset_hunk,   { desc = "git reset hunk" })
+                map("n", "<leader>ghs", gitsigns.stage_hunk, { desc = "git stage hunk" })
+                map("n", "<leader>ghr", gitsigns.reset_hunk, { desc = "git reset hunk" })
                 map("n", "<leader>ghS", gitsigns.stage_buffer, { desc = "git stage buffer" })
                 map("n", "<leader>ghR", gitsigns.reset_buffer, { desc = "git reset buffer" })
                 map("n", "<leader>ghp", gitsigns.preview_hunk, { desc = "git preview hunk" })
-                map("n", "<leader>ghb", gitsigns.blame_line,   { desc = "git blame line" })
-                map("n", "<leader>ghd", gitsigns.diffthis,     { desc = "git diff against index" })
+                map("n", "<leader>ghb", gitsigns.blame_line, { desc = "git blame line" })
+                map("n", "<leader>ghd", gitsigns.diffthis, { desc = "git diff against index" })
                 map("n", "<leader>ghD", function()
                     gitsigns.diffthis("@")
                 end, { desc = "git diff against last commit" })
                 -- Toggles
                 map("n", "<leader>tb", gitsigns.toggle_current_line_blame, { desc = "toggle git blame" })
-                map("n", "<leader>tD", gitsigns.preview_hunk_inline,       { desc = "toggle git show deleted" })
+                map("n", "<leader>tD", gitsigns.preview_hunk_inline, { desc = "toggle git show deleted" })
             end,
         },
     },
