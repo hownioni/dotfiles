@@ -37,5 +37,6 @@ export GLFW_IM_MODULE=ibus
 export XMODIFIERS=@im=fcitx
 export MOZ_USE_XINPUT2=1
 export SUDO_ASKPASS=/usr/lib/seahorse/ssh-askpass
+export DMS_PRIVESC=sudo
 
 unset year
