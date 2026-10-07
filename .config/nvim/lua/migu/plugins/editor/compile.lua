@@ -23,7 +23,6 @@ return {
                 java = "javac % && java %:r",
                 go = "go run %",
             },
-            input_word_completion = true,
             ansi_color = { kind = "render", baleia_options = {} },
             bang_expansion = true,
         }

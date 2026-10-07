@@ -69,6 +69,7 @@ return {
                             },
                         },
                     },
+                    auto_show = false,
                 },
                 documentation = {
                     auto_show = true,
@@ -87,6 +88,22 @@ return {
                     "score",
                     "sort_text",
                 },
+            },
+            cmdline = {
+                sources = function()
+                    local type = vim.fn.getcmdtype()
+                    -- Disable blink.cmp in input() prompts to prevent plugin collisions
+                    if type == "@" then
+                        return {}
+                    end
+                    if type == ":" then
+                        return { "cmdline" }
+                    end
+                    if type == "/" or type == "?" then
+                        return { "buffer" }
+                    end
+                    return {}
+                end,
             },
             sources = {
                 default = { "lsp", "path", "snippets", "buffer" },
