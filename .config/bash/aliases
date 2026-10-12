@@ -33,7 +33,9 @@ alias ..='cd ..'
 alias rcp='rsync -ah --progress'
 alias bathelp='bat --plain --language=help'
 
+### Shorten
+alias n='nvim'
+alias z='zathura'
+
 # Dotfiles
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
-
-alias carterita='hledger --file="$HOME/Documents/cuentas/carterita.journal"'
