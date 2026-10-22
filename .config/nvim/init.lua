@@ -9,6 +9,8 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { expr = true }) -- Makes space
 vim.g.have_nerd_font = true
 vim.g.c_syntax_for_h = 1
 
+vim.opt.fileencodings = "ucs-bom,utf-8,cp932,shift-jis,default"
+
 require("vim._core.ui2").enable({})
 
 require("migu.options")
