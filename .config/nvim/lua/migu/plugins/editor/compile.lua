@@ -25,6 +25,17 @@ return {
             },
             ansi_color = { kind = "render", baleia_options = {} },
             bang_expansion = true,
+            focus_compilation_buffer = true,
         }
+
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = "compilation",
+            callback = function(args)
+                local buf = args.buf
+                pcall(vim.keymap.del, "n", "q", { buf = buf })
+                vim.keymap.set("n", "<C-g>q", "<cmd>QuickfixErrors<cr>", { buf = buf, silent = true })
+                vim.keymap.set("n", "<C-q>", "<cmd>CompileCloseBuffer<cr>", { buf = buf, silent = true })
+            end,
+        })
     end,
 }

@@ -7,6 +7,28 @@ local function map(keys, func, desc, opts, mode)
     vim.keymap.set(mode, keys, func, options)
 end
 
+local function new_typed_file()
+    local telescope_builtin = require("telescope.builtin")
+
+    telescope_builtin.filetypes({
+        attach_mappings = function(prompt_bufnr, _)
+            local actions = require("telescope.actions")
+            local action_state = require("telescope.actions.state")
+
+            actions.select_default:replace(function()
+                local selection = action_state.get_selected_entry()
+                actions.close(prompt_bufnr)
+
+                if selection then
+                    vim.cmd("enew")
+                    vim.bo.filetype = selection[1]
+                end
+            end)
+            return true
+        end,
+    })
+end
+
 -- [[ Basic Keymaps ]]
 
 -- Clear search
@@ -50,8 +72,12 @@ map("<leader>bO", function()
 end, "close other buffers")
 
 -- diagnostics
-map("]d", vim.diagnostic.goto_next, "next diagnostic")
-map("[d", vim.diagnostic.goto_prev, "prev diagnostic")
+map("]d", function()
+    vim.diagnostic.jump({ count = 1, float = true })
+end, "next diagnostic")
+map("[d", function()
+    vim.diagnostic.jump({ count = -1, float = true })
+end, "prev diagnostic")
 
 -- quickfix
 map("]q", "<cmd>cnext<cr>", "next quickfix item")
@@ -94,6 +120,7 @@ map("<leader>l", "<cmd>Lazy<cr>", "lazy")
 
 -- new file
 map("<leader>fn", "<cmd>enew<cr>", "new file")
+map("<leader>fN", new_typed_file, "new file with type select")
 
 -- windows
 map("<leader>-", "<C-W>s", "split window below", { remap = true })

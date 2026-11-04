@@ -106,7 +106,7 @@ return {
                 end,
             },
             sources = {
-                default = { "lsp", "path", "snippets", "buffer" },
+                default = { "lsp", "path", "snippets", "buffer", "c23" },
                 per_filetype = {
                     lua = { inherit_defaults = true, "lazydev" },
                     tex = { inherit_defaults = true, "vimtex" },
@@ -126,6 +126,14 @@ return {
                     },
                     buffer = {
                         score_offset = -10,
+                    },
+                    c23 = {
+                        name = "C23",
+                        module = "migu.blink.c23",
+                        enabled = function()
+                            return vim.bo.filetype == "c"
+                        end,
+                        score_offset = 0,
                     },
                 },
             },
