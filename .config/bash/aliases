@@ -35,7 +35,7 @@ alias bathelp='bat --plain --language=help'
 
 ### Shorten
 alias n='nvim'
-alias z='zathura'
+alias z='zathura --fork  > /dev/null 2>&1'
 
 # Dotfiles
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
