@@ -1,8 +1,62 @@
 #!/usr/bin/env bash
+# Only lf runs this script (set previewer in lfrc). $id is lf's client id.
+
+# Full terminal size in cells and pixels (TIOCGWINSZ), for icat's --use-window-size
+window_size() {
+	python3 -I -c 'import fcntl, os, struct, termios
+r, c, xp, yp = struct.unpack("HHHH", fcntl.ioctl(os.open("/dev/tty", os.O_RDONLY), termios.TIOCGWINSZ, bytes(8)))
+if not (xp and yp): raise SystemExit(1)  # terminal does not report pixel size
+print(f"{c},{r},{xp},{yp}")'
+}
+
 draw() {
-	kitten icat --stdin no --transfer-mode memory --place "${w}x${h}@${x}x${y}" "$1" </dev/null >/dev/tty
+	local size out res shm
+	# Writing to /dev/tty ourselves races with lf's own screen output, and a
+	# half-written graphics command can make kitty swallow lf's output.
+	# So have icat print its commands, and let lf write them with tty-write,
+	# synchronized with its drawing. If lf is gone, nothing gets drawn.
+	#
+	# If there is nothing to draw (no cover art, no video stream for
+	# vidthumb, ...), return instead of exiting so the script falls through
+	# to pistol. icat exits 0 and prints nothing when it can't decode an
+	# image, so check its output too: an empty tty-write is an lf error.
+	if [[ -s "$1" ]] && size="$(window_size 2>/dev/null)" &&
+		out="$(kitten icat --stdin no --transfer-mode memory --use-window-size "$size" \
+			--place "${w}x${h}@${x}x${y}" "${@:2}" "$1" </dev/null 2>/dev/null)" &&
+		[[ -n "$out" ]]; then
+		# lf -remote exits 0 even if this lf is gone ("no client with ID
+		# ... connected"), so treat any output as failure too
+		# shellcheck disable=SC2154  # $id is exported by lf
+		if ! res="$(lf -remote "send $id tty-write $(printf '%s' "$out" | ~/.config/lf/scripts/lf-escape)" 2>&1)" ||
+			[[ -n "$res" ]]; then
+			# kitty normally unlinks the shared memory once it reads it
+			shm="$(printf '%s' "${out##*;}" | sed 's/\x1b\\$//' | base64 -d 2>/dev/null)"
+			[[ "$shm" == /icat-* ]] && rm -f "/dev/shm/${shm#/}"
+		fi
+		[[ -f "$cache_f" ]] && rm -f "$cache_f"
+		exit 1 # don't let lf cache an image preview, so the cleaner runs
+	fi
 	[[ -f "$cache_f" ]] && rm -f "$cache_f"
-	exit 1
+	return 1
+}
+
+# Codec, duration and tags of an audio/video file with no picture to show
+media_info() {
+	local info
+	info="$(ffprobe -v error -select_streams a:0 \
+		-show_entries stream=codec_name,sample_rate,channels:format=duration,bit_rate:format_tags=title,artist,album,date \
+		-of default=noprint_wrappers=1 -i "$1" 2>/dev/null | awk '
+		{ k = $0; sub(/=.*/, "", k); v = $0; sub(/^[^=]*=/, "", v) }
+		v == "" || v == "N/A" { next }
+		k == "codec_name"  { printf "Codec        %s\n", v }
+		k == "sample_rate" { printf "Sample rate  %s Hz\n", v }
+		k == "channels"    { printf "Channels     %s\n", v }
+		k == "duration"    { s = int(v); if (s >= 3600) printf "Duration     %d:%02d:%02d\n", s / 3600, s % 3600 / 60, s % 60
+		                     else printf "Duration     %d:%02d\n", s / 60, s % 60 }
+		k == "bit_rate"    { printf "Bit rate     %d kb/s\n", v / 1000 }
+		k ~ /^TAG:/        { t = tolower(substr(k, 5)); tags = tags sprintf("%-12s %s\n", toupper(substr(t, 1, 1)) substr(t, 2), v) }
+		END                { if (tags != "") printf "\n%s", tags }')"
+	[[ -n "$info" ]] && printf '%s\n' "$info"
 }
 
 file=$1
@@ -18,11 +72,32 @@ ext="${file##*.}"
 ext="${ext,,}"
 cache_f="${cache_d}/${ext}_preview"
 
-exiftype="$(exiftool -s3 -MIMEType "$file")"
 filetype="$(file -Lb --mime-type "$file")"
 
-if [[ "$filetype" =~ ^image ]]; then
+# Aseprite sprites: `file` calls them image/x-aseprite, which icat can't
+# decode. Export the first frame (aseprite picks the format from .png).
+if [[ "$filetype" == image/x-aseprite || "$ext" == aseprite || "$ext" == ase ]]; then
+	aseprite -b --frame-range 0,0 "$file" --save-as "${cache_f}.png" >/dev/null 2>&1 &&
+		mv -- "${cache_f}.png" "$cache_f"
+
+	draw "$cache_f"
+
+elif [[ "$filetype" =~ ^image ]]; then
 	draw "$file"
+
+# Office documents: OpenDocument files embed a first-page thumbnail, and OOXML
+# (docx/xlsx/pptx) files sometimes do. Without one, fall through to pistol
+# (docx2txt, pandoc for xlsx). Thumbnails are small, so scale up.
+# Text documents (odt) skip the thumbnail and keep their text via odt2txt.
+elif [[ "$filetype" =~ ^application/vnd\.oasis\.opendocument\. && "$filetype" != *opendocument.text ]]; then
+	bsdtar -xOf "$file" Thumbnails/thumbnail.png >"$cache_f" 2>/dev/null
+
+	draw "$cache_f" --scale-up
+
+elif [[ "$filetype" =~ ^application/vnd\.openxmlformats-officedocument\. ]]; then
+	bsdtar -xOf "$file" 'docProps/thumbnail.*' >"$cache_f" 2>/dev/null
+
+	draw "$cache_f" --scale-up
 
 elif [[ "$filetype" =~ ^application/pdf ]]; then
 	pdftoppm -f 1 -l 1 \
@@ -44,14 +119,15 @@ elif [[ "$filetype" =~ ^application/postscript ]]; then
 
 	draw "$cache_f"
 
-elif [[ "$exiftype" =~ ^video ]]; then
+# Videos and audio cover art: ffmpeg exposes an embedded cover as a one-frame
+# video stream, so vidthumb handles both (mp3, flac, m4a, ogg/opus, ...) and
+# caches the result. Files without a picture (e.g. voice recordings, which
+# `file` may call video/3gpp) make vidthumb fail and get media_info instead.
+# No exiftool: it takes ~170 ms just to start.
+elif [[ "$filetype" =~ ^(video|audio)/ || "$filetype" == application/ogg ]]; then
 	draw "$(vidthumb "$file")"
-
-elif [[ "$exiftype" =~ ^audio ]]; then
-	[[ "$ext" == m4a ]] && covertag=coverart || covertag=Picture
-	exiftool -b -"$covertag" "$file" >"$cache_f"
-
-	draw "$cache_f"
+	# no picture: show codec, duration and tags instead of just the file type
+	media_info "$file" && exit 0
 fi
 
 #"$HOME/.config/lf/ranger/scope.sh" "$file" "$w" "$h" "" "" || true

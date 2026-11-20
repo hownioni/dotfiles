@@ -1,0 +1,13 @@
+{
+  "Prettier Ignore Block": {
+    "prefix": "pignore",
+    "body": [
+      "<!-- prettier-ignore-start -->",
+      "",
+      "$0",
+      "",
+      "<!-- prettier-ignore-end -->"
+    ],
+    "description": "Wrap content in prettier-ignore comments"
+  }
+}

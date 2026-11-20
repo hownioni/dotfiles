@@ -10,6 +10,8 @@ return {
         { "m00qek/baleia.nvim", tag = "v1.3.0", submodules = false },
     },
     config = function()
+        local date = os.date("%Y%m%d")
+
         ---@module "compile-mode"
         ---@type CompileModeOpts
         vim.g.compile_mode = {
@@ -22,6 +24,11 @@ return {
                 cpp = "g++ -std=c++23 -o %:r % && ./%:r",
                 java = "javac % && java %:r",
                 go = "go run %",
+                markdown = "pandoc % --metadata-file %:r.yaml -so "
+                    .. date
+                    .. "_%:r.pdf && zathura --fork  > /dev/null 2>&1 "
+                    .. date
+                    .. "_%:r.pdf",
             },
             ansi_color = { kind = "render", baleia_options = {} },
             bang_expansion = true,

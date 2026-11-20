@@ -1,6 +1,6 @@
 {{$color := 44 -}}
 {{if eq .Mode "VISUAL" -}}
-  {{$color = 45 -}}
+  {{$color = 46 -}}
 {{end -}}
 {{printf "\033[30;%dm %s" $color .Mode}}
 
@@ -31,6 +31,6 @@
 
 {{$color := 44 -}}
 {{if eq .Mode "VISUAL" -}}
-  {{$color = 45 -}}
+  {{$color = 46 -}}
 {{end -}}
 {{printf "\033[30;%dm %d/%d " $color .Index .Total}}

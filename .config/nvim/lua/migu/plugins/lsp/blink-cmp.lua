@@ -44,7 +44,25 @@ return {
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
         opts = {
-            keymap = { preset = "default" },
+            keymap = {
+                preset = "default",
+                -- in a table (tablamd.nvim), <Tab>/<S-Tab> move between cells
+                -- when there's no snippet to jump in
+                ["<Tab>"] = {
+                    "snippet_forward",
+                    function()
+                        return package.loaded.tablamd and require("tablamd").try("next_cell")
+                    end,
+                    "fallback",
+                },
+                ["<S-Tab>"] = {
+                    "snippet_backward",
+                    function()
+                        return package.loaded.tablamd and require("tablamd").try("prev_cell")
+                    end,
+                    "fallback",
+                },
+            },
             snippets = { preset = "mini_snippets" },
             completion = {
                 accept = {

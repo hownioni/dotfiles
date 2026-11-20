@@ -45,7 +45,7 @@ ow      34      # OTHER_WRITABLE
 st      01;34   # STICKY
 di      01;34   # DIR
 pi      33      # FIFO
-so      01;35   # SOCK
+so      01;95   # SOCK
 bd      33;01   # BLK
 cd      33;01   # CHR
 su      01;32   # SETUID
@@ -105,56 +105,64 @@ fi      00      # FILE
 *.dwm   01;31
 *.esd   01;31
 
-# image formats (dircolors defaults)
-*.jpg   01;35
-*.jpeg  01;35
-*.mjpg  01;35
-*.mjpeg 01;35
-*.gif   01;35
-*.bmp   01;35
-*.pbm   01;35
-*.pgm   01;35
-*.ppm   01;35
-*.tga   01;35
-*.xbm   01;35
-*.xpm   01;35
-*.tif   01;35
-*.tiff  01;35
-*.png   01;35
-*.svg   01;35
-*.svgz  01;35
-*.mng   01;35
-*.pcx   01;35
-*.mov   01;35
-*.mpg   01;35
-*.mpeg  01;35
-*.m2v   01;35
-*.mkv   01;35
-*.webm  01;35
-*.ogm   01;35
-*.mp4   01;35
-*.m4v   01;35
-*.mp4v  01;35
-*.vob   01;35
-*.qt    01;35
-*.nuv   01;35
-*.wmv   01;35
-*.asf   01;35
-*.rm    01;35
-*.rmvb  01;35
-*.flc   01;35
-*.avi   01;35
-*.fli   01;35
-*.flv   01;35
-*.gl    01;35
-*.dl    01;35
-*.xcf   01;35
-*.xwd   01;35
-*.yuv   01;35
-*.cgm   01;35
-*.emf   01;35
-*.ogv   01;35
-*.ogx   01;35
+# image formats (slot 5/magenta is avoided: wallpaper themes can make it
+# nearly the background color)
+*.jpg   01;33
+*.jpeg  01;33
+*.mjpg  01;33
+*.mjpeg 01;33
+*.gif   01;33
+*.bmp   01;33
+*.pbm   01;33
+*.pgm   01;33
+*.ppm   01;33
+*.tga   01;33
+*.xbm   01;33
+*.xpm   01;33
+*.tif   01;33
+*.tiff  01;33
+*.png   01;33
+*.svg   01;33
+*.svgz  01;33
+*.mng   01;33
+*.pcx   01;33
+*.xcf   01;33
+*.xwd   01;33
+*.cgm   01;33
+*.emf   01;33
+*.webp  01;33
+*.avif  01;33
+*.heic  01;33
+*.heif  01;33
+*.jxl   01;33
+
+# video formats
+*.mov   01;91
+*.mpg   01;91
+*.mpeg  01;91
+*.m2v   01;91
+*.mkv   01;91
+*.webm  01;91
+*.ogm   01;91
+*.mp4   01;91
+*.m4v   01;91
+*.mp4v  01;91
+*.vob   01;91
+*.qt    01;91
+*.nuv   01;91
+*.wmv   01;91
+*.asf   01;91
+*.rm    01;91
+*.rmvb  01;91
+*.flc   01;91
+*.avi   01;91
+*.fli   01;91
+*.flv   01;91
+*.gl    01;91
+*.dl    01;91
+*.yuv   01;91
+*.ogv   01;91
+*.ogx   01;91
 
 # audio formats (dircolors defaults)
 *.aac   00;36

@@ -17,4 +17,8 @@ require("migu.options")
 require("migu.keymaps")
 require("migu.lazy")
 
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99
+
 vim.cmd.colorscheme("dms")

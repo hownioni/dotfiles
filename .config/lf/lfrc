@@ -7,14 +7,14 @@ set shellopts '-eu'
 #set hidden true
 set icons true
 set drawbox
-set roundbox
-set scrolloff 10
+set borderstyle roundbox
 set truncatechar "…"
 set tabstop 4
 set scrolloff 5
 set wrapscroll
 set period 1
 set rulerfile ~/.config/lf/ruler
+set selectfmt "\033[7;34m"
 
 # Search
 set ignorecase true
@@ -26,7 +26,7 @@ set findlen 0
 # Previews
 set previewer ~/.config/lf/previewer/preview
 set cleaner ~/.config/lf/previewer/clean
-map i $LESSOPEN='| ~/.config/lf/previewer/preview %s' less -R $f
+map i $LESSOPEN="| pistol -- %s $(tput cols)" less -R $f
 
 # Remove some defaults
 map m
@@ -42,9 +42,6 @@ map zh
 &[ "$LF_LEVEL" -eq 1 ] || lf -remote "send $id echoerr \"Warning: You're in a nested lf instance!\""
 
 ### CUSTOM FUNCTIONS
-#cmd on-select &{{
-#    lf -remote "send $id set statfmt $(printf '%s' "$(eza -ldg --color=always "$f")" | ~/.config/lf/scripts/lf-escape)"
-#}}
 
 cmd eval &{{
     cmd="send $id"
@@ -88,7 +85,7 @@ cmd fzf_search ${{
         --bind="start:reload([ -n {q} ] && $cmd -- {q} || true)" \
         --bind="change:reload([ -n {q} ] && $cmd -- {q} || true)" \
         --bind='enter:become(lf -remote "send $id select \"$(printf "%s" {1} | sed '\''s/\\/\\\\/g;s/"/\\"/g'\'')\"")' \
-        --preview='~/.config/lf/previewer/clean; ~/.config/lf/previewer/preview {1} "$FZF_PREVIEW_COLUMNS" "$FZF_PREVIEW_LINES" "$FZF_PREVIEW_LEFT" "$FZF_PREVIEW_TOP"'
+        --preview='pistol -- {1} "$FZF_PREVIEW_COLUMNS"'
 }}
 
 map <c-f> :fzf_search
@@ -144,7 +141,7 @@ cmd mkdgroup %{{
             ;;
         move)
             mv -- "$@" "$dir"
-            lr -remote "send clear"
+            lf -remote "send clear"
             ;;
     esac
 }}
@@ -283,7 +280,6 @@ cmd paste-replace &{{
             lf -remote "send clear"
             ;;
     esac
-    lf -remote 'save\nmove\n'
     lf -remote "send $id load"
     lf -remote "send $id echo \"\033[0;32mpasted $# file(s)\033[0m\""
 }}

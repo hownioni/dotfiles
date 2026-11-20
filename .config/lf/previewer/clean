@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
+# Only lf runs this script (set cleaner in lfrc). Clear through lf's tty-write
+# so the escape sequence doesn't race with lf's own drawing (see preview).
 
-exec kitten icat --clear --stdin no --transfer-mode memory </dev/null >/dev/tty
+# what `kitten icat --clear` sends: delete all images and free their data
+# shellcheck disable=SC1003,SC2154  # '\\' terminates the escape sequence; $id is exported by lf
+exec lf -remote "send $id tty-write $(printf '\033_Ga=d,d=A\033\\' | ~/.config/lf/scripts/lf-escape)"

@@ -1,36 +1,44 @@
 #!/usr/bin/env bash
+# Print the path of a cached thumbnail for a video (or for the embedded cover
+# art of an audio file, which ffmpeg exposes as a video stream), generating it
+# with ffmpegthumbnailer on first use. Exits 1 if no thumbnail can be made.
+#
+# The index maps each file's real path to its thumbnail's file name. Paths are
+# passed to jq as data (--arg), never pasted into the filter, so quotes and
+# backslashes in file names are fine.
 
-if ! [ -f "$1" ]; then
-    exit 1
-fi
+[[ -f "${1:-}" ]] || exit 1
 
 cache="$HOME/.cache/vidthumb"
 index="$cache/index.json"
-movie="$(realpath "$1")"
+movie="$(realpath -- "$1")" || exit 1
+mkdir -p -- "$cache" || exit 1
 
-mkdir -p "$cache"
-
-if [ -f "$index" ]; then
-    thumbnail="$(jq -r ". \"$movie\"" <"$index")"
-    if [[ "$thumbnail" != "null" ]]; then
-        if [[ ! -f "$cache/$thumbnail" ]]; then
-            exit 1
-        fi
-        echo "$cache/$thumbnail"
-        exit 0
-    fi
+# Cached, and the thumbnail file still exists? (Otherwise regenerate it.)
+if thumbnail="$(jq -er --arg k "$movie" '.[$k] // empty | strings' "$index" 2>/dev/null)" &&
+    [[ -f "$cache/$thumbnail" ]]; then
+    printf '%s\n' "$cache/$thumbnail"
+    exit 0
 fi
 
 thumbnail="$(uuidgen).jpg"
-
 if ! ffmpegthumbnailer -i "$movie" -o "$cache/$thumbnail" -s 0 2>/dev/null; then
+    rm -f -- "$cache/$thumbnail"
     exit 1
 fi
 
-if [[ ! -f "$index" ]]; then
-    echo "{\"$movie\": \"$thumbnail\"}" >"$index"
-fi
-json="$(jq -r --arg "$movie" "$thumbnail" ". + {\"$movie\": \"$thumbnail\"}" <"$index")"
-echo "$json" >"$index"
+# Update the index under a lock (several lf windows may preview at once), via
+# a temporary file and a rename so it's never left half-written. A missing,
+# empty or invalid index starts over as {}.
+(
+    flock 9 || exit 1
+    tmp="$(mktemp "$index.XXXXXX")" || exit 1
+    if { jq -e 'objects' "$index" 2>/dev/null || echo '{}'; } |
+        jq --arg k "$movie" --arg v "$thumbnail" '.[$k] = $v' >"$tmp"; then
+        mv -f -- "$tmp" "$index"
+    else
+        rm -f -- "$tmp"
+    fi
+) 9>"$index.lock"
 
-echo "$cache/$thumbnail"
+printf '%s\n' "$cache/$thumbnail"
