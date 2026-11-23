@@ -535,7 +535,8 @@ map dl dlfile
 # Documents
 map gD. cd ~/Documents/
 map gDi cd ~/Documents/IRL/
-map gDe cd ~/Documents/IRL/Escuela/
+map gDp cd ~/Documents/Politics/
+map gDe cd ~/Documents/Escuela/
 map gDr cd ~/Documents/Reading/
 map gDc cd ~/Documents/cuentas/
 
